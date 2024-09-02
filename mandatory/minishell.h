@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/02 17:21:36 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/02 19:49:29 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,18 @@
 // global variable
 int	singal;
 
+typedef struct s_command
+{
+	char	*line;
+	char	**path;
+	char	**command;
+	char	**env;
+	int		flag;
+	pid_t	*pid;
+	// char	**pipe;
+	// char	**cc;
+	// char 	**filename;
+	
+}	t_command;
 
 #endif
