@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/02 19:49:29 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/07 15:34:12 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@
 # include <term.h>
 // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 
+// flag value definition
+# define FAIL 0
+# define SUCCESS 1
+# define QUOTE_INCOMPLETE 2
+
 // global variable
 int	singal;
 
@@ -57,5 +62,13 @@ typedef struct s_command
 	// char 	**filename;
 	
 }	t_command;
+
+typedef struct s_parsed
+{
+
+}	t_parsed;
+
+int	parsing(char *line)
+int	check_quote(char *line);
 
 #endif
