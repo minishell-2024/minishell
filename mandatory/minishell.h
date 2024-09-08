@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/08 20:18:33 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/08 22:42:04 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 // stat, lstat, fstat
 # include <dirent.h>
 // opendir, readdir, closedir
+# include <errno.h>
 # include <string.h>
 // strerror
 # include <sys/ioctl.h>
@@ -45,5 +46,13 @@
 // global variable
 int	singal;
 
+
+//====================	error_control.c	====================
+void	common_error(char *cmd, char *file_name, char *custom_msg, int error_code);
+void	command_error(t_process *process, char *str);
+void	error_occur(char *s);
+
+//====================	pipex.c	====================
+void	pipex(t_line *line, t_process *process);
 
 #endif
