@@ -6,13 +6,14 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/02 17:21:36 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/08 20:18:33 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "type.h"
 # include "../libft/libft.h"
 // # include <unistd.h>
 // # include <stddef.h>
