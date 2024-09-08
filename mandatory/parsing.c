@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/07 22:46:53 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/08 23:11:46 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,20 @@
 int	parsing(char *line)
 {
 	t_token	*tokens;
+	int		length;
 
 	if (!line || !ft_strlen(line))
 		return (0);
 	if (check_quote(line) == FAIL)
-		return (QUOTE_INCOMPLETE); //newline 으로 입력 다시 받아야 함.
-	if (tokenize(line, tokens) == FAIL)
-		return (FAIL);
-	expand_env(tokens);
-	make_tree(tokens);
+		return (QUOTE_INCOMPLETE);
+	while (*line)
+	{
+		while (isspace(*line))
+			line++;
+		length = tokenize(line, tokens);
+		line += length;
+	}
+	make_ast(tokens);
 	//open pipes?
 }
 
@@ -51,19 +56,53 @@ int	check_quote(char *line)
 
 int	tokenize(char *line, t_token *tokens)
 {
+	char	*str;
+
+	if (*line == '|')
+		str = ft_strdup("|");
+	else if (*line == '<')
+	{
+		if (*(line + 1) == '<')
+			str = ft_strdup("<<");
+		else
+			str = ft_strdup("<");
+	}
+	else if (*line == '>')
+	{
+		if (*(line + 1) == '>')
+			str = ft_strdup(">>");
+		else
+			str = ft_strdup(">");
+	}
+	else if (*line == '\'' || *line == '"')
+		str = read_string(line);
+	else
+		str = read_word(line);
+	add_token(tokens, str);
+	return (ft_strlen(str));
+}
+
+char	*read_string(char *line)
+{
+	int		quote_idx;
+	int		c;
+
+	c = *line % 256;
+	quote_idx = 1;
+	while (line[quote_idx] != c)
+		quote_idx++;
+	quote_idx++;
+	while (!isspace(line[quote_idx]))
+		quote_idx++;
+	return (ft_substr(line, 0, quote_idx));
+}
+
+char	*read_word(char *line)
+{
 	int	idx;
 
 	idx = 0;
-	while (line[idx])
-	{
-		while (ft_isspace(line[idx]))
-			idx++;
-		//get command and add to tokens
-		if (line[idx] == '\'')
-		;
-		else if (line[idx] == '"')
-		;
-		else if (isprint(line[idx]))
-		;
-	}
+	while (!isspace(line[idx]))
+		idx++;
+	return (ft_substr(line, 0, idx));
 }

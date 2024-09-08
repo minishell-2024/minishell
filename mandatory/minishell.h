@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/07 21:46:27 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/08 23:11:42 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-int	parsing(char *line)
-int	check_quote(char *line);
+int		parsing(char *line);
+int		check_quote(char *line);
+int		tokenize(char *line, t_token *tokens);
+char	*read_string(char *line);
+char	*read_word(char *line);
 
 #endif
