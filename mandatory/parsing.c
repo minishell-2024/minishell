@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/08 23:11:46 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/13 20:36:06 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ int	parsing(char *line)
 	int		length;
 
 	if (!line || !ft_strlen(line))
-		return (0);
+		return (FAIL);
 	if (check_quote(line) == FAIL)
 		return (QUOTE_INCOMPLETE);
+	tokens = 0;
 	while (*line)
 	{
 		while (isspace(*line))
@@ -78,7 +79,8 @@ int	tokenize(char *line, t_token *tokens)
 		str = read_string(line);
 	else
 		str = read_word(line);
-	add_token(tokens, str);
+	if (!add_token(&tokens, str))
+		return (delete_tokens(&tokens));
 	return (ft_strlen(str));
 }
 
