@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/08 22:42:04 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/17 19:53:26 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,8 @@ void	error_occur(char *s);
 
 //====================	pipex.c	====================
 void	pipex(t_line *line, t_process *process);
+
+//====================	redirect.c	====================
+void	redirect_setting(t_process *process);
 
 #endif
