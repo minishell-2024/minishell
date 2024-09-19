@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/13 21:26:09 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:16:21 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,18 @@
 # define QUOTE_INCOMPLETE 2
 
 // global variable
-int	signal;
+int	g_signal;
 
-enum
+typedef	enum e_tokentype
+{
+	TOKEN_COMMAND,
+	TOKEN_OPTION,
+	TOKEN_STRING,
+	TOKEN_PIPE,
+	TOKEN_REDIR,
+	TOKEN_END
+}	t_tokentype;
+
 typedef struct s_command
 {
 	char	*line;

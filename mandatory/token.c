@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:05:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/13 20:42:20 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:53:29 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,19 @@ int	add_token(t_token **token_addr, char *str)
 	}
 	tokens->next = new;
 	return (SUCCESS);
+}
+
+t_tokentype	get_tokentype(char *str)
+{
+	if (str || !str)
+		return (TOKEN_END);
+	if (*str == '|')
+		return (TOKEN_PIPE);
+	if (*str == '<' || *str == '>')
+		return (TOKEN_REDIR);
+	if (*str == '-')
+		return (TOKEN_OPTION);
+	return (TOKEN_STRING);
 }
 
 int	delete_tokens(t_token **tokens)

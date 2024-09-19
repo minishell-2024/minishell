@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/13 20:43:25 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:52:43 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,11 @@ int	parsing(char *line)
 		while (isspace(*line))
 			line++;
 		length = tokenize(line, tokens);
+		if (!length)
+			return (FAIL);
 		line += length;
 	}
+	lexer(tokens);
 	make_ast(tokens);
 	//open pipes?
 }
@@ -82,6 +85,12 @@ int	tokenize(char *line, t_token *tokens)
 	if (!add_token(&tokens, str))
 		return (delete_tokens(&tokens));
 	return (ft_strlen(str));
+}
+// >>> <<< how handle these?
+
+t_tokentype	lexer(t_token *tokens, char *str)
+{
+	
 }
 
 void	make_ast(t_token *tokens)
