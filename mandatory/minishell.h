@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/08 23:11:42 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/13 21:26:09 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@
 # define QUOTE_INCOMPLETE 2
 
 // global variable
-int	singal;
+int	signal;
 
+enum
 typedef struct s_command
 {
 	char	*line;
@@ -79,5 +80,6 @@ int		check_quote(char *line);
 int		tokenize(char *line, t_token *tokens);
 char	*read_string(char *line);
 char	*read_word(char *line);
+int		add_token(t_token **token_addr, char *str);
 
 #endif

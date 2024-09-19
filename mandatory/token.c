@@ -1,16 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   struct.c                                           :+:      :+:    :+:   */
+/*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:05:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/13 20:38:11 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/13 20:42:20 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+char	*read_string(char *line)
+{
+	int		quote_idx;
+	int		c;
+
+	c = *line % 256;
+	quote_idx = 1;
+	while (line[quote_idx] != c)
+		quote_idx++;
+	quote_idx++;
+	while (!isspace(line[quote_idx]))
+		quote_idx++;
+	return (ft_substr(line, 0, quote_idx));
+}
+
+char	*read_word(char *line)
+{
+	int	idx;
+
+	idx = 0;
+	while (!isspace(line[idx]))
+		idx++;
+	return (ft_substr(line, 0, idx));
+}
 
 int	add_token(t_token **token_addr, char *str)
 {

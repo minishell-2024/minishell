@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/13 20:36:06 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/13 20:43:25 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,27 +84,7 @@ int	tokenize(char *line, t_token *tokens)
 	return (ft_strlen(str));
 }
 
-char	*read_string(char *line)
+void	make_ast(t_token *tokens)
 {
-	int		quote_idx;
-	int		c;
 
-	c = *line % 256;
-	quote_idx = 1;
-	while (line[quote_idx] != c)
-		quote_idx++;
-	quote_idx++;
-	while (!isspace(line[quote_idx]))
-		quote_idx++;
-	return (ft_substr(line, 0, quote_idx));
-}
-
-char	*read_word(char *line)
-{
-	int	idx;
-
-	idx = 0;
-	while (!isspace(line[idx]))
-		idx++;
-	return (ft_substr(line, 0, idx));
 }
