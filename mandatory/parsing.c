@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/20 15:10:18 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/20 21:11:13 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	tokenize(char *line, t_token *tokens)
 }
 // >>> <<< how handle these?
 
-t_tokentype	lexer(t_token *head, char *str)
+int	lexer(t_token *head)
 {
 	t_token	*cur;
 
@@ -95,6 +95,8 @@ t_tokentype	lexer(t_token *head, char *str)
 	while (cur)
 	{
 		if (cur->token_type)
+			;
+		cur = cur->next;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:05:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/20 15:23:11 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/20 21:06:35 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,10 @@ t_tokentype	get_tokentype(char *str)
 		return (TOKEN_GREAT);
 	if (*str == '-' && ft_isalnum(*(str + 1)))
 		return (TOKEN_OPTION);
+	if (*str == '"')
+		return (TOKEN_DQUOTE);
+	if (*str == '\'')
+		return (TOKEN_QUOTE);
 	return (TOKEN_STRING);
 }
 

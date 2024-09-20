@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/20 15:00:59 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/20 21:19:21 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,17 @@ int	g_signal;
 
 typedef	enum e_tokentype
 {
+	TOKEN_END,
 	TOKEN_COMMAND,
 	TOKEN_OPTION,
+	TOKEN_QUOTE,
+	TOKEN_DQUOTE,
 	TOKEN_STRING,
 	TOKEN_PIPE,
 	TOKEN_LESS,
 	TOKEN_GREAT,
 	TOKEN_DLESS,
-	TOKEN_DGREAT,
-	TOKEN_END
+	TOKEN_DGREAT
 }	t_tokentype;
 
 typedef struct s_command
@@ -94,5 +96,6 @@ int		tokenize(char *line, t_token *tokens);
 char	*read_string(char *line);
 char	*read_word(char *line);
 int		add_token(t_token **token_addr, char *str);
+t_tokentype	get_tokentype(char *str);
 
 #endif
