@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/19 17:16:21 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/20 15:00:59 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ typedef	enum e_tokentype
 	TOKEN_OPTION,
 	TOKEN_STRING,
 	TOKEN_PIPE,
-	TOKEN_REDIR,
+	TOKEN_LESS,
+	TOKEN_GREAT,
+	TOKEN_DLESS,
+	TOKEN_DGREAT,
 	TOKEN_END
 }	t_tokentype;
 
@@ -80,7 +83,8 @@ typedef struct s_parsed
 
 typedef struct s_token
 {
-	char	*word;
+	char			*word;
+	t_tokentype		token_type;
 	struct s_token	*next;
 }	t_token;
 

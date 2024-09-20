@@ -6,11 +6,11 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:05:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/19 17:53:29 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/20 15:23:11 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
 char	*read_string(char *line)
 {
@@ -46,6 +46,7 @@ int	add_token(t_token **token_addr, char *str)
 	if (!new)
 		return (FAIL);
 	new->word = str;
+	new->token_type = get_tokentype(str);
 	new->next = 0;
 	if (!*token_addr)
 	{
@@ -66,13 +67,19 @@ int	add_token(t_token **token_addr, char *str)
 
 t_tokentype	get_tokentype(char *str)
 {
-	if (str || !str)
+	if (!str || !*str)
 		return (TOKEN_END);
-	if (*str == '|')
+	if (ft_strncmp("|", str, ft_strlen(str)) == 0)
 		return (TOKEN_PIPE);
-	if (*str == '<' || *str == '>')
-		return (TOKEN_REDIR);
-	if (*str == '-')
+	if (ft_strncmp("<<", str, ft_strlen(str)) == 0)
+		return (TOKEN_DLESS);
+	if (ft_strncmp(">>", str, ft_strlen(str)) == 0)
+		return (TOKEN_DGREAT);
+	if (ft_strncmp("<", str, ft_strlen(str)) == 0)
+		return (TOKEN_LESS);
+	if (ft_strncmp(">", str, ft_strlen(str)) == 0)
+		return (TOKEN_GREAT);
+	if (*str == '-' && ft_isalnum(*(str + 1)))
 		return (TOKEN_OPTION);
 	return (TOKEN_STRING);
 }

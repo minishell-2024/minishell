@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/19 17:52:43 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/20 15:10:18 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	parsing(char *line)
 	}
 	lexer(tokens);
 	make_ast(tokens);
-	//open pipes?
 }
 
 int	check_quote(char *line)
@@ -88,9 +87,15 @@ int	tokenize(char *line, t_token *tokens)
 }
 // >>> <<< how handle these?
 
-t_tokentype	lexer(t_token *tokens, char *str)
+t_tokentype	lexer(t_token *head, char *str)
 {
-	
+	t_token	*cur;
+
+	cur = head;
+	while (cur)
+	{
+		if (cur->token_type)
+	}
 }
 
 void	make_ast(t_token *tokens)
