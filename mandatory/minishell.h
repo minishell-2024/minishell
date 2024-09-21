@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/17 19:53:26 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/21 20:19:37 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,24 @@
 int	singal;
 
 
-//====================	error_control.c	====================
+//==================== error_control.c ====================
 void	common_error(char *cmd, char *file_name, char *custom_msg, int error_code);
-void	command_error(t_process *process, char *str);
-void	error_occur(char *s);
+void	command_error(char *str);
+int		error_occur(char *cmd, char *file_name, char *custom_msg, int error_code);
 
-//====================	pipex.c	====================
+//==================== pipex.c ====================
 void	pipex(t_line *line, t_process *process);
 
-//====================	redirect.c	====================
+//==================== redirect.c ====================
 void	redirect_setting(t_process *process);
+
+//==================== split_path.c ====================
+char	**split_path(char const *s, char c);
+
+//==================== command_execute.c ====================
+void	execute_command(char *path, char **cmd, t_env *env);
+void	check_execute(t_line *line, t_process *process);
+char	**parse_path(t_env *env, int unset_path);
+void	check_command(t_line *line, t_process *process);
 
 #endif
