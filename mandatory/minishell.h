@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/20 21:19:21 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/22 03:23:14 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,6 @@ typedef struct s_command
 	
 }	t_command;
 
-typedef struct s_parsed
-{
-
-}	t_parsed;
 
 typedef struct s_token
 {
