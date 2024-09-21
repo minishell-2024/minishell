@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/20 21:19:21 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/21 17:24:49 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,17 @@
 // global variable
 int	g_signal;
 
+typedef struct s_env
+{
+	char			*name;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
 typedef	enum e_tokentype
 {
 	TOKEN_END,
 	TOKEN_COMMAND,
-	TOKEN_OPTION,
 	TOKEN_QUOTE,
 	TOKEN_DQUOTE,
 	TOKEN_STRING,

@@ -6,3 +6,4 @@ infile
 .gitignore
 .idea
 test.c
+test*

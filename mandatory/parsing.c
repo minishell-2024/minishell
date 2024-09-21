@@ -6,13 +6,13 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/20 21:11:13 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/21 20:25:48 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parsing(char *line)
+int	parsing(char *line, t_env *envp)
 {
 	t_token	*tokens;
 	int		length;
@@ -31,7 +31,7 @@ int	parsing(char *line)
 			return (FAIL);
 		line += length;
 	}
-	lexer(tokens);
+	lexer(tokens, envp);
 	make_ast(tokens);
 }
 
@@ -87,20 +87,22 @@ int	tokenize(char *line, t_token *tokens)
 }
 // >>> <<< how handle these?
 
-int	lexer(t_token *head)
+void	lexer(t_token *head, t_env *envp)
 {
 	t_token	*cur;
 
 	cur = head;
 	while (cur)
 	{
-		if (cur->token_type)
-			;
+		if (cur->token_type == TOKEN_DQUOTE || cur->token_type == TOKEN_STRING)
+			replace_env(cur, envp);
+		if (cur->token_type == TOKEN_QUOTE || cur->token_type == TOKEN_DQUOTE)
+			remove_quote(cur);
 		cur = cur->next;
 	}
 }
 
 void	make_ast(t_token *tokens)
 {
-
+	
 }
