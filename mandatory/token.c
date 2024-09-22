@@ -6,7 +6,11 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:05:21 by jihyjeon          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/09/21 22:34:07 by jihyjeon         ###   ########.fr       */
+=======
+/*   Updated: 2024/09/22 04:29:55 by jihyjeon         ###   ########.fr       */
+>>>>>>> 689d0318b0b75a7e1c924b13061ca9aa165c04c3
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +76,19 @@ t_tokentype	get_tokentype(char *str)
 	if (ft_strncmp("|", str, ft_strlen(str)) == 0)
 		return (TOKEN_PIPE);
 	if (ft_strncmp("<<", str, ft_strlen(str)) == 0)
-		return (TOKEN_DLESS);
+		return (TOKEN_DELIMIT);
 	if (ft_strncmp(">>", str, ft_strlen(str)) == 0)
-		return (TOKEN_DGREAT);
+		return (TOKEN_APPEND);
 	if (ft_strncmp("<", str, ft_strlen(str)) == 0)
-		return (TOKEN_LESS);
+		return (TOKEN_INPUT);
 	if (ft_strncmp(">", str, ft_strlen(str)) == 0)
+<<<<<<< HEAD
 		return (TOKEN_GREAT);
+=======
+		return (TOKEN_OUTPUT);
+	if (*str == '-' && ft_isalnum(*(str + 1)))
+		return (TOKEN_OPTION);
+>>>>>>> 689d0318b0b75a7e1c924b13061ca9aa165c04c3
 	if (*str == '"')
 		return (TOKEN_DQUOTE);
 	if (*str == '\'')

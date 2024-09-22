@@ -6,7 +6,11 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/09/21 22:00:35 by jihyjeon         ###   ########.fr       */
+=======
+/*   Updated: 2024/09/22 03:40:02 by jihyjeon         ###   ########.fr       */
+>>>>>>> 689d0318b0b75a7e1c924b13061ca9aa165c04c3
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +18,7 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
+# include "typedef.h"
 // # include <unistd.h>
 // # include <stddef.h>
 // # include <stdlib.h>
@@ -49,6 +54,7 @@
 // global variable
 int	g_signal;
 
+<<<<<<< HEAD
 typedef struct s_env
 {
 	char			*name;
@@ -97,6 +103,9 @@ typedef struct s_token
 }	t_token;
 
 int		parsing(char *line, t_env *envp);
+=======
+int		parsing(char *line);
+>>>>>>> 689d0318b0b75a7e1c924b13061ca9aa165c04c3
 int		check_quote(char *line);
 int		tokenize(char *line, t_token *tokens);
 char	*read_string(char *line);
