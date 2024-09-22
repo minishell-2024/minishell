@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/22 03:23:14 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/22 03:40:02 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
+# include "typedef.h"
 // # include <unistd.h>
 // # include <stddef.h>
 // # include <stdlib.h>
@@ -48,43 +49,6 @@
 
 // global variable
 int	g_signal;
-
-typedef	enum e_tokentype
-{
-	TOKEN_END,
-	TOKEN_COMMAND,
-	TOKEN_OPTION,
-	TOKEN_QUOTE,
-	TOKEN_DQUOTE,
-	TOKEN_STRING,
-	TOKEN_PIPE,
-	TOKEN_LESS,
-	TOKEN_GREAT,
-	TOKEN_DLESS,
-	TOKEN_DGREAT
-}	t_tokentype;
-
-typedef struct s_command
-{
-	char	*line;
-	char	**path;
-	char	**command;
-	char	**env;
-	int		flag;
-	pid_t	*pid;
-	// char	**pipe;
-	// char	**cc;
-	// char 	**filename;
-	
-}	t_command;
-
-
-typedef struct s_token
-{
-	char			*word;
-	t_tokentype		token_type;
-	struct s_token	*next;
-}	t_token;
 
 int		parsing(char *line);
 int		check_quote(char *line);

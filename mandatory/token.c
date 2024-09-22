@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:05:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/20 21:06:35 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/22 04:29:55 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,13 @@ t_tokentype	get_tokentype(char *str)
 	if (ft_strncmp("|", str, ft_strlen(str)) == 0)
 		return (TOKEN_PIPE);
 	if (ft_strncmp("<<", str, ft_strlen(str)) == 0)
-		return (TOKEN_DLESS);
+		return (TOKEN_DELIMIT);
 	if (ft_strncmp(">>", str, ft_strlen(str)) == 0)
-		return (TOKEN_DGREAT);
+		return (TOKEN_APPEND);
 	if (ft_strncmp("<", str, ft_strlen(str)) == 0)
-		return (TOKEN_LESS);
+		return (TOKEN_INPUT);
 	if (ft_strncmp(">", str, ft_strlen(str)) == 0)
-		return (TOKEN_GREAT);
+		return (TOKEN_OUTPUT);
 	if (*str == '-' && ft_isalnum(*(str + 1)))
 		return (TOKEN_OPTION);
 	if (*str == '"')
