@@ -6,15 +6,17 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 03:35:38 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/22 04:46:49 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/22 21:43:58 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-typedef	enum e_tokentype
+#ifndef TYPEDEF_H
+# define TYPEDEF_H
+
+typedef enum e_tokentype
 {
 	TOKEN_END,
 	TOKEN_COMMAND,
-	TOKEN_OPTION,
 	TOKEN_QUOTE,
 	TOKEN_DQUOTE,
 	TOKEN_STRING,
@@ -25,6 +27,14 @@ typedef	enum e_tokentype
 	TOKEN_APPEND
 }	t_tokentype;
 
+typedef enum e_nodetype
+{
+	NODE_COMMAND,
+	NODE_SIMPLE_CMD,
+	NODE_REDIRECT,
+	NODE_PIPE
+}	t_nodetype;
+
 typedef struct s_token
 {
 	char			*word;
@@ -32,35 +42,31 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-typedef struct s_suffix
-{
-	char	*body;
-	struct s_suffix	*next;
-}	t_suffix;
-
 typedef struct s_simple_cmd
 {
 	char	*cmd;
-	char	*option;
-	t_suffix	*suffix;
+	char	*argv;
 }	t_simple_cmd;
 
 typedef struct s_redirect
 {
-	t_tokentype	type;
-	t_suffix	*suffix;
-	struct s_redirect	*redir;
+	t_tokentype			type;
+	char				*argv;
+	struct s_redirect	*next_redir;
 }	t_redirect;
 
 typedef struct s_command
 {
 	t_simple_cmd	*simple_cmd;
-	t_redirect	*redirect;
-	char	**argv;
+	t_redirect		*redirect;
 }	t_command;
 
-typedef struct s_pipeline
+typedef struct s_ast_node
 {
-	t_command	*cmd;
-	struct s_pipeline	*pipe;
-}	t_pipeline;
+	t_nodetype			type;
+	struct s_ast_node	*left;
+	struct s_ast_node	*right;
+	void				*data;
+}	t_ast_node;
+
+#endif

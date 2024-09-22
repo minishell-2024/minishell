@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/22 03:40:02 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/22 21:05:22 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdio.h>
 // printf
 # include <readline/readline.h>
+# include <readline/history.h>
 // readline, rl_clear_history, rl_on_new_line, rl_replace_line, rl_redisplay, add_history
 # include <fcntl.h>
 // open

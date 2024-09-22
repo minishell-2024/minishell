@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/21 20:25:48 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/22 21:21:25 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,9 @@ void	lexer(t_token *head, t_env *envp)
 
 void	make_ast(t_token *tokens)
 {
-	
+	t_ast_node	*head;
+	t_token		*ptr;
+
+	ptr = tokens;
+	head = parse_pipe(tokens, &ptr);
 }
