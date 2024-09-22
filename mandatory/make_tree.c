@@ -6,52 +6,51 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 04:47:01 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/22 21:58:23 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/23 04:43:14 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_ast_node	*parse_pipe(t_token	*tokens, t_token **ptr)
+t_ast_node	*parse_pipe(t_token **ptr)
 {
 	t_ast_node	*node;
 	t_ast_node	*left;
 
-	left = parse_command(tokens, ptr);
-	if ((*ptr)->token_type == TOKEN_PIPE)
+	left = parse_command(ptr);
+	if (*ptr && (*ptr)->token_type == TOKEN_PIPE)
 	{
-		if (node == FAIL)
+		if (left == FAIL)
 			return (FAIL); // syntax error near unexpected token `|' (also should consider free)
-		node = (t_ast_node *)malloc(sizeof(t_ast_node));
+		node = create_new_node(NODE_PIPE);
 		if (!node)
-			return (FAIL); //malloc free
-		node->type = NODE_PIPE;
-		*ptr = (*ptr)->next;
+			exit(FAIL); //malloc
+		consume_token(ptr);
 		node->left = left;
-		node->right = parse_pipe(tokens, ptr);
+		node->right = parse_pipe(ptr);
 		left = node;
 	}
 	return (left);
 }
 
-t_ast_node	*parse_command(t_token *tokens, t_token **ptr)
+t_ast_node	*parse_command(t_token **ptr)
 {
 	t_ast_node	*node;
 	t_command	*cmd;
 
-	node = (t_ast_node *)malloc(sizeof(t_ast_node));
-	if (!node)
-		return (FAIL);
-	node->type = NODE_COMMAND;
-	node->left = 0;
-	node->right = 0;
+	node = create_new_node(NODE_COMMAND);
 	cmd = (t_command *)malloc(sizeof(t_command));
-	if (!cmd)
-		return (FAIL);
-	cmd->redirect = parse_redir(tokens, ptr);
-	cmd->simple_cmd = parse_simple_cmd(tokens, ptr);
+	if (!node || !cmd)
+		exit(FAIL); //msg, exit, malloc free
+	while (*ptr && (*ptr)->token_type != TOKEN_PIPE)
+	{
+		if (is_redir((*ptr)->token_type) == SUCCESS)
+			append_redir(cmd, ptr);
+		else
+			append_simple_cmd(cmd, ptr);
+	}
 	node->data = cmd;
-	if (!cmd->redirect || !cmd->simple_cmd)
+	if (!cmd->redirect && !cmd->simple_cmd)
 	{
 		free(cmd);
 		free(node);
@@ -60,7 +59,7 @@ t_ast_node	*parse_command(t_token *tokens, t_token **ptr)
 	return (node);
 }
 
-t_redirect	*parse_redir(t_token *tokens, t_token **ptr)
+t_redirect	*append_redir(t_command *cmd, t_token **ptr)
 {
 	t_redirect	*redir;
 
@@ -69,7 +68,7 @@ t_redirect	*parse_redir(t_token *tokens, t_token **ptr)
 	return (redir);
 }
 
-t_ast_node	*parse_simple_cmd(t_token *tokens)
+t_ast_node	*parse_simple_cmd(t_command *cmd, t_token **ptr)
 {
 	t_simple_cmd	*simple_cmd;
 
