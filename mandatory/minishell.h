@@ -6,11 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/09/21 22:00:35 by jihyjeon         ###   ########.fr       */
-=======
 /*   Updated: 2024/09/22 03:40:02 by jihyjeon         ###   ########.fr       */
->>>>>>> 689d0318b0b75a7e1c924b13061ca9aa165c04c3
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +50,6 @@
 // global variable
 int	g_signal;
 
-<<<<<<< HEAD
 typedef struct s_env
 {
 	char			*name;
@@ -62,21 +57,7 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-typedef	enum e_tokentype
-{
-	TOKEN_END,
-	TOKEN_COMMAND,
-	TOKEN_QUOTE,
-	TOKEN_DQUOTE,
-	TOKEN_STRING,
-	TOKEN_PIPE,
-	TOKEN_LESS,
-	TOKEN_GREAT,
-	TOKEN_DLESS,
-	TOKEN_DGREAT
-}	t_tokentype;
-
-typedef struct s_command
+typedef struct s_commandt
 {
 	char	*line;
 	char	**path;
@@ -88,24 +69,9 @@ typedef struct s_command
 	// char	**cc;
 	// char 	**filename;
 	
-}	t_command;
-
-typedef struct s_parsed
-{
-
-}	t_parsed;
-
-typedef struct s_token
-{
-	char			*word;
-	t_tokentype		token_type;
-	struct s_token	*next;
-}	t_token;
+}	t_commandt;
 
 int		parsing(char *line, t_env *envp);
-=======
-int		parsing(char *line);
->>>>>>> 689d0318b0b75a7e1c924b13061ca9aa165c04c3
 int		check_quote(char *line);
 int		tokenize(char *line, t_token *tokens);
 char	*read_string(char *line);
