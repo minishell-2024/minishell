@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:51:51 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/17 20:31:15 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/22 20:55:19 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	redirect_heredoc(t_redirection *redirect)
 	if (dup2(redirect->fd, STDIN_FILENO) < 0)
 		common_error(NULL, "dup2", NULL, 0);
 	close(redirect->fd);
+	// 이거 나중에 free 할 때 하는게 편할려나..
 	if (unlink(redirect->file_name) < 0)
 		common_error(NULL, redirect->file_name, NULL, 0);
 }
@@ -80,5 +81,5 @@ void	redirect_setting(t_process *process)
 			redirect_append(redirect);
 		redirect = redirect->redirect_next;
 	}
-	return (0);
+	return ;
 }

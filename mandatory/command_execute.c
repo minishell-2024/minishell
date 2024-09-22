@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:28:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/21 19:08:25 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/22 19:12:00 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ char	**parse_path(t_env *env, int unset_path)
 	index = -1;
 	while (env)
 	{
-		if (!ft_strncmp(env->str, "PATH=", 5))
+		if (!ft_strncmp(env->key, "PATH", 5))
 		{
-			str = split_path(env->str + 5, ':');
+			str = split_path(env->value, ':');
 			if (!str)
 				common_errror("malloc", NULL, NULL, 0);
 			return (str);

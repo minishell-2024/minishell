@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 19:29:50 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/21 19:13:39 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/22 19:09:31 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 // 환경변수
 typedef struct s_env
 {
-	char	*str;
+	char	*key;
+	char	*value;
 	t_env	*env_next;
 }	t_env;
 

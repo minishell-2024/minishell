@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   built_in_unset.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/02 16:11:41 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/22 18:18:00 by yuyu             ###   ########.fr       */
+/*   Created: 2024/09/22 18:24:30 by yuyu              #+#    #+#             */
+/*   Updated: 2024/09/22 20:20:06 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "type.h"
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+int	execute_unset(t_line *line, t_process *process)
 {
-	char	*str;
+	int		i;
 
-	// 초기 parse
-	// $?를 env에 추가...
-	while (1)
+	i = 0;
+	if (!process->cmd[1])
+		return (0);
+	while (process->cmd[++i])
 	{
-		str = readline("minishell$ ");
-		// printf("%s\n", str);
-		// parse_input
-		free(str);
+		if(!is_identifier(process->cmd[i]))
+			return (error_occur("unset", NULL, "not a valid identifier", 1));
+		if (find_env(line, process->cmd[i]))
+			delete_env(line, process->cmd[i]);
 	}
+	return (0);
 }
