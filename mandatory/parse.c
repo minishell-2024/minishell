@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/23 13:48:28 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:55:08 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,7 @@ int	parse(char *line, t_env *envp)
 		return (FAIL);
 	if (check_quote(line) == FAIL)
 		return (QUOTE_INCOMPLETE);
-	tokens = 0;
-	while (*line)
-	{
-		while (isspace(*line))
-			line++;
-		length = tokenize(line, tokens);
-		if (!length)
-			return (FAIL);
-		line += length;
-	}
+	tokens = tokenize(line);
 	lexer(tokens, envp);
 	make_ast(tokens);
 }
@@ -57,33 +48,27 @@ int	check_quote(char *line)
 	return (SUCCESS);
 }
 
-int	tokenize(char *line, t_token *tokens)
+t_token	*tokenize(char *line)
 {
-	char	*str;
+	t_token	*tokens;
+	char	*buf;
+	t_state	state;
 
-	if (*line == '|')
-		str = ft_strdup("|");
-	else if (*line == '<')
+	buf = ft_strdup("");
+	state = STATE_GENERAL;
+	while (*line)
 	{
-		if (*(line + 1) == '<')
-			str = ft_strdup("<<");
-		else
-			str = ft_strdup("<");
+		if (state == STATE_GENERAL)
+			state = handle_general(tokens, &buf, line);
+		else if (state == STATE_SQUOTE || state == STATE_DQUOTE)
+			handle_quote();
+		line++;
 	}
-	else if (*line == '>')
-	{
-		if (*(line + 1) == '>')
-			str = ft_strdup(">>");
-		else
-			str = ft_strdup(">");
-	}
-	else if (*line == '\'' || *line == '"')
-		str = read_string(line);
+	if (ft_strlen(buf) > 0)
+		add_token(&tokens, buf);
 	else
-		str = read_word(line);
-	if (!add_token(&tokens, str))
-		return (delete_tokens(&tokens));
-	return (ft_strlen(str));
+		free(buf);
+	return (tokens);
 }
 // >>> <<< how handle these?
 
@@ -102,11 +87,12 @@ void	lexer(t_token *head, t_env *envp)
 	}
 }
 
-void	make_ast(t_token *tokens)
+t_ast_node	*make_ast(t_token *tokens)
 {
 	t_ast_node	*head;
 	t_token		*ptr;
 
 	ptr = tokens;
 	head = parse_pipe(tokens, &ptr);
+	return (head);
 }

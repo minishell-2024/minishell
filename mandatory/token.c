@@ -6,35 +6,46 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:05:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/22 04:29:55 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:59:45 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*read_string(char *line)
+t_state	handle_general(t_token *tokens, char **buf_ptr, char *ptr)
 {
-	int		quote_idx;
-	int		c;
+	char	c;
+	char	*buf;
 
-	c = *line % 256;
-	quote_idx = 1;
-	while (line[quote_idx] != c)
-		quote_idx++;
-	quote_idx++;
-	while (!isspace(line[quote_idx]))
-		quote_idx++;
-	return (ft_substr(line, 0, quote_idx));
+	c = *ptr;
+	buf = *buf_ptr;
+	if (ft_isspace(c) || special_char(c))
+	{
+		if (ft_strlen(buf) > 0)
+		{
+			add_token(&tokens, buf);
+			buf = ft_strdup("");
+		}
+	}
+	else if (c == '\'')
+		return (STATE_SQUOTE);
+	else if (c == '"')
+		return (STATE_DQUOTE);
+	else
+		*buf_ptr = append_char(buf, c);
+	if (special_char(c))
+		add_token(&tokens, get_redirect(ptr));
+	return (STATE_GENERAL);
 }
 
-char	*read_word(char *line)
+t_state	handle_quote(t_state state, char c, char **buf_ptr)
 {
-	int	idx;
-
-	idx = 0;
-	while (!isspace(line[idx]))
-		idx++;
-	return (ft_substr(line, 0, idx));
+	if (state == STATE_SQUOTE && c == '\'')
+		return (STATE_GENERAL);
+	if (state == STATE_DQUOTE && c == '"')
+		return (STATE_GENERAL);
+	*buf_ptr = append_char(*buf_ptr, c);
+	return (state);
 }
 
 int	add_token(t_token **token_addr, char *str)
@@ -45,9 +56,10 @@ int	add_token(t_token **token_addr, char *str)
 	new = (t_token *)malloc(sizeof(t_token));
 	if (!new)
 		return (FAIL);
-	new->word = str;
+	new->word = ft_strdup(str);
 	new->token_type = get_tokentype(str);
 	new->next = 0;
+	free(str);
 	if (!*token_addr)
 	{
 		*token_addr = new;
