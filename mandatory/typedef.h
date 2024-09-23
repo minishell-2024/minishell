@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 03:35:38 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/22 21:43:58 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:10:09 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ typedef struct s_token
 
 typedef struct s_simple_cmd
 {
-	char	*cmd;
-	char	*argv;
+	char				*argv;
+	struct s_simple_cmd	*next_simple_cmd;
 }	t_simple_cmd;
 
 typedef struct s_redirect

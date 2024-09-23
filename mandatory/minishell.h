@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/22 21:05:22 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/23 13:48:28 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef struct s_commandt
 	
 }	t_commandt;
 
-int		parsing(char *line, t_env *envp);
+int		parse(char *line, t_env *envp);
 int		check_quote(char *line);
 int		tokenize(char *line, t_token *tokens);
 char	*read_string(char *line);
