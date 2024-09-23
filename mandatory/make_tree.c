@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 04:47:01 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/23 04:43:14 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/23 05:06:15 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ t_ast_node	*parse_command(t_token **ptr)
 	cmd = (t_command *)malloc(sizeof(t_command));
 	if (!node || !cmd)
 		exit(FAIL); //msg, exit, malloc free
+	cmd->redirect = 0;
+	cmd->simple_cmd = 0;
 	while (*ptr && (*ptr)->token_type != TOKEN_PIPE)
 	{
 		if (is_redir((*ptr)->token_type) == SUCCESS)
@@ -73,4 +75,9 @@ t_ast_node	*parse_simple_cmd(t_command *cmd, t_token **ptr)
 	t_simple_cmd	*simple_cmd;
 
 	return (simple_cmd);
+}
+
+void	consume_token(t_token **ptr)
+{
+	*ptr = (*ptr)->next;
 }

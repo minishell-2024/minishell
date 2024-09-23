@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 03:10:34 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/23 03:58:03 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/23 05:10:42 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ t_ast_node	*create_new_node(t_nodetype node_type)
 	return (new_node);
 }
 
+t_redirect	*create_redir_node(t_tokentype redir_type)
+{
+
+}
+
 int	is_redir(t_tokentype token_type)
 {
 	if (token_type == TOKEN_INPUT)
@@ -37,9 +42,4 @@ int	is_redir(t_tokentype token_type)
 	if (token_type == TOKEN_APPEND)
 		return (SUCCESS);
 	return (FAIL);
-}
-
-void	consume_token(t_token **ptr)
-{
-	*ptr = (*ptr)->next;
 }
