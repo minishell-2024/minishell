@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 03:35:38 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/23 16:16:36 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:51:39 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,11 @@ typedef enum e_state
 	STATE_SQUOTE,
 	STATE_DQUOTE,
 }	t_state;
+
 typedef enum e_tokentype
 {
 	TOKEN_END,
 	TOKEN_COMMAND,
-	TOKEN_QUOTE,
-	TOKEN_DQUOTE,
 	TOKEN_STRING,
 	TOKEN_PIPE,
 	TOKEN_INPUT,
