@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:25:56 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/22 21:23:42 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/27 21:09:35 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	check_built_in(t_line *line, t_process *process)
 	if (ft_strncmp(process->cmd[0], "echo", 5))
 		return (execute_echo(process));
 	else if (ft_strncmp(process->cmd[0], "cd", 3))
-		return (execute_cd(line, process))
+		return (execute_cd(line, process));
 	else if (ft_strncmp(process->cmd[0], "pwd", 4))
 		return (execute_pwd(process));
 	else if (ft_strncmp(process->cmd[0], "export", 7))
@@ -26,7 +26,7 @@ int	check_built_in(t_line *line, t_process *process)
 	else if (ft_strncmp(process->cmd[0], "unset", 6))
 		return (execute_unset(line, process));
 	else if (ft_strncmp(process->cmd[0], "env", 4))
-		//
+		return (execute_env(line, process));
 	else if (ft_strncmp(process->cmd[0], "exit", 5))
 		//
 	else

@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 18:27:08 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/22 20:43:22 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/27 16:53:04 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,20 @@ t_env	*find_env(t_line *line, char *key)
 	{
 		if (!ft_strncmp(dummy->key, key, ft_strlen(key) + 1))
 			return (dummy);
+		dummy = dummy->env_next;
+	}
+	return (0);
+}
+
+t_env	*find_env_value(t_line *line, char *key)
+{
+	t_env	*dummy;
+
+	dummy = line->env;
+	while(dummy)
+	{
+		if (!ft_strncmp(dummy->key, key, ft_strlen(key) + 1))
+			return (dummy->value);
 		dummy = dummy->env_next;
 	}
 	return (0);

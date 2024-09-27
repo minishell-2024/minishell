@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 19:29:50 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/22 19:09:31 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/27 17:05:48 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_env
 {
 	char	*key;
 	char	*value;
+	int		assignment; // = 여부 해야하나...
 	t_env	*env_next;
 }	t_env;
 
