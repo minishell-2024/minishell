@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 19:29:50 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/29 18:17:22 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/29 18:56:21 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_process
 {
 	// t_command		*cmd_node;
 	char			**cmd;
-	int				built_in_check; // 1 : built_in // 2 : not built_in
+	int				built_in_check; // 1 : built_in // 0 : not built_in
 	pid_t			*pid;
 	t_redirection	*redirect_node;
 	t_process		*process_next; // process_next != 0  ==> '|' exist
