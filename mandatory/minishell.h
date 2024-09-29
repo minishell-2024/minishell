@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/29 21:27:08 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:30:08 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,9 @@ char			**append_simple_cmd(char **cmd, t_token **ptr);
 t_process		*create_process_node(void);
 t_redirection	*create_redir_node(int redir_type);
 int				which_redir(char *word);
+//env
+t_env			*make_env(char **envp);
+char			**make_envp(t_env *env);
+int				insert_env(t_line *line, char *key, char *value);
 
 #endif

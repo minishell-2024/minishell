@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 03:10:34 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/29 21:03:40 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/29 22:37:30 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,19 @@ t_redirection	*create_redir_node(int redir_type)
 	new_node = (t_redirection *)malloc(sizeof(t_redirection));
 	if (!new_node)
 		return (FAIL);
+	ft_bzero(new_node, sizeof(t_redirection));
 	new_node->type = redir_type;
+	return (new_node);
+}
+
+t_env	*create_env_node(void)
+{
+	t_env	*new_node;
+
+	new_node = (t_env *)malloc(sizeof(t_env));
+	if (!new_node)
+		return (FAIL);
+	ft_bzero(new_node, sizeof(t_env));
 	return (new_node);
 }
 

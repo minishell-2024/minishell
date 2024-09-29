@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 19:29:50 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/29 18:17:22 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/29 22:39:59 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@
 // 환경변수
 typedef struct s_env
 {
-	char	*key;
-	char	*value;
-	int		assignment; // = 여부 해야하나...
-	t_env	*env_next;
+	char			*key;
+	char			*value;
+	int				assignment; // = 여부 해야하나...
+	struct s_env	*env_next;
 }	t_env;
 
 // redirection
