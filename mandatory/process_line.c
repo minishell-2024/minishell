@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   process_input.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/29 14:40:49 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/29 16:53:03 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,10 @@ int	parse(char *line, t_line *input)
 		return (FAIL);
 	if (check_quote(line) == FAIL)
 		return (QUOTE_INCOMPLETE);
+	tokens = 0;
 	tokenize(line, &tokens);
 	lexer(tokens, input->env);
-	make_ast(tokens);
+	make_ast(input, tokens);
 }
 
 int	check_quote(char *line)
@@ -78,16 +79,13 @@ int	lexer(t_token *tokens, t_env *env)
 	curr = tokens;
 	while (curr)
 	{
-		if (curr->type == TOKEN_REDIRECT)
-		{
-
-		}
-		replace_env(curr, env);
+		if (curr->type == TOKEN_STRING)
+			replace_env(curr, env);
 		curr = curr->next;
 	}
 }
 
-t_ast_node	*make_ast(t_token *tokens)
+int	make_ast(t_token **tokens)
 {
 	t_ast_node	*head;
 	t_token		*ptr;

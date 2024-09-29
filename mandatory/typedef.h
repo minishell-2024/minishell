@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 03:35:38 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/29 14:42:18 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/29 17:11:05 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ typedef enum e_tokentype
 typedef enum e_redir_type
 {
 	REDIR_INPUT,
-	REDIR_
+	REDIR_DELIMIT,
+	REDIR_OUTPUT,
+	REDIR_APPEND
 }	t_redir_type;
 
 typedef struct s_token
@@ -46,13 +48,6 @@ typedef struct s_simple_cmd
 	char				*argv;
 	struct s_simple_cmd	*next_simple_cmd;
 }	t_simple_cmd;
-
-typedef struct s_redirect
-{
-	t_tokentype			type;
-	char				*argv;
-	struct s_redirect	*next_redir;
-}	t_redirect;
 
 typedef struct s_command
 {

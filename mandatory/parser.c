@@ -1,62 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   make_tree.c                                        :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 04:47:01 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/23 16:13:07 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/29 17:25:38 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_ast_node	*parse_pipe(t_token **ptr)
+t_process	*parse_pipe(t_token **ptr)
 {
-	t_ast_node	*node;
-	t_ast_node	*left;
+	t_process		*new_proc_node;
+	t_redirection	*new_redir_node;
+	char			**left;
 
-	left = parse_command(ptr);
-	if (*ptr && (*ptr)->token_type == TOKEN_PIPE)
-	{
-		if (left == FAIL)
-			return (FAIL); // syntax error near unexpected token `|' (also should consider free)
-		node = create_new_node(NODE_PIPE);
-		if (!node)
-			exit(FAIL); //malloc
-		consume_token(ptr);
-		node->left = left;
-		node->right = parse_pipe(ptr);
-		left = node;
-	}
-	return (left);
+	if (!*ptr)
+		return (FAIL);
+	new_redir_node = 0;
+	left = parse_command(ptr, &new_redir_node);
+	if (left == FAIL)
+		return (FAIL); // syntax error near unexpected token `|' (also should consider free)
+	new_proc_node = create_process_node();
+	if (!new_proc_node)
+		exit(FAIL); //malloc
+	consume_token(ptr);
+	new_proc_node->cmd = left;
+	new_proc_node->redirect_node = new_redir_node;
+	new_proc_node->process_next = parse_pipe(ptr);
+	return (new_proc_node);
 }
 
-t_ast_node	*parse_command(t_token **ptr)
+char	**parse_command(t_token **ptr, t_redirection **redirect)
 {
-	t_ast_node	*node;
-	t_command	*cmd;
+	char	**commands;
 
-	node = create_new_node(NODE_COMMAND);
-	cmd = create_cmd_node();
-	if (!node || !cmd)
-		exit(FAIL); //msg, exit, malloc free
-	while (*ptr && (*ptr)->token_type != TOKEN_PIPE)
+	commands = 0;
+	while (*ptr && (*ptr)->type != TOKEN_PIPE)
 	{
-		if (is_redir((*ptr)->token_type) == SUCCESS)
-			append_redir(cmd, ptr);
-		else
-			append_simple_cmd(cmd, ptr);
+		if ((*ptr)->type == TOKEN_REDIRECT)
+			append_redir(redirect, ptr);
+		else if ((*ptr)->type == TOKEN_STRING)
+			append_simple_cmd(commands, ptr);
 	}
-	node->data = cmd;
-	if (!cmd->redirect && !cmd->simple_cmd)
-	{
-		free(cmd);
-		free(node);
-		node = 0;
-	}
-	return (node);
+	return (commands);
 }
 
 void	append_redir(t_command *cmd, t_token **ptr)
