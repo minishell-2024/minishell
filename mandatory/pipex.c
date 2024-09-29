@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:25:56 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/27 21:09:35 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/29 13:28:31 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	check_built_in(t_line *line, t_process *process)
 {
+	int	reuturn_val;
 	redirect_setting(process);
 	if (ft_strncmp(process->cmd[0], "echo", 5))
 		return (execute_echo(process));

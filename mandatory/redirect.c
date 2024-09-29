@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:51:51 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/22 20:55:19 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/29 13:15:02 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	redirect_append(t_redirection *redirect)
 		common_error(NULL, redirect->file_name, NULL, 0);
 	// if (access(redirect->file_name, W_OK) < 0)
 	// 	common_error(NULL, redirect->file_name, NULL, 0);
-	if (dup2(redirect->fd, STDIN_FILENO) < 0)
+	if (dup2(redirect->fd, STDOUT_FILENO) < 0)
 		common_error(NULL, "dup2", NULL, 0);
 	close(redirect->fd);
 }
@@ -59,7 +59,7 @@ void	redirect_output(t_redirection *redirect)
 		common_error(NULL, redirect->file_name, NULL, 0);
 	// if (access(redirect->file_name, W_OK) < 0)
 	// 	common_error(NULL, redirect->file_name, NULL, 0);
-	if (dup2(redirect->fd, STDIN_FILENO) < 0)
+	if (dup2(redirect->fd, STDOUT_FILENO) < 0)
 		common_error(NULL, "dup2", NULL, 0);
 	close(redirect->fd);
 }

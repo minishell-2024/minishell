@@ -6,12 +6,27 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 18:27:08 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/27 16:53:04 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/29 15:17:16 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "type.h"
 #include "minishell.h"
+
+int	env_len(t_line *line)
+{
+	t_env	*temp;
+	int		i;
+
+	i = 0;
+	temp = line->env;
+	while (temp)
+	{
+		i++;
+		temp = temp->env_next;
+	}
+	return (i);
+}
 
 t_env	*find_env(t_line *line, char *key)
 {
@@ -39,6 +54,19 @@ t_env	*find_env_value(t_line *line, char *key)
 		dummy = dummy->env_next;
 	}
 	return (0);
+}
+
+void	swap_env(t_env *env1, t_env *env2) // key, value만을 바꿈. 같은 linked list에 있는지는 확인 x
+{
+	char	*key;
+	char	*value;
+
+	key = env1->key;
+	value = env1->value;
+	env1->key = env2->key;
+	env1->value = env2->value;
+	env2->key = key;
+	env2->value = value;
 }
 
 void	free_env(t_env *env)
@@ -89,7 +117,7 @@ int	is_identifier(char *str)
 		return (0);
 	while (++i < length)
 	{
-		if (str[i] != '-' && !ft_isalpha(str[i]) && !ft_isdigit(str[i]))
+		if (str[i] != '_' && !ft_isalpha(str[i]) && !ft_isdigit(str[i]))
 			return (0);
 	}
 	return (1);
