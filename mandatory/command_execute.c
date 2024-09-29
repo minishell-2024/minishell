@@ -6,11 +6,10 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:28:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/26 19:41:34 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/29 17:20:27 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "type.h"
 #include "minishell.h"
 
 void	execute_command(char *path, char **cmd, t_env *env)

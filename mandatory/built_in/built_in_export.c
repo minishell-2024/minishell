@@ -6,11 +6,10 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 21:12:03 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/29 15:17:15 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/29 17:20:48 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "type.h"
 #include "minishell.h"
 
 void	sort_export_by_key(t_line *return_line, t_process *process)
@@ -75,13 +74,13 @@ int	print_env_with_quote(t_line *line, t_process *process)
 		if (ft_strncmp(env->key, "?", 2) != 0 && ft_strncmp(env->key, "_", 2) != 0)
 		{
 			if (!env->value) // 파싱부에서 a="" 와 a의 차이를 env->value를 null이나 "" -> malloc(0)이냐로 구분해줘야 할듯?
-				ft_putendl_fd(env->key, STDIN_FILENO);
+				ft_putendl_fd(env->key, STDOUT_FILENO);
 			else
 			{
-				ft_putstr_fd(env->key, STDIN_FILENO);
-				ft_putstr_fd("=\"", STDIN_FILENO);
-				ft_putstr_fd(env->value, STDIN_FILENO);
-				ft_putendl_fd("\"", STDIN_FILENO);
+				ft_putstr_fd(env->key, STDOUT_FILENO);
+				ft_putstr_fd("=\"", STDOUT_FILENO);
+				ft_putstr_fd(env->value, STDOUT_FILENO);
+				ft_putendl_fd("\"", STDOUT_FILENO);
 			}
 		}
 		free_env(env);
@@ -102,6 +101,7 @@ int	execute_export(t_line *line, t_process *process)
 	i = 0;
 	val = 0;
 	return_val = 0;
+	redirect_setting(process);
 	if (!process->cmd[1])
 		return (print_env_with_quote(line, process));
 	while (process->cmd[++i])

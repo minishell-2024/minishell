@@ -6,11 +6,10 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 21:07:01 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/27 20:52:35 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/29 17:20:59 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "type.h"
 #include "minishell.h"
 
 int	check_is_dir(t_line *line, t_process *process, char *path)
@@ -77,6 +76,7 @@ int	execute_cd(t_line *line, t_process *process)
 	char	*path;
 	int		error_num;
 
+	redirect_setting(process);
 	if (!process->cmd[1] || ft_strncmp(process->cmd[1], "~", 2)) // ~ 이랑 사실상 동일 ~ 은 고민중
 	{
 		path = find_env(line, "HOME");

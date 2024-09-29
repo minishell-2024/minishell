@@ -6,11 +6,10 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:51:51 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/29 13:15:02 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/29 18:09:02 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "type.h"
 #include "minishell.h"
 
 void	redirect_input(t_redirection *redirect)
@@ -35,7 +34,7 @@ void	redirect_heredoc(t_redirection *redirect)
 	if (dup2(redirect->fd, STDIN_FILENO) < 0)
 		common_error(NULL, "dup2", NULL, 0);
 	close(redirect->fd);
-	// 이거 나중에 free 할 때 하는게 편할려나..
+	// unlink는 여기서 처리!
 	if (unlink(redirect->file_name) < 0)
 		common_error(NULL, redirect->file_name, NULL, 0);
 }
@@ -44,7 +43,7 @@ void	redirect_append(t_redirection *redirect)
 {
 	redirect->fd =  open(redirect->file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (redirect->fd < 0)
-		common_error(NULL, redirect->file_name, NULL, 0);
+		common_error(NULL, redirect->file_name, NULL, 1);
 	// if (access(redirect->file_name, W_OK) < 0)
 	// 	common_error(NULL, redirect->file_name, NULL, 0);
 	if (dup2(redirect->fd, STDOUT_FILENO) < 0)
@@ -56,7 +55,7 @@ void	redirect_output(t_redirection *redirect)
 {
 	redirect->fd = open(redirect->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (redirect->fd < 0)
-		common_error(NULL, redirect->file_name, NULL, 0);
+		common_error(NULL, redirect->file_name, NULL, 1);
 	// if (access(redirect->file_name, W_OK) < 0)
 	// 	common_error(NULL, redirect->file_name, NULL, 0);
 	if (dup2(redirect->fd, STDOUT_FILENO) < 0)

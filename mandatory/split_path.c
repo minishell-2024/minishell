@@ -6,11 +6,10 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:05:25 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/21 19:06:05 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/29 17:20:15 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "type.h"
 #include "minishell.h"
 
 static int	ft_find_all(char *s, char c, int *length)

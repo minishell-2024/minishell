@@ -6,11 +6,10 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 18:27:08 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/29 15:17:16 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/29 17:20:37 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "type.h"
 #include "minishell.h"
 
 int	env_len(t_line *line)
@@ -103,6 +102,27 @@ int	delete_env(t_line *line, char *key)
 		dummy = dummy->env_next;
 	}
 	return (0);
+}
+
+void	change_exit_code(t_line *line, int return_val)
+{
+	t_env	*env;
+	char	*exit_val;
+
+	env = find_env(line, "?");
+	if (!env) // 이럴리가 없어야 하긴 함.
+		insert_env(line, "?", "0");
+	exit_val = ft_itoa(return_val);
+	if (!exit_val) // 처리가 좀 애매하긴 함..
+	{
+		error_occur("malloc", NULL, NULL, 1);
+		delete_env(line, "?"); // 실패 처리해야하나...
+		insert_env(line, "?", "1");
+		return ;
+	}
+	if (env->key)
+		free(env->key);
+	env->key = exit_val;
 }
 
 int	is_identifier(char *str)
