@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/23 19:55:08 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/29 12:18:29 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,17 @@
 
 int	parse(char *line, t_env *envp)
 {
+	t_line	*input;
 	t_token	*tokens;
-	int		length;
 
 	if (!line || !ft_strlen(line))
 		return (FAIL);
 	if (check_quote(line) == FAIL)
 		return (QUOTE_INCOMPLETE);
-	tokens = tokenize(line);
-	lexer(tokens, envp);
+	tokenize(line, input);
+	lexer(input, envp);
 	make_ast(tokens);
+
 }
 
 int	check_quote(char *line)
@@ -48,43 +49,28 @@ int	check_quote(char *line)
 	return (SUCCESS);
 }
 
-t_token	*tokenize(char *line)
+int	tokenize(char *line, t_line *input)
 {
-	t_token	*tokens;
+	char	*curr;
 	char	*buf;
 	t_state	state;
 
 	buf = ft_strdup("");
 	state = STATE_GENERAL;
-	while (*line)
+	curr = line;
+	while (*curr)
 	{
 		if (state == STATE_GENERAL)
-			state = handle_general(tokens, &buf, line);
+			state = handle_general(tokens, &buf, &curr);
 		else if (state == STATE_SQUOTE || state == STATE_DQUOTE)
-			handle_quote();
+			state = handle_quote(state, *line, &buf);
 		line++;
 	}
 	if (ft_strlen(buf) > 0)
-		add_token(&tokens, buf);
+		add_token(input, buf);
 	else
 		free(buf);
-	return (tokens);
-}
-// >>> <<< how handle these?
-
-void	lexer(t_token *head, t_env *envp)
-{
-	t_token	*cur;
-
-	cur = head;
-	while (cur)
-	{
-		if (cur->token_type == TOKEN_DQUOTE || cur->token_type == TOKEN_STRING)
-			replace_env(cur, envp);
-		if (cur->token_type == TOKEN_QUOTE || cur->token_type == TOKEN_DQUOTE)
-			remove_quote(cur);
-		cur = cur->next;
-	}
+	return (SUCCESS);
 }
 
 t_ast_node	*make_ast(t_token *tokens)

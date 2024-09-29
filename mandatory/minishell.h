@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/23 13:48:28 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/29 11:53:27 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../libft/libft.h"
 # include "typedef.h"
+# include "type.h"
 // # include <unistd.h>
 // # include <stddef.h>
 // # include <stdlib.h>
