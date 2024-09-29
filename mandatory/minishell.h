@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/29 21:24:03 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:27:08 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 # define QUOTE_INCOMPLETE 2
 
 // global variable
-int	g_signal;
+int				g_signal;
 
 //process_line (parse main)
 int				parse(char *line, t_line *input);

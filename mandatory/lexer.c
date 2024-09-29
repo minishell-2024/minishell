@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:00:05 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/29 21:24:03 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:27:04 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*read_word(char *line)
 	return (ft_substr(line, 0, idx));
 }
 
-void	replace_env(t_token *token, t_env *envp)
+void	replace_env(t_token *token, t_env *env)
 {
 	char	*dollar_pos;
 	char	*name;
@@ -34,14 +34,14 @@ void	replace_env(t_token *token, t_env *envp)
 	{
 		name = read_word(dollar_pos + 1);
 		val = 0;
-		while (envp)
+		while (env)
 		{
-			if (envp->name == name)
+			if (env->value == name)
 			{
-				val = envp->value;
+				val = env->value;
 				break ;
 			}
-			envp = envp->next;
+			env = env->env_next;
 		}
 		new = insert_value(token->word, val, ft_strlen(name));
 		free(token->word);
