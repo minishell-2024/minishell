@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:05:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/29 14:33:21 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:14:44 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_state	handle_general(t_token *tokens, char **buf_ptr, char **ptr)
 	if (c == '|')
 		add_token(&tokens, ft_strdup("|"), TOKEN_PIPE);
 	if (c == '<' || c == '>')
-		add_token(&tokens, get_special_char(ptr), TOKEN_REDIRECT);
+		add_token(&tokens, get_redirect(ptr), TOKEN_REDIRECT);
 	return (STATE_GENERAL);
 }
 
@@ -67,7 +67,7 @@ char	*append_char(char *buf, char c)
 	return (new);
 }
 
-char	*get_special_char(char **ptr)
+char	*get_redirect(char **ptr)
 {
 	char	c;
 

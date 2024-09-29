@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 19:29:50 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/27 17:05:48 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/09/29 18:17:22 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_redirection
 	int				fd;
 	int				type; // < << > >> ...
 	char			*file_name;
+	char			*here_doc_eof; // 종료조건 << asdf 라면 "asdf"
 	t_redirection	*redirect_next;
 }	t_redirection;
 
@@ -48,7 +49,7 @@ typedef struct s_process
 {
 	// t_command		*cmd_node;
 	char			**cmd;
-	int				built_in_check; // 굳이 없어도 될듯...
+	int				built_in_check; // 1 : built_in // 2 : not built_in
 	pid_t			*pid;
 	t_redirection	*redirect_node;
 	t_process		*process_next; // process_next != 0  ==> '|' exist

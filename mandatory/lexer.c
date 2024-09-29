@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:00:05 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/29 13:31:51 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:24:03 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	replace_env(t_token *token, t_env *envp)
 			}
 			envp = envp->next;
 		}
-		new = insert_env(token->word, val, ft_strlen(name));
+		new = insert_value(token->word, val, ft_strlen(name));
 		free(token->word);
 		free(name);
 		token->word = new;
@@ -51,7 +51,7 @@ void	replace_env(t_token *token, t_env *envp)
 	}
 }
 
-char	*insert_env(char *origin, char *val, int name_size)
+char	*insert_value(char *origin, char *val, int name_size)
 {
 	char	*new_word;
 	int		new_size;

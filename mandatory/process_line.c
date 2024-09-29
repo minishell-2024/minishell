@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process_input.c                                    :+:      :+:    :+:   */
+/*   process_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/29 16:53:03 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:11:52 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ int	parse(char *line, t_line *input)
 		return (QUOTE_INCOMPLETE);
 	tokens = 0;
 	tokenize(line, &tokens);
-	lexer(tokens, input->env);
-	make_ast(input, tokens);
+	input->proc = lexer(tokens, input->env);
 }
 
 int	check_quote(char *line)
@@ -72,9 +71,10 @@ int	tokenize(char *line, t_token **tokens)
 	return (SUCCESS);
 }
 
-int	lexer(t_token *tokens, t_env *env)
+t_process	*lexer(t_token *tokens, t_env *env)
 {
-	t_token	*curr;
+	t_process	*process;
+	t_token		*curr;
 
 	curr = tokens;
 	while (curr)
@@ -83,14 +83,7 @@ int	lexer(t_token *tokens, t_env *env)
 			replace_env(curr, env);
 		curr = curr->next;
 	}
-}
-
-int	make_ast(t_token **tokens)
-{
-	t_ast_node	*head;
-	t_token		*ptr;
-
-	ptr = tokens;
-	head = parse_pipe(tokens, &ptr);
-	return (head);
+	curr = tokens;
+	process = parse_pipe(&curr);
+	return (process);
 }

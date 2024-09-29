@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/29 11:53:27 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:24:03 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,35 +52,28 @@
 // global variable
 int	g_signal;
 
-typedef struct s_env
-{
-	char			*name;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
-
-typedef struct s_commandt
-{
-	char	*line;
-	char	**path;
-	char	**command;
-	char	**env;
-	int		flag;
-	pid_t	*pid;
-	// char	**pipe;
-	// char	**cc;
-	// char 	**filename;
-	
-}	t_commandt;
-
-int		parse(char *line, t_env *envp);
-int		check_quote(char *line);
-int		tokenize(char *line, t_token *tokens);
-char	*read_string(char *line);
-char	*read_word(char *line);
-int		add_token(t_token **token_addr, char *str);
-t_tokentype	get_tokentype(char *str);
-void	replace_env(t_token *token, t_env *envp);
-char	*insert_env(char *origin, char *val, int name_size);
+//process_line (parse main)
+int				parse(char *line, t_line *input);
+int				check_quote(char *line);
+int				tokenize(char *line, t_token **tokens);
+t_process		*lexer(t_token *tokens, t_env *env);
+//tokenize
+t_state			handle_general(t_token *tokens, char **buf_ptr, char **ptr);
+t_state			handle_quote(t_state state, char c, char **buf_ptr);
+char			*append_char(char *buf, char c);
+char			*get_redirect(char **ptr);
+int				add_token(t_token **token, char *str, t_tokentype token_type);
+//lexer
+void			replace_env(t_token *token, t_env *envp);
+char			*insert_value(char *origin, char *val, int name_size);
+//parser
+t_process		*parse_pipe(t_token **ptr);
+char			**parse_command(t_token **ptr, t_redirection **redirect);
+void			append_redir(t_redirection **head, t_token **ptr, int type);
+char			**append_simple_cmd(char **cmd, t_token **ptr);
+//node (util)
+t_process		*create_process_node(void);
+t_redirection	*create_redir_node(int redir_type);
+int				which_redir(char *word);
 
 #endif

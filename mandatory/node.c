@@ -6,13 +6,13 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 03:10:34 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/29 16:43:52 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:03:40 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_process	*create_process_node()
+t_process	*create_process_node(void)
 {
 	t_process	*new_node;
 
@@ -23,28 +23,44 @@ t_process	*create_process_node()
 	return (new_node);
 }
 
-t_redirect	*create_redir_node(t_tokentype redir_type)
+t_redirection	*create_redir_node(int redir_type)
 {
-	t_redirect	*new_redir;
+	t_redirection	*new_node;
 
-	new_redir = (t_redirect *)malloc(sizeof(t_redirect));
-	if (!new_redir)
+	new_node = (t_redirection *)malloc(sizeof(t_redirection));
+	if (!new_node)
 		return (FAIL);
-	new_redir->type = redir_type;
-	new_redir->argv = 0;
-	new_redir->next_redir = 0;
-	return (new_redir);
+	new_node->type = redir_type;
+	return (new_node);
 }
 
-int	which_redir(t_tokentype token_type)
+int	which_redir(char *word)
 {
-	if (token_type == TOKEN_INPUT)
-		return (SUCCESS);
-	if (token_type == TOKEN_OUTPUT)
-		return (SUCCESS);
-	if (token_type == TOKEN_DELIMIT)
-		return (SUCCESS);
-	if (token_type == TOKEN_APPEND)
-		return (SUCCESS);
-	return (FAIL);
+	int	size;
+
+	size = ft_strlen(word);
+	if (ft_strncmp(word, "<", size))
+		return (REDIR_INPUT);
+	if (ft_strncmp(word, "<<", size))
+		return (REDIR_DELIMIT);
+	if (ft_strncmp(word, ">", size))
+		return (REDIR_OUTPUT);
+	if (ft_strncmp(word, ">>", size))
+		return (REDIR_APPEND);
+	return (-1);
 }
+
+// void	free_old_cmds(char **cmd)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	if (!cmd)
+// 		return ;
+// 	while (cmd[i])
+// 	{
+// 		free(cmd[i]);
+// 		i++;
+// 	}
+// 	free(cmd);
+// }
