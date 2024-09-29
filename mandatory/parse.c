@@ -6,25 +6,23 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/29 12:18:29 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/29 14:40:49 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parse(char *line, t_env *envp)
+int	parse(char *line, t_line *input)
 {
-	t_line	*input;
 	t_token	*tokens;
 
 	if (!line || !ft_strlen(line))
 		return (FAIL);
 	if (check_quote(line) == FAIL)
 		return (QUOTE_INCOMPLETE);
-	tokenize(line, input);
-	lexer(input, envp);
+	tokenize(line, &tokens);
+	lexer(tokens, input->env);
 	make_ast(tokens);
-
 }
 
 int	check_quote(char *line)
@@ -49,7 +47,7 @@ int	check_quote(char *line)
 	return (SUCCESS);
 }
 
-int	tokenize(char *line, t_line *input)
+int	tokenize(char *line, t_token **tokens)
 {
 	char	*curr;
 	char	*buf;
@@ -63,14 +61,30 @@ int	tokenize(char *line, t_line *input)
 		if (state == STATE_GENERAL)
 			state = handle_general(tokens, &buf, &curr);
 		else if (state == STATE_SQUOTE || state == STATE_DQUOTE)
-			state = handle_quote(state, *line, &buf);
-		line++;
+			state = handle_quote(state, *curr, &buf);
+		curr++;
 	}
 	if (ft_strlen(buf) > 0)
-		add_token(input, buf);
+		add_token(tokens, buf, TOKEN_STRING);
 	else
 		free(buf);
 	return (SUCCESS);
+}
+
+int	lexer(t_token *tokens, t_env *env)
+{
+	t_token	*curr;
+
+	curr = tokens;
+	while (curr)
+	{
+		if (curr->type == TOKEN_REDIRECT)
+		{
+
+		}
+		replace_env(curr, env);
+		curr = curr->next;
+	}
 }
 
 t_ast_node	*make_ast(t_token *tokens)

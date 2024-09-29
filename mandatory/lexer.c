@@ -6,11 +6,21 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:00:05 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/21 22:49:04 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/29 13:31:51 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*read_word(char *line)
+{
+	int	idx;
+
+	idx = 0;
+	while (!isspace(line[idx]))
+		idx++;
+	return (ft_substr(line, 0, idx));
+}
 
 void	replace_env(t_token *token, t_env *envp)
 {
@@ -39,11 +49,6 @@ void	replace_env(t_token *token, t_env *envp)
 		token->word = new;
 		dollar_pos = ft_strchr(dollar_pos + 1, '$');
 	}
-}
-
-void	remove_quote(t_token *token)
-{
-	
 }
 
 char	*insert_env(char *origin, char *val, int name_size)

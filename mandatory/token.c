@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:05:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/29 12:18:18 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/29 14:33:21 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,14 @@
 t_state	handle_general(t_token *tokens, char **buf_ptr, char **ptr)
 {
 	char	c;
-	char	*buf;
 
 	c = **ptr;
-	buf = *buf_ptr;
-	if (ft_isspace(c) || special_char(c))
+	if (ft_isspace(c) || c == '|' || c == '<' || c == '>')
 	{
-		if (ft_strlen(buf) > 0)
+		if (ft_strlen(*buf_ptr) > 0)
 		{
-			add_token(&tokens, buf);
-			buf = ft_strdup("");
+			add_token(&tokens, *buf_ptr);
+			*buf_ptr = ft_strdup("");
 		}
 	}
 	else if (c == '\'')
@@ -32,9 +30,11 @@ t_state	handle_general(t_token *tokens, char **buf_ptr, char **ptr)
 	else if (c == '"')
 		return (STATE_DQUOTE);
 	else
-		*buf_ptr = append_char(buf, c);
-	if (special_char(c))
-		add_token(&tokens, get_special_char(ptr));
+		*buf_ptr = append_char(*buf_ptr, c);
+	if (c == '|')
+		add_token(&tokens, ft_strdup("|"), TOKEN_PIPE);
+	if (c == '<' || c == '>')
+		add_token(&tokens, get_special_char(ptr), TOKEN_REDIRECT);
 	return (STATE_GENERAL);
 }
 
@@ -48,45 +48,62 @@ t_state	handle_quote(t_state state, char c, char **buf_ptr)
 	return (state);
 }
 
-int	special_char(char c)
+char	*append_char(char *buf, char c)
 {
-	if (c == '|')
-		return (SUCCESS);
-	if (c == '>' || c == '<')
-		return (SUCCESS);
-	return (FAIL);
+	char	*new;
+	int		size;
+
+	size = ft_strlen(buf);
+	new = (char *)malloc(sizeof(char) * (size + 2));
+	if (!new)
+	{
+		free(buf);
+		return (FAIL);	
+	}
+	memcpy(new, buf, size);
+	new[size] = c;
+	new[size + 1] = 0;
+	free(buf);
+	return (new);
 }
 
 char	*get_special_char(char **ptr)
 {
 	char	c;
-	char	next_c;
 
 	c = **ptr;
-	next_c = *(*ptr + 1);
-	if (c == '|')
-		return (ft_strdup("|"));
 	if (c == '>')
 	{
-		if (next_c == '>')
+		if (*(*ptr + 1) == '>')
+		{
+			(*ptr)++;
 			return (ft_strdup(">>"));
+		}
 		return (ft_strdup(">"));
 	}
 	if (c == '<')
 	{
-		if (next_c == '<')
+		if (*(*ptr + 1) == '<')
+		{
+			(*ptr)++;
 			return (ft_strdup("<<"));
+		}
 		return (ft_strdup("<"));
 	}
 	return (FAIL);
 }
 
-int	add_token(t_line *input, char *str)
+int	add_token(t_token **token_addr, char *str, t_tokentype token_type)
 {
-	new->word = ft_strdup(str);
-	new->token_type = get_tokentype(str);
+	t_token	*new;
+	t_token	*tokens;
+
+	new = (t_token *)malloc(sizeof(t_token));
+	if (!new)
+		return (FAIL);
+	new->word = str;
+	new->type = token_type;
 	new->next = 0;
-	free(str);
 	if (!*token_addr)
 	{
 		*token_addr = new;

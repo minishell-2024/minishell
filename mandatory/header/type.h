@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 19:29:50 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/28 03:45:26 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/27 17:05:48 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@
 // 환경변수
 typedef struct s_env
 {
-	char	*str;
+	char	*key;
+	char	*value;
+	int		assignment; // = 여부 해야하나...
 	t_env	*env_next;
 }	t_env;
 
@@ -46,7 +48,7 @@ typedef struct s_process
 {
 	// t_command		*cmd_node;
 	char			**cmd;
-	int				built_in_check;
+	int				built_in_check; // 굳이 없어도 될듯...
 	pid_t			*pid;
 	t_redirection	*redirect_node;
 	t_process		*process_next; // process_next != 0  ==> '|' exist
@@ -57,6 +59,7 @@ typedef struct s_line
 {
 	char		**argv;
 	char		*argc;
+	int			unset_path; // unset PATH를 했으면, path 자동추가 취소 -> 1 // 만약 환경변수 추가할 때, PATH= 이 나오면 다시 0으로 초기화 필요..
 	t_env		*env;
 	t_process	*proc;
 }	t_line;

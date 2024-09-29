@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 03:35:38 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/26 18:51:39 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/29 14:42:18 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,33 +17,27 @@ typedef enum e_state
 {
 	STATE_GENERAL,
 	STATE_SQUOTE,
-	STATE_DQUOTE,
+	STATE_DQUOTE
 }	t_state;
 
 typedef enum e_tokentype
 {
 	TOKEN_END,
-	TOKEN_COMMAND,
 	TOKEN_STRING,
 	TOKEN_PIPE,
-	TOKEN_INPUT,
-	TOKEN_OUTPUT,
-	TOKEN_DELIMIT,
-	TOKEN_APPEND
+	TOKEN_REDIRECT
 }	t_tokentype;
 
-typedef enum e_nodetype
+typedef enum e_redir_type
 {
-	NODE_COMMAND,
-	NODE_SIMPLE_CMD,
-	NODE_REDIRECT,
-	NODE_PIPE
-}	t_nodetype;
+	REDIR_INPUT,
+	REDIR_
+}	t_redir_type;
 
 typedef struct s_token
 {
 	char			*word;
-	t_tokentype		token_type;
+	t_tokentype		type;
 	struct s_token	*next;
 }	t_token;
 
