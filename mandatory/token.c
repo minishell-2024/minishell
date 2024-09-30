@@ -6,13 +6,13 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:05:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/29 21:14:44 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:41:52 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_state	handle_general(t_token *tokens, char **buf_ptr, char **ptr)
+t_state	handle_general(t_token **tokens, char **buf_ptr, char **ptr)
 {
 	char	c;
 
@@ -21,7 +21,7 @@ t_state	handle_general(t_token *tokens, char **buf_ptr, char **ptr)
 	{
 		if (ft_strlen(*buf_ptr) > 0)
 		{
-			add_token(&tokens, *buf_ptr);
+			add_token(tokens, *buf_ptr, TOKEN_STRING);
 			*buf_ptr = ft_strdup("");
 		}
 	}
@@ -32,9 +32,9 @@ t_state	handle_general(t_token *tokens, char **buf_ptr, char **ptr)
 	else
 		*buf_ptr = append_char(*buf_ptr, c);
 	if (c == '|')
-		add_token(&tokens, ft_strdup("|"), TOKEN_PIPE);
+		add_token(tokens, ft_strdup("|"), TOKEN_PIPE);
 	if (c == '<' || c == '>')
-		add_token(&tokens, get_redirect(ptr), TOKEN_REDIRECT);
+		add_token(tokens, get_redirect(ptr), TOKEN_REDIRECT);
 	return (STATE_GENERAL);
 }
 

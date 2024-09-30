@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/30 13:35:04 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:41:58 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int				check_quote(char *line);
 int				tokenize(char *line, t_token **tokens);
 t_process		*lexer(t_token *tokens, t_env *env);
 //tokenize
-t_state			handle_general(t_token *tokens, char **buf_ptr, char **ptr);
+t_state			handle_general(t_token **tokens, char **buf_ptr, char **ptr);
 t_state			handle_quote(t_state state, char c, char **buf_ptr);
 char			*append_char(char *buf, char c);
 char			*get_redirect(char **ptr);
