@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/29 21:30:08 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:35:04 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "../libft/libft.h"
 # include "typedef.h"
-# include "type.h"
+# include "header/type.h"
 // # include <unistd.h>
 // # include <stddef.h>
 // # include <stdlib.h>
@@ -64,7 +64,7 @@ char			*append_char(char *buf, char c);
 char			*get_redirect(char **ptr);
 int				add_token(t_token **token, char *str, t_tokentype token_type);
 //lexer
-void			replace_env(t_token *token, t_env *envp);
+void			key_to_value(t_token *token, t_env *envp);
 char			*insert_value(char *origin, char *val, int name_size);
 //parser
 t_process		*parse_pipe(t_token **ptr);
@@ -74,10 +74,12 @@ char			**append_simple_cmd(char **cmd, t_token **ptr);
 //node (util)
 t_process		*create_process_node(void);
 t_redirection	*create_redir_node(int redir_type);
+t_env			*create_env_node(char *key, char *value);
 int				which_redir(char *word);
 //env
-t_env			*make_env(char **envp);
+int				make_env(t_line *line, char **envp);
 char			**make_envp(t_env *env);
 int				insert_env(t_line *line, char *key, char *value);
+int				change_env_value(t_line *line, char *key, char *new_value);
 
 #endif

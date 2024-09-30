@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/29 21:11:52 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:33:54 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ t_process	*lexer(t_token *tokens, t_env *env)
 	while (curr)
 	{
 		if (curr->type == TOKEN_STRING)
-			replace_env(curr, env);
+			key_to_value(curr, env);
 		curr = curr->next;
 	}
 	curr = tokens;

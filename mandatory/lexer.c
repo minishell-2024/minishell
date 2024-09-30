@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:00:05 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/29 21:27:04 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:33:54 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*read_word(char *line)
 	return (ft_substr(line, 0, idx));
 }
 
-void	replace_env(t_token *token, t_env *env)
+void	key_to_value(t_token *token, t_env *env)
 {
 	char	*dollar_pos;
 	char	*name;
