@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 04:47:01 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/29 22:37:00 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/30 15:58:19 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,9 @@ void	append_redir(t_redirection **head, t_token **ptr, int redir_type)
 		exit(FAIL); // syntax error
 	new_redir_node = create_redir_node(redir_type);
 	if (redir_type == REDIR_DELIMIT)
-	{
 		new_redir_node->here_doc_eof = (*ptr)->word;
-		consume_token(ptr);
-	}
-	new_redir_node->file_name = (*ptr)->word;
+	else
+		new_redir_node->file_name = (*ptr)->word;
 	last = head;
 	if (!last)
 	{
