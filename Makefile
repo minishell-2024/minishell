@@ -1,10 +1,10 @@
 NAME = minishell
 
 CC = cc
-CFLAG = -Wall -Wextra -Werror -lreadline
-HEADERS = minishell.h
+CFLAG = -Wall -Wextra -Werror -g -O0 -lreadline
+HEADERS = minishell.h typedef.h header/type.h
 SRCS_DIR = mandatory
-SRCS = main.c	\
+SRCS = main.c env.c lexer.c node.c parser.c process_line.c token.c
 
 
 OBJS = $(SRCS:.c=.o)

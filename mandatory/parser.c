@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 04:47:01 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/30 15:58:19 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:54:59 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	append_redir(t_redirection **head, t_token **ptr, int redir_type)
 		new_redir_node->here_doc_eof = (*ptr)->word;
 	else
 		new_redir_node->file_name = (*ptr)->word;
-	last = head;
+	last = *head;
 	if (!last)
 	{
 		*head = new_redir_node;

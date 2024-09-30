@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/30 15:39:56 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:55:18 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	parse(char *line, t_line *input)
 	tokens = 0;
 	tokenize(line, &tokens);
 	input->proc = lexer(tokens, input->env);
+	return (SUCCESS);
 }
 
 int	check_quote(char *line)
