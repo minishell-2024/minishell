@@ -1,42 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_setting,c                                  :+:      :+:    :+:   */
+/*   heredoc_setting.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:17:25 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/29 18:17:38 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/02 19:37:03 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../header/minishell.h"
 
-void	make_temp_file(t_line *line, t_process *process, t_redirection *redirect)
+void	make_temp_file(t_redirection *redirect)
 {
 	char	*dummy;
 	int		num;
 	dummy = (char *)ft_calloc(10, 1);
 	if (!dummy)
-		common_occur("malloc", NULL, NULL, 1);
+		common_error("malloc", NULL, NULL, 1);
 	ft_strlcpy(dummy, "/tmp/temp", 10);
 	redirect->file_name = ft_strdup(dummy);
 	if (!redirect->file_name)
-		common_occur("malloc", NULL, NULL, 1);
+		common_error("malloc", NULL, NULL, 1);
 	num = 0;
 	while (access(redirect->file_name, F_OK) == 0)
 	{
 		free(redirect->file_name);
 		redirect->file_name = ft_strjoin(dummy, ft_itoa(num++));
 		if (!redirect->file_name)
-			common_occur("malloc", NULL, NULL, 1);
+			common_error("malloc", NULL, NULL, 1);
 	}
 	free(dummy);
 }
 
-void	here_doc_check(t_line *line, t_process *process, t_redirection *redirect)
+void	here_doc_check(t_redirection *redirect)
 {
-	char	*temp_filename;
+	// char	*temp_filename;
 	char	*context;
 
 	redirect->fd = open(redirect->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -59,7 +59,7 @@ void	here_doc_check(t_line *line, t_process *process, t_redirection *redirect)
 	close(redirect->fd);
 }
 
-void	heredoc_setting(t_line *line, t_process *process)
+void	heredoc_setting(t_process *process)
 {
 	t_redirection	*redirect;
 
@@ -68,8 +68,8 @@ void	heredoc_setting(t_line *line, t_process *process)
 	{
 		if (redirect->type == 1) // <<
 		{
-			make_temp_file(line, process, redirect);
-			here_doc_check(line, process, redirect);
+			make_temp_file(redirect);
+			here_doc_check(redirect);
 		}
 		redirect = redirect->redirect_next;
 	}

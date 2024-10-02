@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:11:41 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 18:30:46 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/02 19:30:20 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
+#include "header/minishell.h"
 
 void	change_exit_code(t_line *line, int return_val)
 {
@@ -24,7 +23,7 @@ void	change_exit_code(t_line *line, int return_val)
 	exit_val = ft_itoa(return_val);
 	if (!exit_val) // 처리가 좀 애매하긴 함..
 	{
-		error_occur("malloc", NULL, NULL, 1);
+		common_error("malloc", NULL, NULL, 1);
 		delete_env(line, "?"); // 실패 처리해야하나...
 		insert_env(line, "?", "1");
 		return ;

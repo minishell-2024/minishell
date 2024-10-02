@@ -6,12 +6,12 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 18:50:35 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:35:34 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef COMMAND_H
+# define COMMAND_H
 
 
 //==================== main.c ====================
@@ -28,7 +28,7 @@ void	check_command(t_line *line, t_process *process);
 
 //==================== env_utiles.c ====================
 t_env	*find_env(t_line *line, char *key);
-t_env	*find_env_value(t_line *line, char *key);
+char	*find_env_value(t_line *line, char *key);
 void	swap_env(t_env *env1, t_env *env2); // key, value만 swap
 void	free_env(t_env *env);
 int     delete_env(t_line *line, char *key);
@@ -39,9 +39,9 @@ void	command_error(char *str);
 int		error_occur(char *cmd, char *file_name, char *custom_msg, int error_code);
 
 //==================== heredoc_setting.c ====================
-void	heredoc_setting(t_line *line, t_process *process);
-void	here_doc_check(t_line *line, t_process *process, t_redirection *redirect);
-void	make_temp_file(t_line *line, t_process *process, t_redirection *redirect);
+void	heredoc_setting(t_process *process);
+void	here_doc_check(t_redirection *redirect);
+void	make_temp_file(t_redirection *redirect);
 
 //==================== pipex.c ====================
 void	pipex(t_line *line, t_process *process);

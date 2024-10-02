@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   env_utiles.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 18:27:08 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/29 17:20:37 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/02 19:25:33 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // window에서 만든거라 위에 주석 다시 만들어야할듯.
-#include "minishell.h"
+#include "../header/minishell.h"
 
 t_env	*find_env(t_line *line, char *key)
 {
@@ -27,7 +27,7 @@ t_env	*find_env(t_line *line, char *key)
 	return (0);
 }
 
-t_env	*find_env_value(t_line *line, char *key)
+char	*find_env_value(t_line *line, char *key)
 {
 	t_env	*dummy;
 

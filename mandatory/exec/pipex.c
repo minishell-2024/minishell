@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:25:56 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/29 18:16:50 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/02 19:41:47 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../header/minishell.h"
 
 int	check_built_in(t_line *line, t_process *process)
 {
@@ -23,7 +23,7 @@ int	check_built_in(t_line *line, t_process *process)
 	else if (ft_strncmp(process->cmd[0], "pwd", 4))
 		return_val = execute_pwd(process);
 	else if (ft_strncmp(process->cmd[0], "export", 7))
-		return_val = export(process->cmd[0], "export", 7);
+		return_val = execute_export(line, process);
 	else if (ft_strncmp(process->cmd[0], "unset", 6))
 		return_val = execute_unset(line, process);
 	else if (ft_strncmp(process->cmd[0], "env", 4))
@@ -50,7 +50,7 @@ static void	child_process(t_line *line, t_process *process, int fd[2])
 	exit(errno);
 }
 
-static void	parent_process(t_line *line, t_process *process, int fd[2])
+static void	parent_process(t_process *process, int fd[2])
 {
 	close(fd[1]);
 	if (dup2(fd[0], STDIN_FILENO) < 0)
@@ -66,8 +66,8 @@ void	pipex(t_line *line, t_process *process)
 
 	while (process)
 	{
-		heredoc_setting(line, process);
-		if (check_bulit_in(line, process) == 0) // $? 처리때문에, 25줄 넘쳐서 쪼개야할듯. + ?값 저장할 공간 필요 t_line *line에 추가하면 될듯..!
+		heredoc_setting(process);
+		if (check_built_in(line, process) == 0) // $? 처리때문에, 25줄 넘쳐서 쪼개야할듯. + ?값 저장할 공간 필요 t_line *line에 추가하면 될듯..!
 		{
 			if (pipe(fd) < 0)
 				common_error(NULL, "pipe", NULL, 0);
@@ -77,7 +77,7 @@ void	pipex(t_line *line, t_process *process)
 			else if (process->pid == 0)
 				child_process(line, process, fd);
 			else
-				parent_process(line, process, fd);
+				parent_process(process, fd);
 		}
 		process = process->process_next;
 	}
