@@ -3,21 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   type.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 19:29:50 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 18:27:25 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/02 18:49:06 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPE_H
 # define TYPE_H
-
-# ifndef UNISTD_H
-#  include <unistd.h>
-# endif
-
-# define PROGRAM_NAME "minishell"
 
 // 환경변수
 typedef struct s_env
