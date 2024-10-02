@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 18:50:33 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:45:55 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@
 
 # include "type.h"
 # include "typedef.h"
+# include "../../libft/libft.h"
 # include "parsing.h"
 # include "command.h"
-# include "../../libft/libft.h"
 
 // flag value definition
 # define FAIL 0

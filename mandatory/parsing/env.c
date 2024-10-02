@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:21:44 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/02 19:18:24 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/02 20:22:24 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	make_env(t_line *line, char **envp)
 		envp++;
 	}
 	insert_env(line, "?", "0"); //$? handling
-	change_env_value(line, "_", ft_strdup("_usr/bin/env")); //replace key:_ 's value
+	change_env_value(line, "_", ft_strdup("minishell")); //replace key:_ 's value
 	return (SUCCESS);
 }
 

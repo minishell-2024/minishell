@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 15:27:55 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 19:18:24 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:52:53 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	ft_exit_atoi(const char *str, int *check_error)
 	return ((int)ft_strtol((char *)(str + i), sign, check_error));
 }
 
-int	execute_exit(t_line *line, t_process *process)
+int	execute_exit(t_process *process)
 {
 	int	exit_code;
 	int	check_num_error;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_cd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 21:07:01 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 19:44:13 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:52:15 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	change_env(t_line *line, t_process *process, char *key, char *path)
 		return (insert_env(line, key, path)); // 이부분 미완... 함수 있으면 이용할 것. // strdup 써야할듯.
 }
 
-int	change_env_pwd(t_line *line, t_process *process, char *path)
+int	change_env_pwd(t_line *line, t_process *process)
 {
 	char	*value;
 	int		exit_code1;
@@ -73,14 +73,15 @@ int	change_env_pwd(t_line *line, t_process *process, char *path)
 
 int	execute_cd(t_line *line, t_process *process)
 {
+	t_env	*env;
 	char	*path;
 	int		error_num;
 
 	redirect_setting(process);
 	if (!process->cmd[1] || ft_strncmp(process->cmd[1], "~", 2)) // ~ 이랑 사실상 동일 ~ 은 고민중
 	{
-		path = find_env(line, "HOME");
-		if (!path)
+		env = find_env(line, "HOME");
+		if (!env)
 			return (error_occur(process->cmd[0], NULL, "HOME not set", 1));
 		path = find_env_value(line, "HOME");
 		if (!path)
@@ -90,11 +91,10 @@ int	execute_cd(t_line *line, t_process *process)
 	}
 	else
 		path = process->cmd[1];
-	error_num = check_is_dir(line, process, path);
+	error_num = check_is_dir(process, path);
 	if (error_num)
 		return (error_num);
 	if (chdir(path) < 0)
-		return (error_occur(process->cmd[0], path, "chdir", 0)); // 다시 생각해보기
-	return (change_env_pwd(line, process, path));
+		return (error_occur(process->cmd[0], path, NULL, 0));
+	return (change_env_pwd(line, process));
 }
- 

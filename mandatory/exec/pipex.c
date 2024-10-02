@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:25:56 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 19:41:47 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:53:25 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	check_built_in(t_line *line, t_process *process)
 	else if (ft_strncmp(process->cmd[0], "env", 4))
 		return_val = execute_env(line, process);
 	else if (ft_strncmp(process->cmd[0], "exit", 5))
-		return_val = execute_exit(line, process);
+		return_val = execute_exit(process);
 	else
 		return (0);
 	process->built_in_check = 1;
