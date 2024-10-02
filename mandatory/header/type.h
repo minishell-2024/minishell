@@ -6,16 +6,12 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 19:29:50 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/29 19:10:52 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/02 16:00:39 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPE_H
 # define TYPE_H
-
-# ifndef UNISTD_H
-#  include <unistd.h>
-# endif
 
 # define PROGRAM_NAME "minishell"
 

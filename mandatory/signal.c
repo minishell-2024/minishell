@@ -6,23 +6,62 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 18:19:10 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/29 18:21:50 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/02 17:16:43 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-void    set_signal()
+void    signal_printf_off()
 {
     struct termios  term;
-    // 표기 끄기
-    signal(SIGINT, 빈문자열_handle);
-    singal(SIGQOIT, SIG_IGN);    
+
+    tcgetattr(STDIN_FILENO, &term);
+    term.c_lflag &= ~(ECHOCTL);
+    tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
-void    ignore_signal()
+void    signal_printf_on()
 {
-    signal(SIGINT, SIG_IGN); // ctrl + c
-    signal(SIGQUIT, SIG_IGN); // ctrl + /
+    struct termios  term;
+
+    tcgetattr(STDIN_FILENO, &term);
+    term.c_lflag |= ~(ECHOCTL);
+    tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
+
+void    print_empty_line(int sign)
+{
+    singal = sign;
+    ft_putstr_fd("\n", STDERR_FILENO);
+    exit(1);
+}
+
+void    print_empty_line_move_next(int sign) // 위 아래 차이를 잘 모르곘으
+{
+    singal = sign;
+    ft_putstr_fd("\n", STDERR_FILENO);
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
+    change_exit_code(line, 1);
+}
+
+void    set_normal_signal(t_line *line) // 일단적인 상태
+{
+    signal_printf_off(); // 표기 끄기
+    signal(SIGINT,  print_empty_line);
+    signal(SIGQUIT, SIG_IGN);
+}
+
+void    set_exec_signal(t_line *line)
+{
+    signal_print_on(); // 표시 키기
+    signal(SIGINT, print_)
+}
+
+// void    ignore_signal()
+// {
+//     signal(SIGINT, SIG_IGN); // ctrl + c
+//     signal(SIGQUIT, SIG_IGN); // ctrl + /
+// }
