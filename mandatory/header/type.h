@@ -60,6 +60,7 @@ typedef struct s_line
 {
 	char		**argv;
 	char		*argc;
+	int			std_fd[2]; //초기 표준 입*출력 저장. std_fd[0] = STDIN_FILENO, std_fd[1] = STDOUT_FILENO
 	int			unset_path; // unset PATH를 했으면, path 자동추가 취소 -> 1 // 만약 환경변수 추가할 때, PATH= 이 나오면 다시 0으로 초기화 필요..
 	t_env		*env;
 	t_process	*proc;

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	sort_export_by_key(t_line *return_line, t_process *process)
+static void	sort_export_by_key(t_line *return_line)
 {
 	t_env		*temp;
 	t_env		*dummy;
@@ -31,7 +31,7 @@ void	sort_export_by_key(t_line *return_line, t_process *process)
 	}
 }
 
-t_env	*sort_export(t_line *line, t_process *process)
+static t_env	*sort_export(t_line *line)
 {
 	t_line	*return_line;
 	t_env	*env;
@@ -45,29 +45,18 @@ t_env	*sort_export(t_line *line, t_process *process)
 		insert_env(return_line, env->key, env->value);
 		env = env->env_next;
 	}
-	sort_export_by_key(return_line, process);
+	sort_export_by_key(return_line);
 	env = return_line->env;
 	free(return_line);
 	return (env);
 }
 
-void	free_env(t_env *env)
-{
-	if (!env)
-		return ;
-	if (env->key)
-		free(env->key);
-	if (env->value)
-		free(env->value);
-	free(env);
-}
-
-int	print_env_with_quote(t_line *line, t_process *process)
+static int	print_env_with_quote(t_line *line)
 {
 	t_env	*head;
 	t_env	*env;
 
-	head = sort_export(line, process);
+	head = sort_export(line);
 	env = head;
 	while (env)
 	{
@@ -103,13 +92,14 @@ int	execute_export(t_line *line, t_process *process)
 	return_val = 0;
 	redirect_setting(process);
 	if (!process->cmd[1])
-		return (print_env_with_quote(line, process));
+		return (print_env_with_quote(line));
 	while (process->cmd[++i])
 	{
+		// 미완
 		// 입력을 먼저 key, value로 분할해야할수도 value는 identifier룰을 따르지 않아도 ㄱㅊ음...
-		// env = divide_env_key_value(line, process); // 파싱부에서 env나눠주는거 써야할듯?
+		env = divide_env_key_value(line, process); // 파싱부에서 env나눠주는거 써야할듯?
 		if (!env)
-			val = error_occur("export", "malloc", NULL, 1);
+			val = common_error("export", "malloc", NULL, 1);
 		else if (!is_identifier(env->key))
 			val = error_occur("export", NULL, "not a valid identifier", 1);
 		else

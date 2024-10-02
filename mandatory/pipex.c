@@ -16,7 +16,6 @@ int	check_built_in(t_line *line, t_process *process)
 {
 	int	return_val;
 
-	// redirect_setting(process);
 	if (ft_strncmp(process->cmd[0], "echo", 5))
 		return_val = execute_echo(process);
 	else if (ft_strncmp(process->cmd[0], "cd", 3))
@@ -39,7 +38,7 @@ int	check_built_in(t_line *line, t_process *process)
 	return (1);
 }
 
-void	child_process(t_line *line, t_process *process, int fd[2])
+static void	child_process(t_line *line, t_process *process, int fd[2])
 {
 	close(fd[0]);
 	if (dup2(fd[1], STDOUT_FILENO) < 0)
@@ -51,7 +50,7 @@ void	child_process(t_line *line, t_process *process, int fd[2])
 	exit(errno);
 }
 
-void	parent_process(t_line *line, t_process *process, int fd[2])
+static void	parent_process(t_line *line, t_process *process, int fd[2])
 {
 	close(fd[1]);
 	if (dup2(fd[0], STDIN_FILENO) < 0)
