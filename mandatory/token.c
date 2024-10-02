@@ -6,35 +6,38 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:05:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/30 13:41:52 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/02 12:46:27 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_state	handle_general(t_token **tokens, char **buf_ptr, char **ptr)
+t_state	handle_general(t_token **tokens, char **buf, char **ptr, int *sq_flag)
 {
 	char	c;
 
 	c = **ptr;
 	if (ft_isspace(c) || c == '|' || c == '<' || c == '>')
 	{
-		if (ft_strlen(*buf_ptr) > 0)
+		if (ft_strlen(*buf) > 0)
 		{
-			add_token(tokens, *buf_ptr, TOKEN_STRING);
-			*buf_ptr = ft_strdup("");
+			add_token(tokens, *buf, TOKEN_STRING, *sq_flag);
+			*buf = reset_buf(sq_flag);
 		}
 	}
 	else if (c == '\'')
+	{
+		*sq_flag = 1;
 		return (STATE_SQUOTE);
+	}
 	else if (c == '"')
 		return (STATE_DQUOTE);
 	else
-		*buf_ptr = append_char(*buf_ptr, c);
+		*buf = append_char(*buf, c);
 	if (c == '|')
-		add_token(tokens, ft_strdup("|"), TOKEN_PIPE);
+		add_token(tokens, ft_strdup("|"), TOKEN_PIPE, *sq_flag);
 	if (c == '<' || c == '>')
-		add_token(tokens, get_redirect(ptr), TOKEN_REDIRECT);
+		add_token(tokens, get_redirect(ptr), TOKEN_REDIRECT, *sq_flag);
 	return (STATE_GENERAL);
 }
 
@@ -93,30 +96,8 @@ char	*get_redirect(char **ptr)
 	return (FAIL);
 }
 
-int	add_token(t_token **token_addr, char *str, t_tokentype token_type)
+char	*reset_buf(int *sq_flag)
 {
-	t_token	*new;
-	t_token	*tokens;
-
-	new = (t_token *)malloc(sizeof(t_token));
-	if (!new)
-		return (FAIL);
-	new->word = str;
-	new->type = token_type;
-	new->next = 0;
-	if (!*token_addr)
-	{
-		*token_addr = new;
-		return (SUCCESS);
-	}
-	tokens = *token_addr;
-	while (tokens)
-	{
-		if (tokens->next)
-			tokens = tokens->next;
-		else
-			break ;
-	}
-	tokens->next = new;
-	return (SUCCESS);
+	*sq_flag = 0;
+	return (ft_strdup(""));
 }

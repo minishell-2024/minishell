@@ -6,11 +6,24 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 03:10:34 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/02 10:15:41 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/02 12:40:42 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_token	*create_token_node(t_tokentype type, int sq_flag)
+{
+	t_token	*new;
+
+	new = (t_token *)malloc(sizeof(t_token));
+	if (!new)
+		return (FAIL);
+	ft_bzero(new, 0);
+	new->type = type;
+	new->squote_flag = sq_flag;
+	return (new);
+}
 
 t_process	*create_process_node(void)
 {

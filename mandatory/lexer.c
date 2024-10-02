@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:00:05 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/02 10:35:40 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/02 13:00:24 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	key_to_value(t_token *token, t_env *env)
 		val = 0;
 		while (env)
 		{
-			if (env->value == name)
+			if (ft_strncmp(name, env->key, ft_strlen(name)) == 0)
 			{
 				val = env->value;
 				break ;
