@@ -1,3 +1,9 @@
 .vscode/
 *.exe
 *.out
+outfile
+infile
+.gitignore
+.idea
+test.c
+test*

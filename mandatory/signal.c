@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 18:19:10 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 17:16:43 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/02 18:35:00 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,19 @@ void    signal_printf_on()
 
 void    print_empty_line(int sign)
 {
-    singal = sign;
+    g_signal = sign;
     ft_putstr_fd("\n", STDERR_FILENO);
     exit(1);
 }
 
 void    print_empty_line_move_next(int sign) // 위 아래 차이를 잘 모르곘으
 {
-    singal = sign;
+    g_signal = sign;
     ft_putstr_fd("\n", STDERR_FILENO);
     rl_on_new_line();
     rl_replace_line("", 0);
     rl_redisplay();
-    change_exit_code(line, 1);
+    // change_exit_code(line, 1);
 }
 
 void    set_normal_signal(t_line *line) // 일단적인 상태
@@ -60,8 +60,10 @@ void    set_exec_signal(t_line *line)
     signal(SIGINT, print_)
 }
 
-// void    ignore_signal()
-// {
-//     signal(SIGINT, SIG_IGN); // ctrl + c
-//     signal(SIGQUIT, SIG_IGN); // ctrl + /
-// }
+void    ignore_signal()
+{
+    signal(SIGINT, SIG_IGN); // ctrl + c
+    signal(SIGQUIT, SIG_IGN); // ctrl + /
+}
+
+

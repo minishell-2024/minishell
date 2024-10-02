@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:11:41 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 16:00:07 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/02 18:30:46 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	fd_setting(t_line *line)
 int	main(int argc, char **argv, char **envp)
 {
 	t_line	*line;
+	t_line	*line;
 	char	*str;
 
 	// 초기 parse
@@ -88,6 +89,8 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		str = readline("minishell$ ");
+		add_history(str);
+		parse(str, line);
 		// printf("%s\n", str);
 
 		// parseing
