@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 19:29:50 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 20:32:06 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/02 20:39:20 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ typedef struct s_line
 {
 	char		**argv;
 	int			argc;
-	char		**envp;
 	int			std_fd[2];
 	int			unset_path; // unset PATH를 했으면, path 자동추가 취소 -> 1 // 만약 환경변수 추가할 때, PATH= 이 나오면 다시 0으로 초기화 필요..
 	t_env		*env;
