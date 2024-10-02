@@ -17,8 +17,6 @@ void	execute_command(char *path, char **cmd, t_env *env)
 	char	**env_var;
 
 	env_var = make_env(env); // make_env 아직 미구현b
-	// strncmp 이거 길이 맞는지 체크 해보기.
-	// if (!ft_strncmp(cmd[0], "minishell", 10))
 	if (execve(path, cmd, env_var) < 0)
 		common_error(cmd[0], NULL, NULL, 0);
 }
