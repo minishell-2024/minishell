@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 21:12:03 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 20:24:19 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/02 21:53:36 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,21 @@ t_env	*divide_env_key_value(t_line *line, char *str)
 	env = (t_env *)ft_calloc(1, sizeof(t_env));
 	if (!env)
 		common_error("malloc", NULL, NULL, 1);
-	env->value = 0;
 	equal = ft_strchr(str, '=');
 	if (equal)
 	{
 		env->key = ft_substr(str, 0, equal - str);
+		if (!env->key)
+			common_error("malloc", NULL, NULL, 1);
 		env->value = ft_substr(equal, 1, ft_strlen(str) - ft_strlen(env->key) - 1);
+		if (!env->value)
+			common_error("malloc", NULL, NULL, 1);
 	}
 	else
 		env->key = ft_strdup(str);
-	if (insert_env(line, env->key, env->value)) // insert함수를 수정할 필요가 있음...
-		return (env);
-	free(env);
-	return (0);
+	if (!env->key)
+		common_error("malloc", NULL, NULL, 1);
+	return (env);
 }
 
 static void	sort_export_by_key(t_line *return_line)

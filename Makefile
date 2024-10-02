@@ -1,3 +1,4 @@
+# .DEFAULT_GOAL := all
 NAME		= minishell
 
 CC			= cc
@@ -24,16 +25,16 @@ INCLUDES	= -Iheader
 LIBRARY_DIR = libft
 LIBRARY 	= $(LIBRARY_DIR)/libft.a
 
--include $(DEPS)
-
 all : $(NAME)
 
 $(NAME) : $(OBJS)
 	@$(MAKE) -C $(LIBRARY_DIR)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBRARY) $(LDFLAGS) -o $@
 
-$(SRCS_DIR)%.o : $(SRCS_DIR)%.c
-	$(CC) $(CFLAGS) -c $< $(INCLUDES) -o $@
+(SRCS_DIR)/%.o : (SRCS_DIR)/%.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+-include $(DEPS)
 
 clean :
 	@$(MAKE) -C $(LIBRARY_DIR) fclean
