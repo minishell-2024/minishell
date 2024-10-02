@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:11:41 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 20:42:55 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/02 22:06:14 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,54 @@ int	main(int argc, char **argv, char **envp)
 	make_env(line, envp);
 	line->argc = argc;
 	line->argv = argv;
-	std_fd_dup(line); // 기존 표준 입출력 복사.
+	// std_fd_dup(line); // 기존 표준 입출력 복사.
 	while (1)
 	{
 		str = readline("minishell$ ");
 		add_history(str);
 		parse(str, line);
 		// printf("%s\n", str);
-
-		// parseing
-		if (str && str[0])
-			add_history(str);
-		pipex(line, line->proc);
-		wait_process(line);
-		// free_all(line); // 미완, 할당한거 다 free.. 아마 line->proc 부터만 처리하면? 될듯?
+		// parse_input
+		//
+		// t_env *e_ptr = line->env;
+		// while (e_ptr)
+		// {
+		// 	printf("%s=%s\n", e_ptr->key, e_ptr->value);
+		// 	e_ptr = e_ptr->env_next;
+		// }
+		t_process	*p = line->proc;
+		char **cmd;
+		t_redirection *r_ptr;
+		while (p){
+			cmd = p->cmd;
+			// printf("user input : %s\n", str);
+			while (*cmd)
+			{
+				printf("%s", *cmd);
+				printf(" ");
+				cmd++;
+			}
+			r_ptr = p->redirect_node;
+			while (r_ptr)
+			{
+				if (r_ptr->type == REDIR_INPUT)
+					printf("< %s ", r_ptr->file_name);
+				if (r_ptr->type == REDIR_DELIMIT)
+					printf("<< %s ", r_ptr->here_doc_eof);
+				if (r_ptr->type == REDIR_OUTPUT)
+					printf("> %s ", r_ptr->file_name);
+				if (r_ptr->type == REDIR_APPEND)
+					printf(">> %s ", r_ptr->file_name);
+				r_ptr = r_ptr->redirect_next;
+			}
+			if (p->process_next)
+				printf("| ");
+			p = p->process_next;
+		}
+		printf("\n");
 		free(str);
-		fd_setting(line); // 기존 표준 입력, 출력으로 되돌리기..
+		
 	}
-	rl_clear_history();
+	// rl_clear_history();
 	exit(errno);
 }

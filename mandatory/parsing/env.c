@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:21:44 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/02 20:22:24 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/02 21:52:20 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	insert_env(t_line *line, char *key, char *value)
 	curr = line->env;
 	new_node = create_env_node(key, value);
 	if (!new_node)
-		exit(FAIL); //malloc
+		common_error("malloc", 0, 0, 0);
 	if (!curr)
 		line->env = new_node;
 	else
@@ -50,6 +50,9 @@ int	make_env(t_line *line, char **envp)
 		else
 			key = ft_strdup(*envp);
 		insert_env(line, key, value);
+		free(key);
+		if (value)
+			free(value);
 		envp++;
 	}
 	insert_env(line, "?", "0"); //$? handling
