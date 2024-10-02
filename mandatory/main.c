@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:11:41 by yuyu              #+#    #+#             */
-/*   Updated: 2024/09/30 17:49:31 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/02 10:01:06 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	main(int argc, char **argv, char **envp)
 	line->argc = argc;
 	line->argv = argv;
 	line->envp = envp;
-	// while (1)
-	// {
+	while (1)
+	{
 		str = readline("minishell$ ");
 		add_history(str);
 		parse(str, line);
@@ -37,7 +37,7 @@ int	main(int argc, char **argv, char **envp)
 			e_ptr = e_ptr->env_next;
 		}
 		char **cmd = line->proc->cmd;
-		printf("%s\n", str);
+		printf("user input : %s\n", str);
 		while (*cmd)
 		{
 			printf("%s", *cmd);
@@ -61,5 +61,5 @@ int	main(int argc, char **argv, char **envp)
 			r_ptr = r_ptr->redirect_next;
 		}
 		free(str);
-	//}
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:00:05 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/30 13:33:54 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/02 10:35:40 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*read_word(char *line)
 	int	idx;
 
 	idx = 0;
-	while (!isspace(line[idx]))
+	while (line[idx] && !ft_isspace(line[idx]))
 		idx++;
 	return (ft_substr(line, 0, idx));
 }

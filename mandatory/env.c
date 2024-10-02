@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:21:44 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/30 13:33:03 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/02 10:48:34 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	insert_env(t_line *line, char *key, char *value)
 	if (!new_node)
 		exit(FAIL); //malloc
 	if (!curr)
-		curr = new_node;
+		line->env = new_node;
 	else
 	{
 		while (curr->env_next)
@@ -50,6 +50,7 @@ int	make_env(t_line *line, char **envp)
 		else
 			key = ft_strdup(*envp);
 		insert_env(line, key, value);
+		envp++;
 	}
 	insert_env(line, "?", "0"); //$? handling
 	change_env_value(line, "_", ft_strdup("_usr/bin/env")); //replace key:_ 's value

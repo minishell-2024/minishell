@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 04:47:01 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/30 17:54:59 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/02 10:21:16 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	append_redir(t_redirection **head, t_token **ptr, int redir_type)
 		new_redir_node->here_doc_eof = (*ptr)->word;
 	else
 		new_redir_node->file_name = (*ptr)->word;
+	consume_token(ptr);
 	last = *head;
 	if (!last)
 	{
@@ -96,7 +97,7 @@ char	**append_simple_cmd(char **cmd, t_token **ptr)
 	if (!new)
 		exit(FAIL); //malloc
 	idx = 0;
-	while (cmd[idx])
+	while (cmd && cmd[idx])
 	{
 		new[idx] = cmd[idx];
 		idx++;

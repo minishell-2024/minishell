@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 03:10:34 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/09/30 09:12:15 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/02 10:15:41 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ int	which_redir(char *word)
 	int	size;
 
 	size = ft_strlen(word);
-	if (ft_strncmp(word, "<", size))
+	if (ft_strncmp(word, "<", size) == 0)
 		return (REDIR_INPUT);
-	if (ft_strncmp(word, "<<", size))
+	if (ft_strncmp(word, "<<", size) == 0)
 		return (REDIR_DELIMIT);
-	if (ft_strncmp(word, ">", size))
+	if (ft_strncmp(word, ">", size) == 0)
 		return (REDIR_OUTPUT);
-	if (ft_strncmp(word, ">>", size))
+	if (ft_strncmp(word, ">>", size) == 0)
 		return (REDIR_APPEND);
 	return (-1);
 }
