@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:05:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/02 21:34:46 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/03 19:52:37 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,15 @@ t_state	handle_general(t_token **tokens, char **buf, char **ptr, int *sq_flag)
 	return (STATE_GENERAL);
 }
 
-t_state	handle_quote(t_state state, char c, char **buf_ptr)
+t_state	handle_quote(t_state state, char c, char **buf_ptr, t_line *input)
 {
 	if (state == STATE_SQUOTE && c == '\'')
 		return (STATE_GENERAL);
 	if (state == STATE_DQUOTE && c == '"')
+	{
+		*buf_ptr = key_to_value(*buf_ptr, input);
 		return (STATE_GENERAL);
+	}
 	*buf_ptr = append_char(*buf_ptr, c);
 	return (state);
 }

@@ -6,12 +6,11 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:11:41 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/03 00:27:46 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/03 20:51:39 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header/minishell.h"
-
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -23,7 +22,7 @@ int	main(int argc, char **argv, char **envp)
 	line = (t_line *)ft_calloc(sizeof(t_line), 1);
 	// if (!line)
 	// 	common_error("malloc", NULL, NULL, 1);
-	make_env(line, envp);
+	init_env(line, envp);
 	line->argc = argc;
 	line->argv = argv;
 	// std_fd_dup(line); // 기존 표준 입출력 복사.
@@ -31,16 +30,14 @@ int	main(int argc, char **argv, char **envp)
 	{
 		str = readline("minishell$ ");
 		add_history(str);
-		parse(str, line);
-		// printf("%s\n", str);
-		// parse_input
-		//
-		// t_env *e_ptr = line->env;
-		// while (e_ptr)
-		// {
-		// 	printf("%s=%s\n", e_ptr->key, e_ptr->value);
-		// 	e_ptr = e_ptr->env_next;
-		// }
+		parse_main(str, line);
+		//  printf("%s\n", str);
+		//  t_env *e_ptr = line->env;
+		//  while (e_ptr)
+		//  {
+		//  	printf("%s=%s\n", e_ptr->key, e_ptr->value);
+		//  	e_ptr = e_ptr->env_next;
+		//  }
 		t_process	*p = line->proc;
 		char **cmd;
 		t_redirection *r_ptr;
@@ -53,6 +50,7 @@ int	main(int argc, char **argv, char **envp)
 				printf(" ");
 				cmd++;
 			}
+			printf("redir\n");
 			r_ptr = p->redirect_node;
 			while (r_ptr)
 			{
@@ -72,7 +70,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		printf("\n");
 		free(str);
-		
+		line->proc = 0;
 	}
 	// rl_clear_history();
 	exit(errno);
