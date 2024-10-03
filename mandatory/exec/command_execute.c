@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:28:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/03 16:50:40 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/03 17:30:22 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,6 @@ char	**parse_path(t_env *env)
 		}
 		env = env->env_next;
 	}
-	// 이부분 다시 한번 생각해보기.. path를 unset한 경우,,
-	// if (unset_path)
-	// 	return (0);
-	// str = split_path("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.", ':');
-	// if (!str)
-	// 	common_error("malloc", NULL, NULL, 0);
-	// return (str);
 	return (0);
 }
 
