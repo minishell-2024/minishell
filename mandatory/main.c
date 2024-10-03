@@ -6,12 +6,11 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:11:41 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/03 00:27:46 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:31:07 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header/minishell.h"
-
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -23,7 +22,7 @@ int	main(int argc, char **argv, char **envp)
 	line = (t_line *)ft_calloc(sizeof(t_line), 1);
 	// if (!line)
 	// 	common_error("malloc", NULL, NULL, 1);
-	make_env(line, envp);
+	make_env(envp);
 	line->argc = argc;
 	line->argv = argv;
 	// std_fd_dup(line); // 기존 표준 입출력 복사.
