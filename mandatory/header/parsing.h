@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 18:42:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/03 00:28:33 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:29:54 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,11 @@ t_redirection	*create_redir_node(int redir_type);
 t_env			*create_env_node(char *key, char *value);
 int				which_redir(char *word);
 //env
-int				make_env(t_line *line, char **envp);
+t_env			*make_env(char **envp);
 char			**make_envp(t_env *env);
 int				insert_env(t_line *line, char *key, char *value);
 int				change_env_value(t_line *line, char *key, char *new_value);
+t_env			*get_key_value(char **envp);
 
 //main (temp)
-void	common_error(char *cmd, char *file_name, char *custom_msg, int error_code);
-
 #endif
