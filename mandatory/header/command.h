@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/03 14:52:13 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/03 16:51:20 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	wait_process(t_line *line);
 //==================== command_execute.c ====================
 void	execute_command(char *path, char **cmd, t_env *env);
 void	check_execute(t_line *line, t_process *process);
-char	**parse_path(t_env *env, int unset_path);
+char	**parse_path(t_env *env);
 void	check_command(t_line *line, t_process *process);
 
 //==================== env_utiles.c ====================

@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:28:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/03 16:40:46 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/03 16:50:40 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ void	check_execute(t_line *line, t_process *process)
 	return ;
 }
 
-char	**parse_path(t_env *env, int unset_path)
+char	**parse_path(t_env *env)
 {
-	int		i;
-	int		index;
+//	int		i;
+//	int		index;
 	char	**str;
 
-	i = -1;
-	index = -1;
+//	i = -1;
+//	index = -1;
 	while (env)
 	{
 		if (!ft_strncmp(env->key, "PATH", 5))
@@ -71,7 +71,7 @@ void	check_command(t_line *line, t_process *process)
 
 	i = -1;
 	check_execute(line, process);
-	path = parse_path(line->env, line->unset_path);
+	path = parse_path(line->env);
 	if (path)
 	{
 		while (path[++i])

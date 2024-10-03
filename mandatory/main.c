@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:11:41 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/03 14:27:34 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/03 16:50:11 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int	main(int argc, char **argv, char **envp)
 	// 초기 parse
 	// $?를 env에 추가...
 	line = (t_line *)ft_calloc(sizeof(t_line), 1);
-	if (!line)
-		common_error("malloc", NULL, NULL, 1);
-	make_env(line, envp);
+	// if (!line)
+	// 	common_error("malloc", NULL, NULL, 1);
+	make_env(envp);
 	line->argc = argc;
 	line->argv = argv;
 	init_setting(line); // 기존 표준 입출력 복사.
@@ -38,13 +38,44 @@ int	main(int argc, char **argv, char **envp)
 		add_history(str);
 		parse(str, line);
 		// printf("%s\n", str);
-
-		// parseing
-		if (str && str[0])
-			add_history(str);
-		pipex(line, line->proc);
-		wait_process(line);
-		// free_all(line); // 미완, 할당한거 다 free.. 아마 line->proc 부터만 처리하면? 될듯?
+		// parse_input
+		//
+		// t_env *e_ptr = line->env;
+		// while (e_ptr)
+		// {
+		// 	printf("%s=%s\n", e_ptr->key, e_ptr->value);
+		// 	e_ptr = e_ptr->env_next;
+		// }
+		t_process	*p = line->proc;
+		char **cmd;
+		t_redirection *r_ptr;
+		while (p){
+			cmd = p->cmd;
+			// printf("user input : %s\n", str);
+			while (*cmd)
+			{
+				printf("%s", *cmd);
+				printf(" ");
+				cmd++;
+			}
+			r_ptr = p->redirect_node;
+			while (r_ptr)
+			{
+				if (r_ptr->type == REDIR_INPUT)
+					printf("< %s ", r_ptr->file_name);
+				if (r_ptr->type == REDIR_DELIMIT)
+					printf("<< %s ", r_ptr->here_doc_eof);
+				if (r_ptr->type == REDIR_OUTPUT)
+					printf("> %s ", r_ptr->file_name);
+				if (r_ptr->type == REDIR_APPEND)
+					printf(">> %s ", r_ptr->file_name);
+				r_ptr = r_ptr->redirect_next;
+			}
+			if (p->process_next)
+				printf("| ");
+			p = p->process_next;
+		}
+		printf("\n");
 		free(str);
 		re_init_setting(line); // fd, singal 되돌리기
 	}

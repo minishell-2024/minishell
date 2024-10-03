@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 20:28:39 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/03 14:26:21 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/03 17:14:10 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	wait_process(t_line *line)
 
 void    re_init_setting(t_line *line)
 {
+	// printf("%d %d %d %d", STDIN_FILENO, STDOUT_FILENO, line->std_fd[0], line->std_fd[1]);
     close(STDIN_FILENO);
 	if (dup2(line->std_fd[0], STDIN_FILENO) < 0)
 		common_error("dup2", NULL, NULL, 0);
@@ -74,9 +75,12 @@ void    re_init_setting(t_line *line)
 
 void    init_setting(t_line *line)
 {
-	if (dup2(STDIN_FILENO, line->std_fd[0]) < 0)
-		common_error("dup2", NULL, NULL, 0);
-	if (dup2(STDOUT_FILENO, line->std_fd[1]) < 0)
-		common_error("dup2", NULL, NULL, 0);
+	line->std_fd[0] = dup(STDIN_FILENO);
+	if (line->std_fd[0] < 0)
+		common_error("dup", NULL, NULL, 0);
+	line->std_fd[1] = dup(STDOUT_FILENO);
+	if (line->std_fd[1] < 0)
+		common_error("dup", NULL, NULL, 0);
+	// printf("%d %d\n", line->std_fd[0], line->std_fd[1]);
 	set_normal_signal();
 }

@@ -2,7 +2,7 @@
 NAME		= minishell
 
 CC			= cc
-CFLAGS		= -MMD -MP -Wall -Wextra -Werror -fsanitize=address
+CFLAGS		= -MMD -MP -Wall -Wextra -Werror
 LDFLAGS		= -lreadline
 SRCS_DIR	= mandatory
 SRC			= main.c
@@ -12,10 +12,10 @@ EXEC_SRCS	= process_utiles.c command_execute.c env_utiles.c error_control.c \
 BUILTIN_SRCS= built_in_cd.c built_in_echo.c built_in_exit.c built_in_export.c \
 			built_in_pwd.c built_in_unset.c built_in_utiles.c built_in_env.c
 
-SRCS		:= $(addprefix $(SRCS_DIR)/parsing/, $(PARSE_SRCS)) \
+SRCS		:= $(addprefix $(SRCS_DIR)/, $(SRC)) \
+			$(addprefix $(SRCS_DIR)/parsing/, $(PARSE_SRCS)) \
 			$(addprefix $(SRCS_DIR)/exec/, $(EXEC_SRCS)) \
 			$(addprefix $(SRCS_DIR)/built_in/, $(BUILTIN_SRCS)) \
-			$(addprefix $(SRCS_DIR)/, $(SRC))
 
 
 OBJS		= $(SRCS:.c=.o)

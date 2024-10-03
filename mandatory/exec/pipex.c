@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:25:56 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/03 14:09:16 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/03 16:48:20 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,19 @@
 int	check_built_in(t_line *line, t_process *process)
 {
 	int	return_val;
-
-	if (ft_strncmp(process->cmd[0], "echo", 5))
+	if (!ft_strncmp(process->cmd[0], "echo", 5))
 		return_val = execute_echo(process);
-	else if (ft_strncmp(process->cmd[0], "cd", 3))
+	else if (!ft_strncmp(process->cmd[0], "cd", 3))
 		return_val = execute_cd(line, process);
-	else if (ft_strncmp(process->cmd[0], "pwd", 4))
+	else if (!ft_strncmp(process->cmd[0], "pwd", 4))
 		return_val = execute_pwd(process);
-	else if (ft_strncmp(process->cmd[0], "export", 7))
+	else if (!ft_strncmp(process->cmd[0], "export", 7))
 		return_val = execute_export(line, process);
-	else if (ft_strncmp(process->cmd[0], "unset", 6))
+	else if (!ft_strncmp(process->cmd[0], "unset", 6))
 		return_val = execute_unset(line, process);
-	else if (ft_strncmp(process->cmd[0], "env", 4))
+	else if (!ft_strncmp(process->cmd[0], "env", 4))
 		return_val = execute_env(line, process);
-	else if (ft_strncmp(process->cmd[0], "exit", 5))
+	else if (!ft_strncmp(process->cmd[0], "exit", 5))
 		return_val = execute_exit(process);
 	else
 		return (0);
