@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:00:05 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/03 20:48:07 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/03 21:55:39 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ char	*insert_value(char *origin, char *val, int name_size)
 	char	*idx;
 
 	new_size = ft_strlen(origin) - name_size + ft_strlen(val);
-	new_word = (char *)malloc(sizeof(char) * new_size);
+	new_word = (char *)ft_calloc(sizeof(char), new_size);
 	if (!new_word)
-		return (FAIL);
+		common_error("malloc", 0, 0, 0);
 	idx = new_word;
 	while (*origin != '$')
 	{

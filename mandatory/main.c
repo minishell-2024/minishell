@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:11:41 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/03 20:51:39 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/03 21:24:29 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,18 @@ void	common_error(char *cmd, char *file_name, char *custom_msg, int error_code)
 	if (error_code)
 		exit(error_code);
 	exit(errno);
+}
+
+t_env	*find_env(t_line *line, char *key)
+{
+	t_env	*dummy;
+
+	dummy = line->env;
+	while(dummy)
+	{
+		if (!ft_strncmp(dummy->key, key, ft_strlen(key) + 1))
+			return (dummy);
+		dummy = dummy->env_next;
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:21:44 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/03 21:00:27 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/03 21:42:37 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	**make_envp(t_env *env)
 		size++;
 		ptr = ptr->env_next;
 	}
-	envp = (char **)ft_calloc(sizeof(char *) * (size + 1), 1);
+	envp = (char **)ft_calloc(sizeof(char *), size + 1);
 	if (!envp)
 		common_error("malloc", 0, 0, 0);
 	while (env)
@@ -101,10 +101,11 @@ void	init_env(t_line *line, char **envp)
 		insert_env(line, "_", "minishell");
 }
 
-int	change_env_value(t_line *line, char *key, char *new_value)
+int	change_env_value(t_line *line, char *key, char *value)
 {
 	t_env	*curr;
 	char	*old_value;
+	char	*new_value;
 	int		changed;
 
 	curr = line->env;
@@ -114,8 +115,8 @@ int	change_env_value(t_line *line, char *key, char *new_value)
 		if (ft_strncmp(key, curr->key, ft_strlen(curr->key) + 1) == 0)
 		{
 			old_value = curr->value;
-			curr->value = ft_strdup(new_value);
-			if (!curr->value)
+			new_value = ft_strdup(value);
+			if (!new_value)
 				common_error("malloc", 0, 0, 0);
 			free(old_value);
 			changed = SUCCESS;

@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/03 19:57:47 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/03 22:04:32 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	tokenize(char *line, t_token **tokens, t_line *input)
 	t_state	state;
 	int		sq_flag;
 
-	buf = reset_buf(&sq_flag);
+	buf = reset_buf(buf, &sq_flag);
 	state = STATE_GENERAL;
 	curr = line;
 	while (*curr)
@@ -72,8 +72,7 @@ int	tokenize(char *line, t_token **tokens, t_line *input)
 	}
 	if (ft_strlen(buf) > 0)
 		add_token(tokens, buf, TOKEN_STRING, sq_flag);
-	else
-		free(buf);
+	free(buf);
 	return (SUCCESS);
 }
 
@@ -102,7 +101,7 @@ int	add_token(t_token **token, char *str, t_tokentype token_type, int sq_flag)
 
 	new = create_token_node(token_type, sq_flag);
 	if (!new)
-		return (FAIL);
+		common_error("malloc", 0, 0, 0);
 	new->word = str;
 	if (!*token)
 	{

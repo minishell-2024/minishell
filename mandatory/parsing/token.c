@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:05:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/03 19:52:37 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/03 22:19:12 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_state	handle_general(t_token **tokens, char **buf, char **ptr, int *sq_flag)
 		if (ft_strlen(*buf) > 0)
 		{
 			add_token(tokens, *buf, TOKEN_STRING, *sq_flag);
-			*buf = reset_buf(sq_flag);
+			*buf = reset_buf(*buf, sq_flag);
 		}
 	}
 	else if (c == '\'')
@@ -60,13 +60,10 @@ char	*append_char(char *buf, char c)
 	int		size;
 
 	size = ft_strlen(buf);
-	new = (char *)malloc(sizeof(char) * (size + 2));
+	new = (char *)ft_calloc(sizeof(char), size + 2);
 	if (!new)
-	{
-		free(buf);
-		return (FAIL);	
-	}
-	memcpy(new, buf, size);
+		common_error("malloc", 0, 0, 0);
+	ft_memcpy(new, buf, size);
 	new[size] = c;
 	new[size + 1] = 0;
 	free(buf);
@@ -75,32 +72,40 @@ char	*append_char(char *buf, char c)
 
 char	*get_redirect(char **ptr)
 {
-	char	c;
+	char	*redirect;
 
-	c = **ptr;
-	if (c == '>')
+	redirect = 0;
+	if (**ptr == '>')
 	{
 		if (*(*ptr + 1) == '>')
 		{
 			(*ptr)++;
-			return (ft_strdup(">>"));
+			redirect = ft_strdup(">>");
 		}
-		return (ft_strdup(">"));
+		else
+			redirect = ft_strdup(">");
 	}
-	if (c == '<')
+	else if (**ptr == '<')
 	{
 		if (*(*ptr + 1) == '<')
 		{
 			(*ptr)++;
-			return (ft_strdup("<<"));
+			redirect = ft_strdup("<<");
 		}
-		return (ft_strdup("<"));
+		else
+			redirect = ft_strdup("<");
 	}
-	return (FAIL);
+	return (redirect);
 }
 
-char	*reset_buf(int *sq_flag)
+char	*reset_buf(char *old_buf, int *sq_flag)
 {
+	char	*new_buf;
+
 	*sq_flag = 0;
-	return (ft_strdup(""));
+	free(old_buf);
+	new_buf = ft_strdup("");
+	if (!new_buf)
+		common_error("malloc", 0, 0, 0);
+	return (new_buf);
 }
