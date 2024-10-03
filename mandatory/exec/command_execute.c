@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_execute.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:28:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 19:28:38 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:40:46 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,13 @@ char	**parse_path(t_env *env, int unset_path)
 		env = env->env_next;
 	}
 	// 이부분 다시 한번 생각해보기.. path를 unset한 경우,,
-	if (unset_path)
-		return (0);
-	str = split_path("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.", ':');
-	if (!str)
-		common_error("malloc", NULL, NULL, 0);
-	return (str);
+	// if (unset_path)
+	// 	return (0);
+	// str = split_path("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.", ':');
+	// if (!str)
+	// 	common_error("malloc", NULL, NULL, 0);
+	// return (str);
+	return (0);
 }
 
 void	check_command(t_line *line, t_process *process)
