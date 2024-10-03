@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/02 21:34:46 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/03 00:36:35 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	tokenize(char *line, t_token **tokens)
 	}
 	if (ft_strlen(buf) > 0)
 		add_token(tokens, buf, TOKEN_STRING, sq_flag);
-	//else
+	else
 		free(buf);
 	return (SUCCESS);
 }

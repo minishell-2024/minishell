@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 18:42:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/02 18:50:15 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/03 00:28:33 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,8 @@ int				make_env(t_line *line, char **envp);
 char			**make_envp(t_env *env);
 int				insert_env(t_line *line, char *key, char *value);
 int				change_env_value(t_line *line, char *key, char *new_value);
+
+//main (temp)
+void	common_error(char *cmd, char *file_name, char *custom_msg, int error_code);
+
 #endif

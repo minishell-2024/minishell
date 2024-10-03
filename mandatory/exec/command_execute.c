@@ -36,12 +36,12 @@ void	check_execute(t_line *line, t_process *process)
 
 char	**parse_path(t_env *env, int unset_path)
 {
-	int		i;
-	int		index;
+//	int		i;
+//	int		index;
 	char	**str;
 
-	i = -1;
-	index = -1;
+//	i = -1;
+//	index = -1;
 	while (env)
 	{
 		if (!ft_strncmp(env->key, "PATH", 5))
