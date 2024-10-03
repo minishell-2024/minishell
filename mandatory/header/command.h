@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 20:31:15 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/03 14:52:13 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 
 //==================== process_utiles.c ====================
 void	change_exit_code(t_line *line, int return_val);
-void	std_fd_dup(t_line *line);
-void    fd_setting(t_line *line); // 다 다른 곳으로 옮겨도 될듯 or static??
+void    re_init_setting(t_line *line);
+void    init_setting(t_line *line);
 void	wait_process(t_line *line);
 
 //==================== command_execute.c ====================
@@ -58,13 +58,19 @@ void	redirect_heredoc(t_redirection *redirect);
 void	redirect_input(t_redirection *redirect);
 
 //==================== signal.c ====================
+void    print_empty_line_move_next(int sign);
+void    set_normal_signal();
+void    ignore_signal();
+void	set_origin_signal(void);
 
+//==================== signal_heredoc.c ====================
+void    print_empty_line(int sign);
+void    do_heredoc_sigint(int sign);
+void    set_heredoc_signal();
 
 //==================== split_path.c ====================
 char	**split_path(char const *s, char c);
 void	free_all(char **ans, char index);
-
-
 // built_in
 //==================== built_in_cd.c ====================
 int     execute_cd(t_line *line, t_process *process);
@@ -80,7 +86,7 @@ int     execute_exit(t_process *process);
 
 //==================== built_in_export.c ====================
 int     execute_export(t_line *line, t_process *process);
-t_env	*divide_env_key_value(t_line *line, char *str); // 미완
+t_env	*divide_env_key_value(char *str); // 미완
 
 //==================== built_in_pwd.c ====================
 int     execute_pwd(t_process *process);

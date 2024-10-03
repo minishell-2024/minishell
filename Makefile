@@ -8,7 +8,7 @@ SRCS_DIR	= mandatory
 SRC			= main.c
 PARSE_SRCS	= env.c lexer.c node.c parser.c process_line.c token.c
 EXEC_SRCS	= process_utiles.c command_execute.c env_utiles.c error_control.c \
-			heredoc_setting.c pipex.c redirect.c signal.c split_path.c
+			heredoc_setting.c pipex.c redirect.c signal.c signal_heredoc.c split_path.c
 BUILTIN_SRCS= built_in_cd.c built_in_echo.c built_in_exit.c built_in_export.c \
 			built_in_pwd.c built_in_unset.c built_in_utiles.c built_in_env.c
 

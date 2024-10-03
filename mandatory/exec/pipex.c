@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:25:56 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 19:53:25 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/03 14:09:16 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	check_built_in(t_line *line, t_process *process)
 
 static void	child_process(t_line *line, t_process *process, int fd[2])
 {
+	set_origin_signal();
 	close(fd[0]);
 	if (dup2(fd[1], STDOUT_FILENO) < 0)
 		common_error(NULL, "dup2", NULL, 0);

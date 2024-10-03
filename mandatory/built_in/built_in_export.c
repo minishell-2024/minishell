@@ -6,13 +6,13 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 21:12:03 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 21:53:36 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/03 14:27:16 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-t_env	*divide_env_key_value(t_line *line, char *str)
+t_env	*divide_env_key_value(char *str)
 {	// 미완
 	t_env	*env;
 	char	*equal;
@@ -122,7 +122,7 @@ int	execute_export(t_line *line, t_process *process)
 	{
 		// 미완
 		// 입력을 먼저 key, value로 분할해야할수도 value는 identifier룰을 따르지 않아도 ㄱㅊ음...
-		env = divide_env_key_value(line, process->cmd[i]); // 파싱부에서 env나눠주는거 써야할듯?
+		env = divide_env_key_value(process->cmd[i]); // 파싱부에서 env나눠주는거 써야할듯?
 		if (!env)
 			common_error("export", "malloc", NULL, 1);
 		else if (!is_identifier(env->key))
