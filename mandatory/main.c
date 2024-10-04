@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:11:41 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/04 18:32:29 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/04 21:47:09 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,13 @@ int	main(int argc, char **argv, char **envp)
 			ft_putendl_fd("exit", STDIN_FILENO);
 			exit(0);
 		}
-		add_history(str);
+		if (str[0])
+			add_history(str);
+		if (g_signal == SIGINT)
+		{
+			change_exit_code(line, 1);
+			g_signal = 0;
+		}
 		parse_main(str, line);
 		pipex(line, line->proc);
 		if (line->proc)
@@ -46,21 +52,21 @@ int	main(int argc, char **argv, char **envp)
 		//  	printf("%s=%s\n", e_ptr->key, e_ptr->value);
 		//  	e_ptr = e_ptr->env_next;
 		//  }
-		t_process	*p = line->proc;
-		char **cmd;
-		// t_redirection *r_ptr;
-		while (p){
-			cmd = p->cmd;
-			if (!cmd)
-				ft_putendl_fd("no command", 1);
-			int index = -1;
-			while (cmd[++index])
-			{
-				ft_putendl_fd(cmd[index], 1);
-				printf("%d : %d\n", index, ft_strlen(cmd[index]));
-			}
-			p = p->process_next;
-		}
+		// t_process	*p = line->proc;
+		// char **cmd;
+		// // t_redirection *r_ptr;
+		// while (p){
+		// 	cmd = p->cmd;
+		// 	if (!cmd)
+		// 		ft_putendl_fd("no command", 1);
+		// 	int index = -1;
+		// 	while (cmd[++index])
+		// 	{
+		// 		ft_putendl_fd(cmd[index], 1);
+		// 		printf("%d : %d\n", index, ft_strlen(cmd[index]));
+		// 	}
+		// 	p = p->process_next;
+		// }
 			// printf("user input : %s\n", str);
 			// while (*cmd)
 			// {
@@ -87,11 +93,14 @@ int	main(int argc, char **argv, char **envp)
 		// 	p = p->process_next;
 		// }
 		// printf("\n");
+		// ?? 여기서 free하니까 leak생김.
 		free(str);
 		// system("leaks minishell");
 		line->proc = 0;
+		g_signal = 0;
 		re_init_setting(line);
 	}
 	rl_clear_history();
+	// 종료시 원래 shell로 시그널 되돌리기... 필요할듯??
 	exit(errno);
 }

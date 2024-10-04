@@ -18,7 +18,7 @@ static void    signal_printf_switch(int sign)
 
     tcgetattr(STDIN_FILENO, &term);
 	if (sign) // on
-		term.c_lflag |= ~(ECHOCTL);
+		term.c_lflag |= (ECHOCTL);
 	else // off
     	term.c_lflag &= ~(ECHOCTL);
     tcsetattr(STDIN_FILENO, TCSANOW, &term);
