@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 15:27:55 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 19:52:53 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/04 18:02:14 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static unsigned long	ft_strtol(char *str, int sign, int *check_error)
 	*check_error = 1;
 	while (str[i] && ft_isdigit(str[i]))
 	{
-		check_error = 0;
+		*check_error = 0;
 		ans = ans * 10 + str[i] - '0';
 		if (before > ans || (ans >= (long)9223372036854775807 && sign == 1)
 			|| (ans > (long)9223372036854775807 && sign == -1))

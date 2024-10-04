@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 20:28:39 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/03 17:14:10 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/04 18:12:47 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,18 @@ void	change_exit_code(t_line *line, int return_val)
 		insert_env(line, "?", "1");
 		return ;
 	}
-	if (env->key)
-		free(env->key);
-	env->key = exit_val;
+	if (env->value)
+		free(env->value);
+	env->value = exit_val;
 }
 
 void	wait_process(t_line *line)
 {
-	// 미완
 	t_process	*process;
 	int			status;
 
 	process = line->proc;
+	status = -100000000;
 	while (process)
 	{
 		if (process->built_in_check == 0)
@@ -49,12 +49,12 @@ void	wait_process(t_line *line)
 		}
 		process = process->process_next;
 	}
+	if (status == -100000000)
+		return ;
 	if (WIFSIGNALED(status))
 	{
 		if ((status & 127) == 3)
 			ft_putstr_fd("Quit: 3\n", STDERR_FILENO);
-		// else if ((status & 127) == 2)
-		// 	ft_putstr_fd("\n", STDERR_FILENO);
 		change_exit_code(line, status + 128); // child_process가 비정상적으로 종료.. deadlock같은걸로 종료되면 실행되는 듯?
 	}
 	else

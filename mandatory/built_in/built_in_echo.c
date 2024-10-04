@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:50:54 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/03 17:15:58 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/04 17:22:27 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,21 @@ int	execute_echo(t_process *process)
 	int	check;
 	int	i;
 
-	i = 1;
+	i = 0;
 	redirect_setting(process);
 	if (!process->cmd[1])
 	{
 		write(STDOUT_FILENO, "\n", 1);
 		return (0);
 	}
-	if (!ft_strncmp(process->cmd[i], "-n", 3))
+	if (!ft_strncmp(process->cmd[i + 1], "-n", 3))
 	{
 		i++;
 		check = 1;
 	}
 	else
 		check = 0;
-	while (process->cmd[i])
+	while (process->cmd[++i])
 	{
 		if (!process->cmd[i + 1] && check == 1) // -n 옵션에 다음 문장이 없다면
 			ft_putstr_fd(process->cmd[i], STDOUT_FILENO);

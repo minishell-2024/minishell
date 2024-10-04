@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:11:41 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/04 16:32:06 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/04 18:15:28 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,17 @@ int	main(int argc, char **argv, char **envp)
 			exit(0);
 		}
 		add_history(str);
-		// parse_main(str, line);
+		parse_main(str, line);
+		pipex(line, line->proc);
+		if (line->proc)
+			wait_process(line);
 		//  printf("%s\n", str);
-		 t_env *e_ptr = line->env;
-		 while (e_ptr)
-		 {
-		 	printf("%s=%s\n", e_ptr->key, e_ptr->value);
-		 	e_ptr = e_ptr->env_next;
-		 }
+		//  t_env *e_ptr = line->env;
+		//  while (e_ptr)
+		//  {
+		//  	printf("%s=%s\n", e_ptr->key, e_ptr->value);
+		//  	e_ptr = e_ptr->env_next;
+		//  }
 		t_process	*p = line->proc;
 		char **cmd;
 		// t_redirection *r_ptr;
@@ -54,7 +57,10 @@ int	main(int argc, char **argv, char **envp)
 			while (cmd[++index])
 			{
 				ft_putendl_fd(cmd[index], 1);
+				printf("%d : %d\n", index, ft_strlen(cmd[index]));
 			}
+			p = p->process_next;
+		}
 			// printf("user input : %s\n", str);
 			// while (*cmd)
 			// {
@@ -78,8 +84,8 @@ int	main(int argc, char **argv, char **envp)
 			// }
 			// if (p->process_next)
 			// 	printf("| ");
-			p = p->process_next;
-		}
+		// 	p = p->process_next;
+		// }
 		// printf("\n");
 		free(str);
 		// system("leaks minishell");
