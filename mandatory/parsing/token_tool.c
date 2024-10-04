@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 11:07:37 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 05:16:21 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 07:30:18 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,15 @@ char	*get_pipe(void)
 	return (pipe);
 }
 
-char	*reset_buf(void)
+char	*reset_buf(t_state *state)
 {
 	char	*new_buf;
 
 	new_buf = ft_strdup("");
 	if (!new_buf)
 		common_error("malloc", 0, 0, 0);
+	if (state)
+		*state = STATE_GENERAL;
 	return (new_buf);
 }
 

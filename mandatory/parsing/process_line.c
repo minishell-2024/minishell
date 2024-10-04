@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 05:24:11 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 08:11:15 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,13 @@ int	check_quote(char *line)
 	return (SUCCESS);
 }
 
-int	tokenize(char *line, t_token **tokens, t_line *input)
+void	tokenize(char *line, t_token **tokens, t_line *input)
 {
 	char	*curr;
 	char	*buf;
 	t_state	state;
 
-	buf = reset_buf();
-	state = STATE_GENERAL;
+	buf = reset_buf(&state);
 	curr = line;
 	while (*curr)
 	{
@@ -76,15 +75,16 @@ int	tokenize(char *line, t_token **tokens, t_line *input)
 			else
 				state = handle_general(tokens, &buf, &curr);
 		}
-		else if (state == STATE_SQUOTE || state == STATE_DQUOTE)
-			state = handle_quote(state, curr, &buf, input);
+		else if (state == STATE_HEREDOC)
+			state = handle_redir(tokens, &curr, &buf, state);
+		else
+			state = handle_quote(state, &curr, &buf, input);
 		curr++;
 	}
 	if (ft_strlen(buf) > 0)
 		add_token(tokens, buf, TOKEN_STRING);
 	else
 		free(buf);
-	return (SUCCESS);
 }
 
 t_process	*lexer(t_token *tokens, t_line *input, int *flag)
