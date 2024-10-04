@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 04:47:01 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/02 21:34:46 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/03 21:56:57 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,9 @@ char	**append_simple_cmd(char **cmd, t_token **ptr)
 			height++;
 	}
 	height++;
-	new = (char **)malloc(sizeof(char *) * (height + 1));
+	new = (char **)ft_calloc(sizeof(char *), (height + 1));
 	if (!new)
-		exit(FAIL); //malloc
+		common_error("malloc", 0, 0, 0);
 	idx = 0;
 	while (cmd && cmd[idx])
 	{
