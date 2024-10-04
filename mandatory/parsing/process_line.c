@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 23:12:58 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 02:17:16 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,10 @@ int	syntax_error(t_token *error_pos, int error_code)
 	else
 	{
 		ft_putstr_fd("syntax error near unexpected token `", 2);
-		if ()
-		ft_putstr_fd(error_pos, 2);
+		if (!error_pos)
+			ft_putstr_fd("newline", 2);
+		else
+			ft_putstr_fd(error_pos->word, 2);
 		ft_putendl_fd("'", 2);
 	}
 	return (error_code);

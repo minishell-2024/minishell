@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 04:47:01 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 23:11:57 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 00:03:32 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_process	*parse_pipe(t_token **ptr, int *flag)
 	if (!left && !new_redir_node)
 	{
 		if (*ptr)
-			syntax_error((*ptr)->word, FAIL);
+			syntax_error(*ptr, FAIL);
 		return (0);
 	}
 	new_proc_node = create_process_node();
