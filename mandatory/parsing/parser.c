@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 04:47:01 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 12:47:55 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:23:08 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ t_process	*parse_pipe(t_token **ptr)
 	if (!left && !new_redir_node)
 	{
 		if ((*ptr)->type == TOKEN_PIPE)
-			common_error(0, 0, "syntax error near unexpected token `|'", 0);
-		return (FAIL);
+		{
+			error_occur(0, 0, "syntax error near unexpected token `|'", 0);
+			return (FAIL);
+		}
 	}
 	new_proc_node = create_process_node();
 	if (!new_proc_node)

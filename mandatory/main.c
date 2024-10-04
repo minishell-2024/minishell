@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:11:41 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/04 16:09:57 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:15:08 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,12 @@ int	main(int argc, char **argv, char **envp)
 				r_ptr = r_ptr->redirect_next;
 			}
 			if (p->process_next)
-				printf("| ");
+				printf("\n| ");
 			p = p->process_next;
 		}
 		printf("\n");
 		free(str);
-		system("leaks minishell");
+		// system("leaks minishell");
 		line->proc = 0;
 	}
 	// rl_clear_history();

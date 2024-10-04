@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 03:10:34 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/03 21:56:23 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:28:41 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,18 +76,3 @@ int	which_redir(char *word)
 		return (REDIR_APPEND);
 	return (-1);
 }
-
-// void	free_old_cmds(char **cmd)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	if (!cmd)
-// 		return ;
-// 	while (cmd[i])
-// 	{
-// 		free(cmd[i]);
-// 		i++;
-// 	}
-// 	free(cmd);
-// }

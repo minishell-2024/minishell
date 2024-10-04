@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 18:42:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 12:35:15 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:32:02 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int				change_env_value(t_line *line, char *key, char *new_value);
 t_env			*get_key_value(char **envp);
 //memory_manage
 void			free_tokens(t_token **tokens);
+void			free_process(t_process **proc);
+void			free_old_cmds(char **cmd);
 
 //main (temp)
 // t_env	*find_env(t_line *line, char *key);

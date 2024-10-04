@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 12:39:27 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:25:33 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	parse_main(char *line, t_line *input)
 	tokens = 0;
 	tokenize(line, &tokens, input);
 	input->proc = lexer(tokens, input);
+	if (!input->proc)
+		return (FAIL);
 	free_tokens(&tokens);
 	return (SUCCESS);
 }
