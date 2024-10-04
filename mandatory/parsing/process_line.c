@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 12:39:27 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 17:26:58 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,21 @@
 int	parse_main(char *line, t_line *input)
 {
 	t_token	*tokens;
+	int		flag;
 
 	if (!line || !ft_strlen(line))
 		return (FAIL);
 	if (check_quote(line) == FAIL)
-		common_error(0, 0, "quote error", 258);
+	{
+		error_occur(0, 0, "quote error", 258);
+		return (FAIL);
+	}
 	tokens = 0;
 	tokenize(line, &tokens, input);
-	input->proc = lexer(tokens, input);
+	flag = SUCCESS;
+	input->proc = lexer(tokens, input, &flag);
+	if (!input->proc || flag == FAIL)
+		return (FAIL);
 	free_tokens(&tokens);
 	return (SUCCESS);
 }
@@ -78,7 +85,7 @@ int	tokenize(char *line, t_token **tokens, t_line *input)
 	return (SUCCESS);
 }
 
-t_process	*lexer(t_token *tokens, t_line *input)
+t_process	*lexer(t_token *tokens, t_line *input, int *flag)
 {
 	t_process	*process;
 	t_token		*curr;
@@ -91,7 +98,7 @@ t_process	*lexer(t_token *tokens, t_line *input)
 		curr = curr->next;
 	}
 	curr = tokens;
-	process = parse_pipe(&curr);
+	process = parse_pipe(&curr, flag);
 	return (process);
 }
 

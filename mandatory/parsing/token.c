@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:05:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 11:26:57 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 18:13:11 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ int	add_token(t_token **token, char *str, t_tokentype token_type, int sq_flag)
 	new = create_token_node(token_type, sq_flag);
 	if (!new)
 		common_error("malloc", 0, 0, 0);
-	new->word = str;
+	new->word = ft_strdup(str);
+	if (!new->word)
+		common_error("malloc", 0, 0, 0);
+	free(str);
 	if (!*token)
 	{
 		*token = new;
