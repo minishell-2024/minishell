@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 19:01:00 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 23:12:58 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	parse_main(char *line, t_line *input)
 		return (FAIL);
 	if (check_quote(line) == FAIL)
 	{
-		error_occur(0, 0, "quote error", 258);
+		syntax_error(0, QUOTE_INCOMPLETE);
 		return (FAIL);
 	}
 	tokens = 0;
@@ -102,3 +102,18 @@ t_process	*lexer(t_token *tokens, t_line *input, int *flag)
 	return (process);
 }
 
+int	syntax_error(t_token *error_pos, int error_code)
+{
+	ft_putstr_fd(PROGRAM_NAME, 2);
+	ft_putstr_fd(": ", 2);
+	if (error_code == QUOTE_INCOMPLETE)
+		ft_putendl_fd("syntax error - quote incomplete", 2);
+	else
+	{
+		ft_putstr_fd("syntax error near unexpected token `", 2);
+		if ()
+		ft_putstr_fd(error_pos, 2);
+		ft_putendl_fd("'", 2);
+	}
+	return (error_code);
+}

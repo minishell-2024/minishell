@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 04:47:01 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 22:03:38 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 23:11:57 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_process	*parse_pipe(t_token **ptr, int *flag)
 	if (!left && !new_redir_node)
 	{
 		if (*ptr)
-			error_occur(0, 0, "syntax error near unexpected token `|'", 0);
+			syntax_error((*ptr)->word, FAIL);
 		return (0);
 	}
 	new_proc_node = create_process_node();
@@ -69,7 +69,7 @@ int	append_redir(t_redirection **head, t_token **ptr, int redir_type)
 	char			*file;
 
 	if (!*ptr || (*ptr)->type != TOKEN_STRING)
-		return (error_occur(0, 0, "syntax error near string", FAIL));
+		return (syntax_error(*ptr, FAIL));
 	new_redir_node = create_redir_node(redir_type);
 	file = ft_strdup((*ptr)->word);
 	if (!file)

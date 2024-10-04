@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 03:10:34 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 18:55:31 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 23:08:23 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_process	*create_process_node(void)
 	return (new_node);
 }
 
-t_redirection	*create_redir_node(int redir_type)
+t_redirection	*create_redir_node(int redir_type, char *file)
 {
 	t_redirection	*new_node;
 
