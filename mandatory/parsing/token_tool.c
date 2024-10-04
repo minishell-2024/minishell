@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 11:07:37 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 11:27:24 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 18:36:51 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,11 @@ char	*reset_buf(int *sq_flag)
 	if (!new_buf)
 		common_error("malloc", 0, 0, 0);
 	return (new_buf);
+}
+
+void	consume_token(t_token **ptr)
+{
+	if (!ptr || !*ptr)
+		return ;
+	*ptr = (*ptr)->next;
 }

@@ -6,13 +6,11 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 04:47:01 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 17:26:03 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 00:03:32 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
-
-void	consume_token(t_token **ptr);
 
 t_process	*parse_pipe(t_token **ptr, int *flag)
 {
@@ -27,7 +25,7 @@ t_process	*parse_pipe(t_token **ptr, int *flag)
 	if (!left && !new_redir_node)
 	{
 		if (*ptr)
-			error_occur(0, 0, "syntax error near unexpected token `|'", 0);
+			syntax_error(*ptr, FAIL);
 		return (0);
 	}
 	new_proc_node = create_process_node();
@@ -68,20 +66,21 @@ int	append_redir(t_redirection **head, t_token **ptr, int redir_type)
 {
 	t_redirection	*new_redir_node;
 	t_redirection	*last;
+	char			*file;
 
 	if (!*ptr || (*ptr)->type != TOKEN_STRING)
-	{
-		error_occur(0, 0, "syntax error near string", 0);
-		return (FAIL);
-	}
+		return (syntax_error(*ptr, FAIL));
 	new_redir_node = create_redir_node(redir_type);
+	file = ft_strdup((*ptr)->word);
+	if (!file)
+		common_error("malloc", 0, 0, 0);
 	if (redir_type == REDIR_DELIMIT)
-		new_redir_node->here_doc_eof = (*ptr)->word;
+		new_redir_node->here_doc_eof = file;
 	else
-		new_redir_node->file_name = (*ptr)->word;
+		new_redir_node->file_name = file;
 	consume_token(ptr);
 	last = *head;
-	if (!last)
+	if (!*head)
 	{
 		*head = new_redir_node;
 		return (SUCCESS);
@@ -95,38 +94,38 @@ int	append_redir(t_redirection **head, t_token **ptr, int redir_type)
 char	**append_simple_cmd(char **cmd, t_token **ptr)
 {
 	char	**new;
-	int		height;
 	int		idx;
 
-	height = 0;
-	if (cmd)
+	idx = 0;
+	new = new_cmd_list(cmd);
+	while (cmd && cmd[idx])
 	{
-		while (cmd[height])
+		new[idx] = cmd[idx];
+		idx++;
+	}
+	new[idx] = ft_strdup((*ptr)->word);
+	if (!new[idx])
+		common_error("malloc", 0, 0, 0);
+	consume_token(ptr);
+	new[idx + 1] = 0;
+	free(cmd);
+	return (new);
+}
+
+char	**new_cmd_list(char	**old_cmd)
+{
+	int		height;
+	char	**new;
+
+	height = 0;
+	if (old_cmd)
+	{
+		while (old_cmd[height])
 			height++;
 	}
 	height++;
 	new = (char **)ft_calloc(sizeof(char *), (height + 1));
 	if (!new)
 		common_error("malloc", 0, 0, 0);
-	idx = 0;
-	while (cmd && cmd[idx])
-	{
-		new[idx] = cmd[idx];
-		idx++;
-	}
-	new[idx] = (*ptr)->word;
-	consume_token(ptr);
-	new[height] = 0;
-	free(cmd);
 	return (new);
 }
-
-void	consume_token(t_token **ptr)
-{
-	if (!ptr || !*ptr)
-		return ;
-	*ptr = (*ptr)->next;
-}
-
-
- // syntax error near unexpected token `|' (also should consider free)

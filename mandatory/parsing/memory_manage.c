@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 21:27:14 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 18:09:34 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 22:05:54 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ void	free_tokens(t_token **tokens)
 	while ((*tokens)->next)
 	{
 		node = (*tokens);
-		if (node->type == TOKEN_PIPE || node->type == TOKEN_REDIRECT)
+		if (node->word)
 			free(node->word);
 		*tokens = (*tokens)->next;
 		free(node);
 	}
 	node = *tokens;
-	if (node->type == TOKEN_PIPE || node->type == TOKEN_REDIRECT)
-			free(node->word);
+	if (node->word)
+		free(node->word);
 	*tokens = 0;
 	free(node);
 }
@@ -68,6 +68,7 @@ void	free_redirection(t_redirection **redir)
 		if ((*redir)->here_doc_eof)
 			free((*redir)->here_doc_eof);
 		(*redir) = (*redir)->redirect_next;
+		free(node);
 	}
 	node = *redir;
 	if ((*redir)->file_name)

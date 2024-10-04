@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:21:44 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 16:12:00 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 22:33:53 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,28 +58,24 @@ t_env	*make_env(char **envp)
 
 char	**make_envp(t_env *env)
 {
-	t_env	*ptr;
-	int		size;
 	char	**envp;
+	char	**curr;
+	char	*key_equal;
 
-	size = 0;
-	ptr = env;
-	while (ptr)
-	{
-		size++;
-		ptr = ptr->env_next;
-	}
-	envp = (char **)ft_calloc(sizeof(char *), size + 1);
-	if (!envp)
-		common_error("malloc", 0, 0, 0);
+	envp = new_envp(env);
+	curr = envp;
 	while (env)
 	{
-		*envp = ft_strjoin(ft_strjoin(env->key, "="), env->value);
-		envp++;
+		key_equal = ft_strjoin(env->key, "=");
+		if (!key_equal)
+			common_error("malloc", 0, 0, 0);
+		*curr = ft_strjoin(key_equal, env->value);
+		if (!*curr)
+			common_error("malloc", 0, 0, 0);
+		curr++;
 		env = env->env_next;
 	}
-	*envp = 0;
-	//free t_env?
+	*curr = 0;
 	return (envp);
 }
 

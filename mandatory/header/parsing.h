@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 18:42:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 17:33:40 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 23:12:08 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int				parse_main(char *line, t_line *input);
 int				check_quote(char *line);
 int				tokenize(char *line, t_token **tokens, t_line *input);
 t_process		*lexer(t_token *tokens, t_line *input, int *flag);
+int				syntax_error(t_token *error_pos, int error_code);
 //tokenize
 int				add_token(t_token **token, char *s, t_tokentype type, int flag);
 t_state			handle_general(t_token **t, char **b, char **p, int *s);
@@ -26,14 +27,16 @@ char			*append_char(char *buf, char c);
 char			*get_redirect(char **ptr);
 char			*get_pipe(void);
 char			*reset_buf(int *sq_flag);
+void			consume_token(t_token **ptr);
 //lexer
 char			*key_to_value(char *word, t_line *input);
 char			*insert_value(char *origin, char *val, int name_size);
 //parser
 t_process		*parse_pipe(t_token **ptr, int *flag);
-char			**parse_command(t_token **ptr, t_redirection **redirect, int *flag);
-int				append_redir(t_redirection **head, t_token **ptr, int redir_type);
+char			**parse_command(t_token **ptr, t_redirection **r, int *fl);
+int				append_redir(t_redirection **head, t_token **ptr, int r_type);
 char			**append_simple_cmd(char **cmd, t_token **ptr);
+char			**new_cmd_list(char	**old_cmd);
 //node (util)
 t_token			*create_token_node(t_tokentype type, int sq_flag);
 t_process		*create_process_node(void);
@@ -47,6 +50,7 @@ int				insert_env(t_line *line, char *key, char *value);
 void			init_env(t_line *line, char **envp);
 int				change_env_value(t_line *line, char *key, char *new_value);
 t_env			*get_key_value(char **envp);
+char			**new_envp(t_env *env);
 //memory_manage
 void			free_tokens(t_token **tokens);
 void			free_process(t_process **proc);
