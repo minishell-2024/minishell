@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 20:28:39 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 20:32:05 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/04 18:12:47 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,18 @@ void	change_exit_code(t_line *line, int return_val)
 		insert_env(line, "?", "1");
 		return ;
 	}
-	if (env->key)
-		free(env->key);
-	env->key = exit_val;
+	if (env->value)
+		free(env->value);
+	env->value = exit_val;
 }
 
 void	wait_process(t_line *line)
 {
-	// 미완
 	t_process	*process;
 	int			status;
 
 	process = line->proc;
+	status = -100000000;
 	while (process)
 	{
 		if (process->built_in_check == 0)
@@ -49,29 +49,38 @@ void	wait_process(t_line *line)
 		}
 		process = process->process_next;
 	}
-	if (WIFEXITED(status))
-		change_exit_code(line, WEXITSTATUS(status));
+	if (status == -100000000)
+		return ;
+	if (WIFSIGNALED(status))
+	{
+		if ((status & 127) == 3)
+			ft_putstr_fd("Quit: 3\n", STDERR_FILENO);
+		change_exit_code(line, status + 128); // child_process가 비정상적으로 종료.. deadlock같은걸로 종료되면 실행되는 듯?
+	}
 	else
-		change_exit_code(line, EXIT_FAILURE); // child_process가 비정상적으로 종료.. deadlock같은걸로 종료되면 실행되는 듯?
-	// minishell에서는 위에가 맞을 듯.
-	// if (WIFEXITED(status))
-	// 	exit(WEXITSTATUS(status));
-	// else
-	// 	exit(EXIT_FAILURE);
+		change_exit_code(line, WEXITSTATUS(status));
 }
 
-void	std_fd_dup(t_line *line)
+void    re_init_setting(t_line *line)
 {
-	if (dup2(STDIN_FILENO, line->std_fd[0]) < 0)
-		common_error("dup2", NULL, NULL, 0);
-	if (dup2(STDOUT_FILENO, line->std_fd[1]) < 0)
-		common_error("dup2", NULL, NULL, 0);
-}
-
-void	fd_setting(t_line *line)
-{
+	// printf("%d %d %d %d", STDIN_FILENO, STDOUT_FILENO, line->std_fd[0], line->std_fd[1]);
+    close(STDIN_FILENO);
 	if (dup2(line->std_fd[0], STDIN_FILENO) < 0)
 		common_error("dup2", NULL, NULL, 0);
+	close(STDOUT_FILENO);
 	if (dup2(line->std_fd[1], STDOUT_FILENO) < 0)
 		common_error("dup2", NULL, NULL, 0);
+    set_normal_signal();
+}
+
+void    init_setting(t_line *line)
+{
+	line->std_fd[0] = dup(STDIN_FILENO);
+	if (line->std_fd[0] < 0)
+		common_error("dup", NULL, NULL, 0);
+	line->std_fd[1] = dup(STDOUT_FILENO);
+	if (line->std_fd[1] < 0)
+		common_error("dup", NULL, NULL, 0);
+	// printf("%d %d\n", line->std_fd[0], line->std_fd[1]);
+	set_normal_signal();
 }

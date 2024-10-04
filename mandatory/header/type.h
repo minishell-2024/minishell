@@ -55,7 +55,7 @@ typedef struct s_line
 	char		**argv;
 	int			argc;
 	int			std_fd[2];
-	int			unset_path; // unset PATH를 했으면, path 자동추가 취소 -> 1 // 만약 환경변수 추가할 때, PATH= 이 나오면 다시 0으로 초기화 필요..
+	int			unset_path; // 필요없을수도,... ㅋㅋ 처리를 못하겠다.unset PATH를 했으면, path 자동추가 취소 -> 1 // 만약 환경변수 추가할 때, PATH= 이 나오면 다시 0으로 초기화 필요..
 	t_env		*env;
 	t_process	*proc;
 }	t_line;

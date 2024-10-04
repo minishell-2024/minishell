@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_execute.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:28:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 19:28:38 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 21:54:10 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ void	execute_command(char *path, char **cmd, t_env *env)
 	char	**env_var;
 
 	env_var = make_envp(env); // make_env 아직 미구현b
+	if (env_var) // 이거 환경변수 없을 떄 실행될수 있어서 한번 더 생각해보기
+		common_error("malloc", NULL, NULL, 0);
+	// int index = -1;
+	// while (env_var[++index])
+	// 	ft_putendl_fd(env_var[index], 2);
 	if (execve(path, cmd, env_var) < 0)
 		common_error(cmd[0], NULL, NULL, 0);
 }
@@ -34,14 +39,14 @@ void	check_execute(t_line *line, t_process *process)
 	return ;
 }
 
-char	**parse_path(t_env *env, int unset_path)
+char	**parse_path(t_env *env)
 {
-	int		i;
-	int		index;
+//	int		i;
+//	int		index;
 	char	**str;
 
-	i = -1;
-	index = -1;
+//	i = -1;
+//	index = -1;
 	while (env)
 	{
 		if (!ft_strncmp(env->key, "PATH", 5))
@@ -53,13 +58,7 @@ char	**parse_path(t_env *env, int unset_path)
 		}
 		env = env->env_next;
 	}
-	// 이부분 다시 한번 생각해보기.. path를 unset한 경우,,
-	if (unset_path)
-		return (0);
-	str = split_path("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.", ':');
-	if (!str)
-		common_error("malloc", NULL, NULL, 0);
-	return (str);
+	return (0);
 }
 
 void	check_command(t_line *line, t_process *process)
@@ -70,7 +69,7 @@ void	check_command(t_line *line, t_process *process)
 
 	i = -1;
 	check_execute(line, process);
-	path = parse_path(line->env, line->unset_path);
+	path = parse_path(line->env);
 	if (path)
 	{
 		while (path[++i])

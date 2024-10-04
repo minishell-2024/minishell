@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_unset.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 18:24:30 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 19:18:24 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:40:59 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@ int	execute_unset(t_line *line, t_process *process)
 		if(!is_identifier(process->cmd[i]))
 			return (error_occur("unset", NULL, "not a valid identifier", 1));
 		if (find_env(line, process->cmd[i]))
+		{
+			// if (ft_strncmp(find_env(line, process->cmd[i])->key, "PATH", 5) == 0)
+			// 	line->unset_path = 1;
 			delete_env(line, process->cmd[i]);
+		}
 	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:21:44 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/02 20:22:24 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/04 16:12:00 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	insert_env(t_line *line, char *key, char *value)
 	curr = line->env;
 	new_node = create_env_node(key, value);
 	if (!new_node)
-		exit(FAIL); //malloc
+		common_error("malloc", 0, 0, 0);
 	if (!curr)
 		line->env = new_node;
 	else
@@ -32,29 +32,28 @@ int	insert_env(t_line *line, char *key, char *value)
 	return (SUCCESS);
 }
 
-int	make_env(t_line *line, char **envp)
+t_env	*make_env(char **envp)
 {
-	char	*key;
-	char	*value;
-	char	*equal;
+	t_env	*env;
+	t_env	*curr;
+	t_env	*new_node;
 
+	env = 0;
 	while (*envp)
 	{
-		value = 0;
-		equal = ft_strchr(*envp, '=');
-		if (equal)
-		{
-			key = ft_substr(*envp, 0, equal - *envp);
-			value = ft_substr(equal, 1, ft_strlen(*envp) - ft_strlen(key) - 1);
-		}
+		curr = env;
+		new_node = get_key_value(envp);
+		if (!env)
+			env = new_node;
 		else
-			key = ft_strdup(*envp);
-		insert_env(line, key, value);
+		{
+			while (curr->env_next)
+				curr = curr->env_next;
+			curr->env_next = new_node;
+		}
 		envp++;
 	}
-	insert_env(line, "?", "0"); //$? handling
-	change_env_value(line, "_", ft_strdup("minishell")); //replace key:_ 's value
-	return (SUCCESS);
+	return (env);
 }
 
 char	**make_envp(t_env *env)
@@ -70,9 +69,9 @@ char	**make_envp(t_env *env)
 		size++;
 		ptr = ptr->env_next;
 	}
-	envp = (char **)malloc(sizeof(char *) * (size + 1));
+	envp = (char **)ft_calloc(sizeof(char *), size + 1);
 	if (!envp)
-		exit(FAIL); //malloc
+		common_error("malloc", 0, 0, 0);
 	while (env)
 	{
 		*envp = ft_strjoin(ft_strjoin(env->key, "="), env->value);
@@ -84,19 +83,41 @@ char	**make_envp(t_env *env)
 	return (envp);
 }
 
-int	change_env_value(t_line *line, char *key, char *new_value)
+void	init_env(t_line *line, char **envp)
+{
+	t_env	*question;
+	t_env	*under_bar;
+
+	line->env = make_env(envp);
+	question = find_env(line, "?");
+	if (question)
+		change_env_value(line, "?", "0");
+	else
+		insert_env(line, "?", "0");
+	under_bar = find_env(line, "_");
+	if (under_bar)
+		change_env_value(line, "_", "minishell");
+	else
+		insert_env(line, "_", "minishell");
+}
+
+int	change_env_value(t_line *line, char *key, char *value)
 {
 	t_env	*curr;
 	char	*old_value;
+	char	*new_value;
 	int		changed;
 
 	curr = line->env;
 	changed = FAIL;
 	while (curr)
 	{
-		if (ft_strncmp(key, curr->key, ft_strlen(curr->key)) == 0)
+		if (ft_strncmp(key, curr->key, ft_strlen(curr->key) + 1) == 0)
 		{
 			old_value = curr->value;
+			new_value = ft_strdup(value);
+			if (!new_value)
+				common_error("malloc", 0, 0, 0);
 			curr->value = new_value;
 			free(old_value);
 			changed = SUCCESS;

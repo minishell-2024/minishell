@@ -6,23 +6,31 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/02 20:41:44 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 17:26:58 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int	parse(char *line, t_line *input)
+int	parse_main(char *line, t_line *input)
 {
 	t_token	*tokens;
+	int		flag;
 
 	if (!line || !ft_strlen(line))
 		return (FAIL);
 	if (check_quote(line) == FAIL)
-		return (QUOTE_INCOMPLETE);
+	{
+		error_occur(0, 0, "quote error", 258);
+		return (FAIL);
+	}
 	tokens = 0;
-	tokenize(line, &tokens);
-	input->proc = lexer(tokens, input->env);
+	tokenize(line, &tokens, input);
+	flag = SUCCESS;
+	input->proc = lexer(tokens, input, &flag);
+	if (!input->proc || flag == FAIL)
+		return (FAIL);
+	free_tokens(&tokens);
 	return (SUCCESS);
 }
 
@@ -48,7 +56,7 @@ int	check_quote(char *line)
 	return (SUCCESS);
 }
 
-int	tokenize(char *line, t_token **tokens)
+int	tokenize(char *line, t_token **tokens, t_line *input)
 {
 	char	*curr;
 	char	*buf;
@@ -61,9 +69,13 @@ int	tokenize(char *line, t_token **tokens)
 	while (*curr)
 	{
 		if (state == STATE_GENERAL)
+		{
 			state = handle_general(tokens, &buf, &curr, &sq_flag);
+			if (state == STATE_SQUOTE || state == STATE_DQUOTE)
+				buf = key_to_value(buf, input);
+		}
 		else if (state == STATE_SQUOTE || state == STATE_DQUOTE)
-			state = handle_quote(state, *curr, &buf);
+			state = handle_quote(state, *curr, &buf, input);
 		curr++;
 	}
 	if (ft_strlen(buf) > 0)
@@ -73,7 +85,7 @@ int	tokenize(char *line, t_token **tokens)
 	return (SUCCESS);
 }
 
-t_process	*lexer(t_token *tokens, t_env *env)
+t_process	*lexer(t_token *tokens, t_line *input, int *flag)
 {
 	t_process	*process;
 	t_token		*curr;
@@ -82,37 +94,11 @@ t_process	*lexer(t_token *tokens, t_env *env)
 	while (curr)
 	{
 		if (curr->type == TOKEN_STRING && curr->squote_flag == 0)
-			key_to_value(curr, env);
+			curr->word = key_to_value(curr->word, input);
 		curr = curr->next;
 	}
 	curr = tokens;
-	process = parse_pipe(&curr);
+	process = parse_pipe(&curr, flag);
 	return (process);
 }
 
-
-int	add_token(t_token **token, char *str, t_tokentype token_type, int sq_flag)
-{
-	t_token	*new;
-	t_token	*tokens;
-
-	new = create_token_node(token_type, sq_flag);
-	if (!new)
-		return (FAIL);
-	new->word = str;
-	if (!*token)
-	{
-		*token = new;
-		return (SUCCESS);
-	}
-	tokens = *token;
-	while (tokens)
-	{
-		if (tokens->next)
-			tokens = tokens->next;
-		else
-			break ;
-	}
-	tokens->next = new;
-	return (SUCCESS);
-}

@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 21:07:01 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 19:52:15 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/04 17:44:15 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	execute_cd(t_line *line, t_process *process)
 	int		error_num;
 
 	redirect_setting(process);
-	if (!process->cmd[1] || ft_strncmp(process->cmd[1], "~", 2)) // ~ 이랑 사실상 동일 ~ 은 고민중
+	if (!process->cmd[1] || !ft_strncmp(process->cmd[1], "~", 2)) // ~ 이랑 사실상 동일 ~ 은 고민중
 	{
 		env = find_env(line, "HOME");
 		if (!env)

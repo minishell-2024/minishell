@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_setting.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:17:25 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 19:37:03 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:48:08 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,11 @@ void	heredoc_setting(t_process *process)
 	{
 		if (redirect->type == 1) // <<
 		{
+			set_heredoc_signal();
 			make_temp_file(redirect);
 			here_doc_check(redirect);
 		}
 		redirect = redirect->redirect_next;
 	}
+	ignore_signal();
 }
