@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 18:42:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 23:12:08 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 05:24:49 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,18 @@ int				tokenize(char *line, t_token **tokens, t_line *input);
 t_process		*lexer(t_token *tokens, t_line *input, int *flag);
 int				syntax_error(t_token *error_pos, int error_code);
 //tokenize
-int				add_token(t_token **token, char *s, t_tokentype type, int flag);
-t_state			handle_general(t_token **t, char **b, char **p, int *s);
-t_state			handle_quote(t_state state, char c, char **buf, t_line *line);
+int				add_token(t_token **token, char *str, t_tokentype token_type);
+t_state			handle_general(t_token **tokens, char **buf, char **ptr);
+t_state			handle_quote(t_state state, char **curr, char **buf_ptr, t_line *input);
+void			handle_dollar(char **buf, char **curr, t_line *input);
+void			handle_out_redir(t_token **tokens, char **curr);
 char			*append_char(char *buf, char c);
 char			*get_redirect(char **ptr);
 char			*get_pipe(void);
-char			*reset_buf(int *sq_flag);
+char			*reset_buf(void);
 void			consume_token(t_token **ptr);
 //lexer
+char			*read_word(char *line);
 char			*key_to_value(char *word, t_line *input);
 char			*insert_value(char *origin, char *val, int name_size);
 //parser
@@ -38,7 +41,7 @@ int				append_redir(t_redirection **head, t_token **ptr, int r_type);
 char			**append_simple_cmd(char **cmd, t_token **ptr);
 char			**new_cmd_list(char	**old_cmd);
 //node (util)
-t_token			*create_token_node(t_tokentype type, int sq_flag);
+t_token			*create_token_node(t_tokentype type);
 t_process		*create_process_node(void);
 t_redirection	*create_redir_node(int redir_type);
 t_env			*create_env_node(char *key, char *value);

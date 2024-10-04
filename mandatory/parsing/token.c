@@ -6,18 +6,18 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:05:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 18:13:11 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 05:16:51 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int	add_token(t_token **token, char *str, t_tokentype token_type, int sq_flag)
+int	add_token(t_token **token, char *str, t_tokentype token_type)
 {
 	t_token	*new;
 	t_token	*curr;
 
-	new = create_token_node(token_type, sq_flag);
+	new = create_token_node(token_type);
 	if (!new)
 		common_error("malloc", 0, 0, 0);
 	new->word = ft_strdup(str);
@@ -41,7 +41,7 @@ int	add_token(t_token **token, char *str, t_tokentype token_type, int sq_flag)
 	return (SUCCESS);
 }
 
-t_state	handle_general(t_token **tokens, char **buf, char **ptr, int *sq_flag)
+t_state	handle_general(t_token **tokens, char **buf, char **ptr)
 {
 	char	c;
 
@@ -50,77 +50,74 @@ t_state	handle_general(t_token **tokens, char **buf, char **ptr, int *sq_flag)
 	{
 		if (ft_strlen(*buf) > 0)
 		{
-			add_token(tokens, *buf, TOKEN_STRING, *sq_flag);
-			*buf = reset_buf(sq_flag);
+			add_token(tokens, *buf, TOKEN_STRING);
+			*buf = reset_buf();
 		}
 	}
+	else if (c == '<')
+		handle_out_redir(tokens, ptr);
 	else if (c == '\'')
-	{
-		*sq_flag = 1;
 		return (STATE_SQUOTE);
-	}
 	else if (c == '"')
 		return (STATE_DQUOTE);
 	else
 		*buf = append_char(*buf, c);
 	if (c == '|')
-		add_token(tokens, get_pipe(), TOKEN_PIPE, *sq_flag);
-	if (c == '<' || c == '>')
-		add_token(tokens, get_redirect(ptr), TOKEN_REDIRECT, *sq_flag);
+		add_token(tokens, get_pipe(), TOKEN_PIPE);
+	if (c == '>')
+		add_token(tokens, get_redirect(ptr), TOKEN_REDIRECT);
 	return (STATE_GENERAL);
 }
 
-t_state	handle_quote(t_state state, char c, char **buf_ptr, t_line *input)
+t_state	handle_quote(t_state state, char **curr, char **buf_ptr, t_line *input)
 {
-	if (state == STATE_SQUOTE && c == '\'')
+	if (state == STATE_SQUOTE && **curr == '\'')
 		return (STATE_GENERAL);
-	if (state == STATE_DQUOTE && c == '"')
-	{
-		*buf_ptr = key_to_value(*buf_ptr, input);
+	if (state == STATE_DQUOTE && **curr == '"')
 		return (STATE_GENERAL);
-	}
-	*buf_ptr = append_char(*buf_ptr, c);
+	if (state == STATE_DQUOTE && **curr == '$')
+		handle_dollar(buf_ptr, curr, input);
+	else
+		*buf_ptr = append_char(*buf_ptr, **curr);
 	return (state);
 }
 
-char	*append_char(char *buf, char c)
-{
-	char	*new;
-	int		size;
 
-	size = ft_strlen(buf);
-	new = (char *)ft_calloc(sizeof(char), size + 2);
-	if (!new)
-		common_error("malloc", 0, 0, 0);
-	ft_memcpy(new, buf, size);
-	new[size] = c;
-	new[size + 1] = 0;
-	free(buf);
-	return (new);
+void	handle_dollar(char **buf, char **curr, t_line *input)
+{
+	char	*key;
+	char	*value;
+	int		key_size;
+
+	key = read_word(*curr + 1);
+	key_size = ft_strlen(key) + 1;
+	value = find_env_value(input, key);
+	while (*value)
+	{
+		*buf = append_char(*buf, *value);
+		value++;
+	}
+	*curr += key_size;
+	free(key);
 }
 
-char	*get_redirect(char **ptr)
+void	handle_out_redir(t_token **tokens, char **curr)
 {
-	char	*redirect;
+	char	*redir;
+	char	*eof;
 
-	redirect = 0;
-	if (**ptr == '>')
+	redir = get_redirect(curr);
+	add_token(tokens, redir, TOKEN_REDIRECT);
+	if (which_redir(redir) == REDIR_DELIMIT)
 	{
-		if (*(*ptr + 1) == '>')
-			redirect = ft_strdup(">>");
-		else
-			redirect = ft_strdup(">");
+		while (*curr && ft_isspace(**curr))
+			(*curr)++;
+		while (*curr && !ft_isspace(**curr))
+		{
+			eof = append_char(eof, **curr);
+			(*curr)++;
+		}
+		if (eof)
+			add_token(tokens, eof, TOKEN_STRING);
 	}
-	else if (**ptr == '<')
-	{
-		if (*(*ptr + 1) == '<')
-			redirect = ft_strdup("<<");
-		else
-			redirect = ft_strdup("<");
-	}
-	if (!redirect)
-		common_error("malloc", 0, 0, 0);
-	if (ft_strlen(redirect) > 1)
-		(*ptr)++;
-	return (redirect);
 }

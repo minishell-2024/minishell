@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:00:05 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/03 21:55:39 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 04:14:25 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,32 @@
 
 int		available_char(char c)
 {
-	if (ft_isalnum(c) || c == '_' || c == '?' || c == '$') // || c == '!' || c == '#' 
+	if (ft_isalnum(c) || c == '_' || c == '?')
 		return (SUCCESS);
 	return (FAIL);
 }
 
 char	*read_word(char *line)
 {
-	int	idx;
+	char	*word;
+	int		idx;
 
 	idx = 0;
 	while (line[idx])
 	{
-		if (ft_isspace(line[idx]) || !available_char(line[idx]))
+		if (!available_char(line[idx]))
 			break ;
-		if (line[idx] == '?' || line[idx] == '$')
+		if (idx == 0 && line[idx] == '?')
 		{
 			idx++;
 			break ;
 		}
 		idx++;
 	}
-	return (ft_substr(line, 0, idx));
+	word = ft_substr(line, 0, idx);
+	if (!word)
+		common_error("malloc", 0, 0, 0);
+	return (word);
 }
 
 char	*key_to_value(char *word, t_line *input)
