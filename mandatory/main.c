@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:11:41 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 00:36:47 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 04:36:16 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (parse_main(str, line) == SUCCESS)
 		{
-			pipex(line, line->proc);
-			if (line->proc)
+			if (pipex(line, line->proc) && line->proc)
 				wait_process(line);
 		}
 		re_init_setting(line);

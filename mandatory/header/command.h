@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/03 16:51:20 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 04:37:03 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ void	command_error(char *str);
 int		error_occur(char *cmd, char *file_name, char *custom_msg, int error_code);
 
 //==================== heredoc_setting.c ====================
-void	heredoc_setting(t_process *process);
-void	here_doc_check(t_redirection *redirect);
+int		heredoc_setting(t_line *line, t_process *process);
+int		here_doc_check(t_line *line, t_redirection *redirect);
 void	make_temp_file(t_redirection *redirect);
 
 //==================== pipex.c ====================
-void	pipex(t_line *line, t_process *process);
+int		pipex(t_line *line, t_process *process);
 int     check_built_in(t_line *line, t_process *process);
 
 
@@ -67,6 +67,7 @@ void	set_origin_signal(void);
 void    print_empty_line(int sign);
 void    do_heredoc_sigint(int sign);
 void    set_heredoc_signal();
+void    heredoc_ctrl_d();
 
 //==================== split_path.c ====================
 char	**split_path(char const *s, char c);

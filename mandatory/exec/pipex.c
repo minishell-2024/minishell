@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:25:56 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 00:03:20 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 04:35:59 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,17 @@ static void	parent_process(t_process *process, int fd[2])
 		close(STDIN_FILENO);
 }
 
-void	pipex(t_line *line, t_process *process)
+int	pipex(t_line *line, t_process *process)
 {
 	int	fd[2];
 	int	check_last_process;
 
 	check_last_process = 0;
+	if (!heredoc_setting(line, process))
+		return (0);
 	while (process)
 	{
-		heredoc_setting(process);
+		// heredoc_setting(process);
 		if (check_built_in(line, process) == 0) // $? 처리때문에, 25줄 넘쳐서 쪼개야할듯. + ?값 저장할 공간 필요 t_line *line에 추가하면 될듯..!
 		{
 			if (!process->process_next)
@@ -91,4 +93,5 @@ void	pipex(t_line *line, t_process *process)
 		}
 		process = process->process_next;
 	}
+	return (1);
 }
