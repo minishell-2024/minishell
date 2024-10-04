@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:21:44 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/03 21:42:37 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:12:00 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ int	change_env_value(t_line *line, char *key, char *value)
 			new_value = ft_strdup(value);
 			if (!new_value)
 				common_error("malloc", 0, 0, 0);
+			curr->value = new_value;
 			free(old_value);
 			changed = SUCCESS;
 			break ;
