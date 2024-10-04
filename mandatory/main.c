@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:11:41 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/04 16:15:08 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 17:41:33 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_line	*line;
 	char	*str;
+	t_process	*p;
+	char **cmd;
+		t_redirection *r_ptr;
 
 	// 초기 parse
 	// $?를 env에 추가...
@@ -38,9 +41,7 @@ int	main(int argc, char **argv, char **envp)
 		//  	printf("%s=%s\n", e_ptr->key, e_ptr->value);
 		//  	e_ptr = e_ptr->env_next;
 		//  }
-		t_process	*p = line->proc;
-		char **cmd;
-		t_redirection *r_ptr;
+		p = line->proc;
 		while (p){
 			cmd = p->cmd;
 			// printf("user input : %s\n", str);
@@ -70,8 +71,8 @@ int	main(int argc, char **argv, char **envp)
 		}
 		printf("\n");
 		free(str);
-		// system("leaks minishell");
-		line->proc = 0;
+		free_process(&(line->proc));
+		system("leaks minishell");
 	}
 	// rl_clear_history();
 	exit(errno);
