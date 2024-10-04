@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:28:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/04 21:54:10 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/04 22:35:56 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,22 @@
 void	execute_command(char *path, char **cmd, t_env *env)
 {
 	char	**env_var;
+	int		index;
 
 	env_var = make_envp(env); // make_env 아직 미구현b
-	if (env_var) // 이거 환경변수 없을 떄 실행될수 있어서 한번 더 생각해보기
-		common_error("malloc", NULL, NULL, 0);
+	// if (env_var) // 이거 환경변수 없을 떄 실행될수 있어서 한번 더 생각해보기
+	// 	common_error("malloc", NULL, NULL, 0);
 	// int index = -1;
 	// while (env_var[++index])
 	// 	ft_putendl_fd(env_var[index], 2);
 	if (execve(path, cmd, env_var) < 0)
+	{	// if (env_var)가 위에 주석처리 헤제시라고 가정했으.
+		index = -1;
+		while(env_var[++index])
+			free(env_var);
+		free(env_var);
 		common_error(cmd[0], NULL, NULL, 0);
+	}
 }
 
 void	check_execute(t_line *line, t_process *process)

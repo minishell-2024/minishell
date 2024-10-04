@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 20:28:39 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/04 18:12:47 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 00:41:09 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,28 +33,41 @@ void	change_exit_code(t_line *line, int return_val)
 	env->value = exit_val;
 }
 
-void	wait_process(t_line *line)
+static void	check_process(t_line *line, int *status, int *sigint_check)
 {
 	t_process	*process;
-	int			status;
 
 	process = line->proc;
-	status = -100000000;
 	while (process)
 	{
 		if (process->built_in_check == 0)
 		{
-			if (waitpid(process->pid, &status, 0) == -1)
+			if (waitpid(process->pid, status, 0) == -1)
 				common_error("waitpid", NULL, NULL, 0);
 		}
+		if (WIFSIGNALED(*status) && (*status & 127) == 2)
+			*sigint_check = 1;
 		process = process->process_next;
 	}
+}
+
+void	wait_process(t_line *line)
+{
+	int			status;
+	int			sigint_check;
+
+	status = -100000000;
+	sigint_check = 0;
+	check_process(line, &status, &sigint_check);
 	if (status == -100000000)
 		return ;
+	re_init_setting(line);
+	if (sigint_check)
+		ft_putstr_fd("\n", STDIN_FILENO);
 	if (WIFSIGNALED(status))
 	{
 		if ((status & 127) == 3)
-			ft_putstr_fd("Quit: 3\n", STDERR_FILENO);
+			ft_putstr_fd("Quit: 3\n", STDIN_FILENO);
 		change_exit_code(line, status + 128); // child_process가 비정상적으로 종료.. deadlock같은걸로 종료되면 실행되는 듯?
 	}
 	else

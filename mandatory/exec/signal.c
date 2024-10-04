@@ -27,7 +27,7 @@ static void    signal_printf_switch(int sign)
 void    print_empty_line_move_next(int sign) // 위 아래 차이를 잘 모르곘으
 {
     g_signal = sign;
-    ft_putstr_fd("\n", STDERR_FILENO);
+    ft_putstr_fd("\n", STDIN_FILENO);
     rl_on_new_line();
     rl_replace_line("", 0);
     rl_redisplay();
