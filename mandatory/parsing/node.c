@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 03:10:34 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 16:28:41 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 18:18:43 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,12 @@ t_env	*create_env_node(char *key, char *value)
 	new_node->key = ft_strdup(key);
 	if (!new_node->key)
 		common_error("malloc", 0, 0, 0);
-	new_node->value = ft_strdup(value);
-	if (!new_node->value)
-		common_error("malloc", 0, 0, 0);
+	if (value)
+	{
+		new_node->value = ft_strdup(value);
+		if (!new_node->value)
+			common_error("malloc", 0, 0, 0);
+	}
 	return (new_node);
 }
 
