@@ -6,7 +6,7 @@ CFLAGS		= -MMD -MP -Wall -Wextra -Werror
 LDFLAGS		= -lreadline
 SRCS_DIR	= mandatory
 SRC			= main.c
-PARSE_SRCS	= env.c lexer.c node.c parser.c process_line.c token.c
+PARSE_SRCS	= env.c lexer.c node.c parser.c process_line.c token.c env_tool.c memory_manage.c token_tool.c
 EXEC_SRCS	= process_utiles.c command_execute.c env_utiles.c error_control.c \
 			heredoc_setting.c pipex.c redirect.c signal.c signal_heredoc.c split_path.c
 BUILTIN_SRCS= built_in_cd.c built_in_echo.c built_in_exit.c built_in_export.c \

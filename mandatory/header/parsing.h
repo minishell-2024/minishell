@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 18:42:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/03 16:29:54 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:35:15 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,20 @@
 # define PARSING_H
 
 //process_line (parse main)
-int				parse(char *line, t_line *input);
+int				parse_main(char *line, t_line *input);
 int				check_quote(char *line);
-int				tokenize(char *line, t_token **tokens);
-t_process		*lexer(t_token *tokens, t_env *env);
-int				add_token(t_token **token, char *s, t_tokentype type, int flag);
+int				tokenize(char *line, t_token **tokens, t_line *input);
+t_process		*lexer(t_token *tokens, t_line *input);
 //tokenize
+int				add_token(t_token **token, char *s, t_tokentype type, int flag);
 t_state			handle_general(t_token **t, char **b, char **p, int *s);
-t_state			handle_quote(t_state state, char c, char **buf_ptr);
+t_state			handle_quote(t_state state, char c, char **buf, t_line *line);
 char			*append_char(char *buf, char c);
 char			*get_redirect(char **ptr);
+char			*get_pipe(void);
 char			*reset_buf(int *sq_flag);
 //lexer
-void			key_to_value(t_token *token, t_env *envp);
+char			*key_to_value(char *word, t_line *input);
 char			*insert_value(char *origin, char *val, int name_size);
 //parser
 t_process		*parse_pipe(t_token **ptr);
@@ -43,8 +44,13 @@ int				which_redir(char *word);
 t_env			*make_env(char **envp);
 char			**make_envp(t_env *env);
 int				insert_env(t_line *line, char *key, char *value);
+void			init_env(t_line *line, char **envp);
 int				change_env_value(t_line *line, char *key, char *new_value);
 t_env			*get_key_value(char **envp);
+//memory_manage
+void			free_tokens(t_token **tokens);
 
 //main (temp)
+// t_env	*find_env(t_line *line, char *key);
+
 #endif
