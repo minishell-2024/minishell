@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 21:27:14 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 17:34:10 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 18:09:34 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	free_tokens(t_token **tokens)
 		free(node);
 	}
 	node = *tokens;
+	if (node->type == TOKEN_PIPE || node->type == TOKEN_REDIRECT)
+			free(node->word);
 	*tokens = 0;
 	free(node);
 }
@@ -46,6 +48,8 @@ void	free_process(t_process **proc)
 		free(node);
 	}
 	node = *proc;
+	free_old_cmds(&((*proc)->cmd));
+	free_redirection(&((*proc)->redirect_node));
 	*proc = 0;
 	free(node);
 }
@@ -66,6 +70,10 @@ void	free_redirection(t_redirection **redir)
 		(*redir) = (*redir)->redirect_next;
 	}
 	node = *redir;
+	if ((*redir)->file_name)
+		free((*redir)->file_name);
+	if ((*redir)->here_doc_eof)
+		free((*redir)->here_doc_eof);
 	*redir = 0;
 	free(node);
 }

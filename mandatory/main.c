@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:11:41 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/04 17:41:33 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 18:02:47 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	main(int argc, char **argv, char **envp)
 		while (p){
 			cmd = p->cmd;
 			// printf("user input : %s\n", str);
-			while (*cmd)
+			while (cmd && *cmd)
 			{
 				printf("%s", *cmd);
 				printf(" ");
