@@ -6,11 +6,37 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:05:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/03 22:19:12 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 11:26:57 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+int	add_token(t_token **token, char *str, t_tokentype token_type, int sq_flag)
+{
+	t_token	*new;
+	t_token	*curr;
+
+	new = create_token_node(token_type, sq_flag);
+	if (!new)
+		common_error("malloc", 0, 0, 0);
+	new->word = str;
+	if (!*token)
+	{
+		*token = new;
+		return (SUCCESS);
+	}
+	curr = *token;
+	while (curr)
+	{
+		if (curr->next)
+			curr = curr->next;
+		else
+			break ;
+	}
+	curr->next = new;
+	return (SUCCESS);
+}
 
 t_state	handle_general(t_token **tokens, char **buf, char **ptr, int *sq_flag)
 {
@@ -22,7 +48,7 @@ t_state	handle_general(t_token **tokens, char **buf, char **ptr, int *sq_flag)
 		if (ft_strlen(*buf) > 0)
 		{
 			add_token(tokens, *buf, TOKEN_STRING, *sq_flag);
-			*buf = reset_buf(*buf, sq_flag);
+			*buf = reset_buf(sq_flag);
 		}
 	}
 	else if (c == '\'')
@@ -35,7 +61,7 @@ t_state	handle_general(t_token **tokens, char **buf, char **ptr, int *sq_flag)
 	else
 		*buf = append_char(*buf, c);
 	if (c == '|')
-		add_token(tokens, ft_strdup("|"), TOKEN_PIPE, *sq_flag);
+		add_token(tokens, get_pipe(), TOKEN_PIPE, *sq_flag);
 	if (c == '<' || c == '>')
 		add_token(tokens, get_redirect(ptr), TOKEN_REDIRECT, *sq_flag);
 	return (STATE_GENERAL);
@@ -78,34 +104,20 @@ char	*get_redirect(char **ptr)
 	if (**ptr == '>')
 	{
 		if (*(*ptr + 1) == '>')
-		{
-			(*ptr)++;
 			redirect = ft_strdup(">>");
-		}
 		else
 			redirect = ft_strdup(">");
 	}
 	else if (**ptr == '<')
 	{
 		if (*(*ptr + 1) == '<')
-		{
-			(*ptr)++;
 			redirect = ft_strdup("<<");
-		}
 		else
 			redirect = ft_strdup("<");
 	}
-	return (redirect);
-}
-
-char	*reset_buf(char *old_buf, int *sq_flag)
-{
-	char	*new_buf;
-
-	*sq_flag = 0;
-	free(old_buf);
-	new_buf = ft_strdup("");
-	if (!new_buf)
+	if (!redirect)
 		common_error("malloc", 0, 0, 0);
-	return (new_buf);
+	if (ft_strlen(redirect) > 1)
+		(*ptr)++;
+	return (redirect);
 }

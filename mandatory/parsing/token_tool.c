@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   memory_manage.c                                    :+:      :+:    :+:   */
+/*   token_tool.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/03 21:27:14 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 12:30:03 by jihyjeon         ###   ########.fr       */
+/*   Created: 2024/10/04 11:07:37 by jihyjeon          #+#    #+#             */
+/*   Updated: 2024/10/04 11:27:24 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-void	free_tokens(t_token **tokens)
+char	*get_pipe(void)
 {
-	t_token	*node;
+	char	*pipe;
 
-	if (!tokens || !*tokens)
-		return ;
-	while ((*tokens)->next)
-	{
-		node = (*tokens);
-		*tokens = (*tokens)->next;
-		free(node);
-	}
-	node = *tokens;
-	*tokens = 0;
-	free(node);
+	pipe = ft_strdup("|");
+	if (!pipe)
+		common_error("malloc", 0, 0, 0);
+	return (pipe);
+}
+
+char	*reset_buf(int *sq_flag)
+{
+	char	*new_buf;
+
+	*sq_flag = 0;
+	new_buf = ft_strdup("");
+	if (!new_buf)
+		common_error("malloc", 0, 0, 0);
+	return (new_buf);
 }

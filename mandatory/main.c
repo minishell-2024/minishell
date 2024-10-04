@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:11:41 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/04 10:55:29 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:53:52 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	main(int argc, char **argv, char **envp)
 	// 초기 parse
 	// $?를 env에 추가...
 	line = (t_line *)ft_calloc(sizeof(t_line), 1);
-	// if (!line)
-	// 	common_error("malloc", NULL, NULL, 1);
+	if (!line)
+		common_error("malloc", NULL, NULL, 1);
 	init_env(line, envp);
 	line->argc = argc;
 	line->argv = argv;
@@ -50,7 +50,7 @@ int	main(int argc, char **argv, char **envp)
 				printf(" ");
 				cmd++;
 			}
-			printf("redir\n");
+			printf("\nredir\n");
 			r_ptr = p->redirect_node;
 			while (r_ptr)
 			{
@@ -114,4 +114,29 @@ t_env	*find_env(t_line *line, char *key)
 		dummy = dummy->env_next;
 	}
 	return (0);
+}
+
+int	error_occur(char *cmd, char *file_name, char *custom_msg, int error_code)
+{
+	const char	*error_msg = strerror(errno);
+
+	ft_putstr_fd(PROGRAM_NAME, 2);
+	ft_putstr_fd(": ", 2);
+	if (cmd)
+	{
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": ", 2);
+	}
+	if (file_name)
+	{
+		ft_putstr_fd(file_name, 2);
+		ft_putstr_fd(": ", 2);
+	}
+	if (custom_msg)
+		ft_putendl_fd(custom_msg, 2);
+	else
+		ft_putendl_fd(error_msg, 2);
+	if (error_code)
+		return (error_code);
+	return (errno);
 }

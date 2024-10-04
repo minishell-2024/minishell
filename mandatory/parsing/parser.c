@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 04:47:01 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/03 21:56:57 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:47:55 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,15 @@ t_process	*parse_pipe(t_token **ptr)
 		return (FAIL);
 	new_redir_node = 0;
 	left = parse_command(ptr, &new_redir_node);
-	if (left == FAIL)
-		return (FAIL); // syntax error near unexpected token `|' (also should consider free)
+	if (!left && !new_redir_node)
+	{
+		if ((*ptr)->type == TOKEN_PIPE)
+			common_error(0, 0, "syntax error near unexpected token `|'", 0);
+		return (FAIL);
+	}
 	new_proc_node = create_process_node();
 	if (!new_proc_node)
-		exit(FAIL); //malloc
+		common_error("malloc", 0, 0, 0);
 	consume_token(ptr);
 	new_proc_node->cmd = left;
 	new_proc_node->redirect_node = new_redir_node;
@@ -61,8 +65,8 @@ void	append_redir(t_redirection **head, t_token **ptr, int redir_type)
 	t_redirection	*new_redir_node;
 	t_redirection	*last;
 
-	if ((*ptr)->type != TOKEN_STRING)
-		exit(FAIL); // syntax error
+	if (!*ptr || (*ptr)->type != TOKEN_STRING)
+		common_error(0, 0, "syntax error near string", 0);
 	new_redir_node = create_redir_node(redir_type);
 	if (redir_type == REDIR_DELIMIT)
 		new_redir_node->here_doc_eof = (*ptr)->word;
@@ -115,3 +119,6 @@ void	consume_token(t_token **ptr)
 		return ;
 	*ptr = (*ptr)->next;
 }
+
+
+ // syntax error near unexpected token `|' (also should consider free)
