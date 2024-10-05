@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 18:38:24 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 15:59:43 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 18:51:49 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	execute_env(t_line *line)
 	env = line->env;
 	while (env)
 	{
-		if (ft_strncmp(env->key, "?", 2) != 0 && env->value) // 나중에 예외있는지 체크해보기
+		if (ft_strncmp(env->key, "?", 2) != 0 && env->value)
 		{
 			ft_putstr_fd(env->key, STDOUT_FILENO);
 			ft_putstr_fd("=", STDOUT_FILENO);

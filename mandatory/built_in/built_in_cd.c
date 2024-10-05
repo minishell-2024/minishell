@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 21:07:01 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 18:47:24 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 18:51:11 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ int	check_is_dir(t_process *process, char *path)
 	struct stat	st;
 
 	if (access(path, F_OK) < 0)
-		return(error_occur(process->cmd[0], path, NULL, 0));
+		return (error_occur(process->cmd[0], path, NULL, 0));
 	else if (stat(path, &st) < 0)
-		return(error_occur(process->cmd[0], path, NULL, 0));
+		return (error_occur(process->cmd[0], path, NULL, 0));
 	else if (S_ISDIR(st.st_mode) == 0)
-		return(error_occur(process->cmd[0], path, "Not a directory", 1));
+		return (error_occur(process->cmd[0], path, "Not a directory", 1));
 	else if (access(path, X_OK) < 0)
-		return(error_occur(process->cmd[0], path, NULL, 0));
+		return (error_occur(process->cmd[0], path, NULL, 0));
 	return (0);
 }
 
@@ -52,7 +52,7 @@ int	change_env(t_line *line, t_process *process, char *key, char *path)
 		return (insert_env(line, key, path));
 }
 
-int	change_env_pwd(t_line *line, t_process *process)
+int	change_env_pwd(t_line *line, t_process *pro)
 {
 	char	*value;
 	int		exit_code1;
@@ -61,8 +61,8 @@ int	change_env_pwd(t_line *line, t_process *process)
 	value = getcwd(NULL, 0);
 	if (!value)
 		return (error_occur("pwd", NULL, NULL, 0));
-	exit_code1 = change_env(line, process, "OLDPWD", find_env_value(line, "PWD"));
-	exit_code2 = change_env(line, process, "PWD", value);
+	exit_code1 = change_env(line, pro, "OLDPWD", find_env_value(line, "PWD"));
+	exit_code2 = change_env(line, pro, "PWD", value);
 	if (value)
 		free(value);
 	if (exit_code1 > exit_code2)

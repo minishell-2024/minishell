@@ -6,13 +6,13 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:53:22 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 15:59:12 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 18:54:47 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int	execute_pwd()
+int	execute_pwd(void)
 {
 	char	*path;
 

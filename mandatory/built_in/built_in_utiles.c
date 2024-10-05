@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 18:27:08 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 11:17:04 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 18:57:42 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,11 @@ int	env_len(t_line *line)
 
 int	is_identifier(char *str)
 {
-	const int length = ft_strlen(str);
-	int 				i;
+	int	length;
+	int	i;
 
 	i = 0;
+	length = ft_strlen(str);
 	if (!str)
 		return (0);
 	if (str[i] != '_' && !ft_isalpha(str[i]))
@@ -59,7 +60,8 @@ t_env	*divide_env_key_value(char *str)
 		env->key = ft_substr(str, 0, equal - str);
 		if (!env->key)
 			common_error("malloc", NULL, NULL, 1);
-		env->value = ft_substr(equal, 1, ft_strlen(str) - ft_strlen(env->key) - 1);
+		env->value
+			= ft_substr(equal, 1, ft_strlen(str) - ft_strlen(env->key) - 1);
 		if (!env->value)
 			common_error("malloc", NULL, NULL, 1);
 	}
