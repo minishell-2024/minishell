@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 19:29:50 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 03:20:28 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 18:46:40 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,6 @@ typedef struct s_redirection
 	char					*here_doc_eof; // 종료조건 << asdf 라면 "asdf"
 	struct s_redirection	*redirect_next;
 }	t_redirection;
-
-// typedef struct s_command
-// {
-// 	char		*cmd;
-// 	t_command	*cmd_next;
-// }	t_command;
 
 // process
 typedef struct s_process
