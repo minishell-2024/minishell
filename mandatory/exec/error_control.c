@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   error_control.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:00:50 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 19:18:24 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 19:02:43 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-void	common_error(char *cmd, char *file_name, char *custom_msg, int error_code)
+void	common_error(char *cmd, char *file_name, char *custom_msg, int e_code)
 {
 	const char	*error_msg = strerror(errno);
 
@@ -32,11 +32,10 @@ void	common_error(char *cmd, char *file_name, char *custom_msg, int error_code)
 		ft_putendl_fd(custom_msg, 2);
 	else
 		ft_putendl_fd(error_msg, 2);
-	if (error_code)
-		exit(error_code);
+	if (e_code)
+		exit(e_code);
 	exit(errno);
 }
-
 
 void	command_error(char *str)
 {

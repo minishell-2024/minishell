@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 14:23:08 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 18:37:49 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 19:49:01 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ void    do_heredoc_sigint(int sign)
     close(0);
 }
 
-void    set_heredoc_signal()
+void    set_heredoc_signal(void)
 {
     signal(SIGINT, do_heredoc_sigint);
     signal(SIGQUIT, SIG_IGN);
 }
 
-void    heredoc_ctrl_d()
+void    heredoc_ctrl_d(void)
 {
     ft_putstr_fd("\033[1A", STDERR_FILENO); // 현재 커서의 위치를 한칸 위로 올려줌
     ft_putstr_fd("\033[2C", STDERR_FILENO); // 현재 커서의 위치를 12번째칸으로 이동

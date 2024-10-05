@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utiles.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 18:27:08 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 19:25:33 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 19:01:36 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_env	*find_env(t_line *line, char *key)
 	t_env	*dummy;
 
 	dummy = line->env;
-	while(dummy)
+	while (dummy)
 	{
 		if (!ft_strncmp(dummy->key, key, ft_strlen(key) + 1))
 			return (dummy);
@@ -32,7 +32,7 @@ char	*find_env_value(t_line *line, char *key)
 	t_env	*dummy;
 
 	dummy = line->env;
-	while(dummy)
+	while (dummy)
 	{
 		if (!ft_strncmp(dummy->key, key, ft_strlen(key) + 1))
 			return (dummy->value);
@@ -41,7 +41,7 @@ char	*find_env_value(t_line *line, char *key)
 	return (0);
 }
 
-void	swap_env(t_env *env1, t_env *env2) // key, value만을 바꿈. 같은 linked list에 있는지는 확인 x
+void	swap_env(t_env *env1, t_env *env2)
 {
 	char	*key;
 	char	*value;
@@ -53,14 +53,6 @@ void	swap_env(t_env *env1, t_env *env2) // key, value만을 바꿈. 같은 linke
 	env2->key = key;
 	env2->value = value;
 }
-
-// void	free_env(t_env *env)
-// {
-// 	free(env->key);
-// 	if (env->value)
-// 		free(env->value);
-// 	free(env);
-// }
 
 void	free_env(t_env *env)
 {
@@ -87,14 +79,14 @@ int	delete_env(t_line *line, char *key)
 		free_env(dummy);
 		return (1);
 	}
-	while (dummy->env_next) // 나중에 삭제되는거 한번 더 확인하기.
+	while (dummy->env_next)
 	{
-		if(!ft_strncmp(dummy->env_next->key, key, ft_strlen(key) + 1))
+		if (!ft_strncmp(dummy->env_next->key, key, ft_strlen(key) + 1))
 		{
 			trash = dummy->env_next;
 			dummy->env_next = dummy->env_next->env_next;
 			free_env(trash);
-			return(1);
+			return (1);
 		}
 		dummy = dummy->env_next;
 	}

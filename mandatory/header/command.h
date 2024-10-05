@@ -6,20 +6,19 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 15:59:58 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 19:50:45 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMMAND_H
 # define COMMAND_H
 
-
 //==================== main.c ====================
 
 //==================== process_utiles.c ====================
 void	change_exit_code(t_line *line, int return_val);
-void    re_init_setting(t_line *line);
-void    init_setting(t_line *line);
+void	re_init_setting(t_line *line);
+void	init_setting(t_line *line);
 void	wait_process(t_line *line);
 
 //==================== command_execute.c ====================
@@ -33,7 +32,7 @@ t_env	*find_env(t_line *line, char *key);
 char	*find_env_value(t_line *line, char *key);
 void	swap_env(t_env *env1, t_env *env2); // key, value만 swap
 void	free_env(t_env *env);
-int     delete_env(t_line *line, char *key);
+int		delete_env(t_line *line, char *key);
 
 //==================== error_control.c ====================
 void	common_error(char *cmd, char *file_name, char *custom_msg, int error_code);
@@ -48,9 +47,6 @@ void	make_temp_file(t_redirection *redirect);
 //==================== pipex.c ====================
 void	pipex(t_line *line, t_process *process);
 int		multi_pipex(t_line *line, t_process *process);
-int		do_built_in(t_line *line, t_process *process);
-int     check_built_in(t_process *process);
-
 
 //==================== redirect.c ====================
 int		redirect_setting(t_process *process, int is_built_in);
@@ -80,6 +76,10 @@ int     execute_cd(t_line *line, t_process *process);
 int     change_env_pwd(t_line *line, t_process *process);
 int     change_env(t_line *line, t_process *process, char *key, char *path);
 int     check_is_dir(t_process *process, char *path);
+
+//==================== built_in_check.c ====================
+int		do_built_in(t_line *line, t_process *process);
+int     check_built_in(t_process *process);
 
 //==================== built_in_echo.c ====================
 int     execute_echo(t_process *process);

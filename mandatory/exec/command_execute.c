@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:28:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 15:01:59 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 18:59:31 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	execute_command(char *path, char **cmd, t_env *env)
 {
-	struct	stat st;
-	char	**env_var;
-	int		index;
+	struct stat	st;
+	char		**env_var;
+	int			index;
 
 	env_var = make_envp(env);
 	if (!env_var)
@@ -28,7 +28,7 @@ void	execute_command(char *path, char **cmd, t_env *env)
 	if (execve(path, cmd, env_var) < 0)
 	{
 		index = -1;
-		while(env_var[++index])
+		while (env_var[++index])
 			free(env_var);
 		free(env_var);
 		common_error(cmd[0], NULL, NULL, 0);
@@ -37,7 +37,8 @@ void	execute_command(char *path, char **cmd, t_env *env)
 
 void	check_execute(t_line *line, t_process *process)
 {
-	if (!ft_strncmp(process->cmd[0], "./", 2) || !ft_strncmp(process->cmd[0], "../", 3)
+	if (!ft_strncmp(process->cmd[0], "./", 2)
+		|| !ft_strncmp(process->cmd[0], "../", 3)
 		|| !ft_strncmp(process->cmd[0], "/", 1))
 	{
 		if (access(process->cmd[0], F_OK) < 0)
@@ -51,12 +52,8 @@ void	check_execute(t_line *line, t_process *process)
 
 char	**parse_path(t_env *env)
 {
-//	int		i;
-//	int		index;
 	char	**str;
 
-//	i = -1;
-//	index = -1;
 	while (env)
 	{
 		if (!ft_strncmp(env->key, "PATH", 5))
