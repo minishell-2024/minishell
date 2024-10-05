@@ -6,13 +6,13 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 04:47:01 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 10:10:19 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 17:23:41 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-t_process	*parse_pipe(t_token **ptr, int *flag)
+t_process	*parse_pipe(t_token **ptr, int *flag, t_line *line)
 {
 	t_process		*new_proc_node;
 	t_redirection	*new_redir_node;
@@ -21,11 +21,11 @@ t_process	*parse_pipe(t_token **ptr, int *flag)
 	if (!*ptr)
 		return (FAIL);
 	new_redir_node = 0;
-	left = parse_command(ptr, &new_redir_node, flag);
+	left = parse_command(ptr, &new_redir_node, flag, line);
 	if (!left && !new_redir_node)
 	{
-		if (*ptr && *flag != FAIL)
-			syntax_error(*ptr, FAIL);
+		if (*ptr && *flag != SYNTAX_ERROR)
+			syntax_error(line, *ptr, SYNTAX_ERROR);
 		return (0);
 	}
 	new_proc_node = create_process_node();
@@ -36,11 +36,12 @@ t_process	*parse_pipe(t_token **ptr, int *flag)
 	if (*flag == FAIL)
 		return (new_proc_node);
 	consume_token(ptr);
-	new_proc_node->process_next = parse_pipe(ptr, flag);
+	new_proc_node->process_next = parse_pipe(ptr, flag, line);
 	return (new_proc_node);
 }
 
-char	**parse_command(t_token **ptr, t_redirection **redirect, int *flag)
+char	**parse_command(t_token **ptr, t_redirection **redirect, \
+						int *flag, t_line *line)
 {
 	char	**commands;
 	int		redir_type;
@@ -52,8 +53,8 @@ char	**parse_command(t_token **ptr, t_redirection **redirect, int *flag)
 		{
 			redir_type = which_redir((*ptr)->word);
 			consume_token(ptr);
-			*flag = append_redir(redirect, ptr, redir_type);
-			if (*flag == FAIL)
+			*flag = append_redir(redirect, ptr, redir_type, line);
+			if (*flag == SYNTAX_ERROR)
 				return (commands);
 		}
 		else if ((*ptr)->type == TOKEN_STRING)
@@ -62,14 +63,15 @@ char	**parse_command(t_token **ptr, t_redirection **redirect, int *flag)
 	return (commands);
 }
 
-int	append_redir(t_redirection **head, t_token **ptr, int redir_type)
+int	append_redir(t_redirection **head, t_token **ptr, \
+					int redir_type, t_line *line)
 {
 	t_redirection	*new_redir_node;
 	t_redirection	*last;
 	char			*file;
 
 	if (!*ptr || (*ptr)->type != TOKEN_STRING)
-		return (syntax_error(*ptr, FAIL));
+		return (syntax_error(line, *ptr, SYNTAX_ERROR));
 	new_redir_node = create_redir_node(redir_type);
 	file = ft_strdup((*ptr)->word);
 	if (!file)

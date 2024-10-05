@@ -7,16 +7,18 @@ all:$(NAME)
 
 $(NAME) : $(OBJS)
 	@ar rcu $(NAME) $(OBJS)
+	@echo "$(NAME): object file and $(NAME) created"
 
 %.o : %.c  libft.h
 	@$(CC) -c $< -o $@
 
 clean :
-	rm -rf $(OBJS)
+	@rm -rf $(OBJS)
+	@echo "$(NAME): objects deleted"
 
 fclean :
-	rm -rf $(OBJS) $(NAME)
-
+	@rm -rf $(OBJS) $(NAME)
+	@echo "$(NAME): $(NAME) deleted"
 re :
 	@make fclean
 	@make all

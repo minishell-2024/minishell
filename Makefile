@@ -2,7 +2,7 @@
 NAME		= minishell
 
 CC			= cc
-CFLAGS		= -MMD -MP -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS		= -MMD -MP -Wall -Wextra -Werror -g #-fsanitize=address
 LDFLAGS		= -lreadline
 SRCS_DIR	= mandatory
 SRC			= main.c
@@ -29,23 +29,27 @@ all : $(NAME)
 
 $(NAME) : $(OBJS)
 	@$(MAKE) -C $(LIBRARY_DIR)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBRARY) $(LDFLAGS) -o $@
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBRARY) $(LDFLAGS) -o $@
+	@echo "$(NAME): object file and $(NAME) created"
 
-(SRCS_DIR)/%.o : (SRCS_DIR)/%.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+$(SRCS_DIR)/%.o : $(SRCS_DIR)/%.c
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 -include $(DEPS)
 
 clean :
 	@$(MAKE) -C $(LIBRARY_DIR) fclean
-	rm -f $(OBJS) $(LIBRARY) $(DEPS)
+	@rm -f $(OBJS) $(LIBRARY) $(DEPS)
+	@echo "$(NAME): objects deleted"
 
 fclean :
 	@$(MAKE) -C $(LIBRARY_DIR) fclean
-	rm -f $(OBJS) $(LIBRARY) $(DEPS) $(NAME)
+	@rm -f $(OBJS) $(LIBRARY) $(DEPS) $(NAME)
+	@echo "$(NAME): $(NAME) deleted"
+
 
 re :
-	@make fclean
-	@make all
+	make fclean
+	make all
 
 .PHONY: all clean fclean re
