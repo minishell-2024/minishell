@@ -84,6 +84,7 @@ void	handle_dollar(char **buf, char **curr, t_line *input)
 	if (!value)
 	{
 		free(key);
+		*curr += key_size;
 		return ;
 	}
 	while (*value)

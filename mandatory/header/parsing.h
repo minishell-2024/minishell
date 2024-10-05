@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 18:42:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 10:13:47 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 11:08:48 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,6 @@ void			free_old_cmds(char ***cmd);
 
 //main (temp)
 // t_env	*find_env(t_line *line, char *key);
+char	*find_env_value(t_line *line, char *key);
 
 #endif
