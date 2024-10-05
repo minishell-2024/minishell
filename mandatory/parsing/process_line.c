@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 17:24:08 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 18:45:46 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	process_line(char *line, t_line *input)
 	ptr = tokens;
 	input->proc = parse_pipe(&tokens, &flag, input);
 	free_tokens(&ptr);
-	if (!input->proc || flag == FAIL)
+	if (!input->proc || flag == SYNTAX_ERROR)
 		return (FAIL);
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 04:47:01 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 18:40:16 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 18:44:53 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_process	*parse_pipe(t_token **ptr, int *flag, t_line *line)
 		common_error("malloc", 0, 0, 0);
 	new_proc_node->cmd = left;
 	new_proc_node->redirect_node = new_redir_node;
-	if (*flag == FAIL)
+	if (*flag == SYNTAX_ERROR)
 		return (new_proc_node);
 	consume_token(ptr);
 	new_proc_node->process_next = parse_pipe(ptr, flag, line);
