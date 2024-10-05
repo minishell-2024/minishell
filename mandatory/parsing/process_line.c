@@ -6,13 +6,13 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 10:13:35 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 12:27:11 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int	parse_main(char *line, t_line *input)
+int	process_line(char *line, t_line *input)
 {
 	t_token	*tokens;
 	t_token	*ptr;

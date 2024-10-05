@@ -7,4 +7,5 @@ infile
 .idea
 test.c
 test*
-mandatory/main.c
+minishell
+main_for_parse

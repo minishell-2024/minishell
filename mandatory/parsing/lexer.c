@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:00:05 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 10:15:00 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 11:54:58 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,20 @@ char	*insert_value(char *origin, char *val, int name_size)
 	}
 	*idx = 0;
 	return (new_word);
+}
+
+int	which_redir(char *word)
+{
+	int	size;
+
+	size = ft_strlen(word) + 1;
+	if (ft_strncmp(word, "<", size) == 0)
+		return (REDIR_INPUT);
+	if (ft_strncmp(word, "<<", size) == 0)
+		return (REDIR_DELIMIT);
+	if (ft_strncmp(word, ">", size) == 0)
+		return (REDIR_OUTPUT);
+	if (ft_strncmp(word, ">>", size) == 0)
+		return (REDIR_APPEND);
+	return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 03:10:34 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 10:10:16 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 11:56:39 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,15 @@ t_env	*create_env_node(char *key, char *value)
 	return (new_node);
 }
 
-int	which_redir(char *word)
+t_line	*create_line_node(int argc, char **argv, char **envp)
 {
-	int	size;
+	t_line	*line;
 
-	size = ft_strlen(word) + 1;
-	if (ft_strncmp(word, "<", size) == 0)
-		return (REDIR_INPUT);
-	if (ft_strncmp(word, "<<", size) == 0)
-		return (REDIR_DELIMIT);
-	if (ft_strncmp(word, ">", size) == 0)
-		return (REDIR_OUTPUT);
-	if (ft_strncmp(word, ">>", size) == 0)
-		return (REDIR_APPEND);
-	return (-1);
+	line = (t_line *)ft_calloc(sizeof(t_line), 1);
+	if (!line)
+		common_error("malloc", NULL, NULL, 1);
+	init_env(line, envp);
+	line->argc = argc;
+	line->argv = argv;
+	return (line);
 }

@@ -6,31 +6,38 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 21:27:14 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 22:05:54 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 12:17:10 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-void	free_tokens(t_token **tokens)
+void	free_line(t_line **line)
 {
-	t_token	*node;
+	t_env	*head;
+	t_env	*node;
 
-	if (!tokens || !*tokens)
+	if (!line || !*line)
 		return ;
-	while ((*tokens)->next)
+	if ((*line)->env)
 	{
-		node = (*tokens);
-		if (node->word)
-			free(node->word);
-		*tokens = (*tokens)->next;
+		head = (*line)->env;
+		while (head->env_next)
+		{
+			node = head;
+			free(head->key);
+			free(head->value);
+			head = head->env_next;
+			free(node);
+		}
+		node = head;
+		free(head->key);
+		free(head->value);
 		free(node);
 	}
-	node = *tokens;
-	if (node->word)
-		free(node->word);
-	*tokens = 0;
-	free(node);
+	free_process(&((*line)->proc));
+	free(*line);
+	*line = 0;
 }
 
 void	free_process(t_process **proc)
@@ -76,6 +83,27 @@ void	free_redirection(t_redirection **redir)
 	if ((*redir)->here_doc_eof)
 		free((*redir)->here_doc_eof);
 	*redir = 0;
+	free(node);
+}
+
+void	free_tokens(t_token **tokens)
+{
+	t_token	*node;
+
+	if (!tokens || !*tokens)
+		return ;
+	while ((*tokens)->next)
+	{
+		node = (*tokens);
+		if (node->word)
+			free(node->word);
+		*tokens = (*tokens)->next;
+		free(node);
+	}
+	node = *tokens;
+	if (node->word)
+		free(node->word);
+	*tokens = 0;
 	free(node);
 }
 
