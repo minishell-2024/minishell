@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 03:10:34 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 08:24:50 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 09:37:12 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_token	*create_token_node(t_tokentype type, char *str)
 	new->word = ft_strdup(str);
 	if (!new->word)
 		common_error("malloc", 0, 0, 0);
+	printf("token :%p\n",new->word);
 	new->type = type;
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 08:11:15 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 09:08:36 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,27 +81,8 @@ void	tokenize(char *line, t_token **tokens, t_line *input)
 			state = handle_quote(state, &curr, &buf, input);
 		curr++;
 	}
-	if (ft_strlen(buf) > 0)
-		add_token(tokens, buf, TOKEN_STRING);
-	else
-		free(buf);
-}
-
-t_process	*lexer(t_token *tokens, t_line *input, int *flag)
-{
-	t_process	*process;
-	t_token		*curr;
-
-	curr = tokens;
-	while (curr)
-	{
-		if (curr->type == TOKEN_STRING && curr->squote_flag == 0)
-			curr->word = key_to_value(curr->word, input);
-		curr = curr->next;
-	}
-	curr = tokens;
-	process = parse_pipe(&curr, flag);
-	return (process);
+	add_token(tokens, buf, TOKEN_STRING);
+	free(buf);
 }
 
 int	syntax_error(t_token *error_pos, int error_code)
@@ -120,4 +101,11 @@ int	syntax_error(t_token *error_pos, int error_code)
 		ft_putendl_fd("'", 2);
 	}
 	return (error_code);
+}
+
+char	*push_and_reset(t_token **tokens, char *buf, t_tokentype type)
+{
+	add_token(tokens, buf, type);
+	free(buf);
+	return (reset_buf(0));
 }

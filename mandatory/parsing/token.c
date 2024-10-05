@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:05:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 08:27:55 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 09:23:40 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@ void	add_token(t_token **token, char *str, t_tokentype token_type)
 
 	if (ft_strlen(str) == 0)
 		return ;
+	printf("buf :%p\n",str);
 	new = create_token_node(token_type, str);
-	if (!new)
-		common_error("malloc", 0, 0, 0);
-	free(str);
 	if (!*token)
 	{
 		*token = new;
@@ -37,6 +35,7 @@ void	add_token(t_token **token, char *str, t_tokentype token_type)
 			break ;
 	}
 	curr->next = new;
+	return ;
 }
 
 t_state	handle_general(t_token **tokens, char **buf, char **ptr)
@@ -45,10 +44,7 @@ t_state	handle_general(t_token **tokens, char **buf, char **ptr)
 
 	c = **ptr;
 	if (ft_isspace(c) || c == '|')
-	{
-		add_token(tokens, *buf, TOKEN_STRING);
-		*buf = reset_buf(0);
-	}
+		*buf = push_and_reset(tokens, *buf, TOKEN_STRING);
 	else if (c == '\'')
 		return (STATE_SQUOTE);
 	else if (c == '"')
@@ -58,7 +54,7 @@ t_state	handle_general(t_token **tokens, char **buf, char **ptr)
 	else
 		*buf = append_char(*buf, c);
 	if (c == '|')
-		add_token(tokens, get_pipe(), TOKEN_PIPE);
+		add_token(tokens, "|", TOKEN_PIPE);
 	return (STATE_GENERAL);
 }
 
@@ -98,23 +94,24 @@ void	handle_dollar(char **buf, char **curr, t_line *input)
 
 t_state	handle_redir(t_token **tokens, char **curr, char **buf, t_state state)
 {
-	char	*redir;
+	char			*redir;
+	t_redir_type	type;
 
 	if (**curr == '<' || **curr == '>')
 	{
-		add_token(tokens, *buf, TOKEN_STRING);
-		*buf = reset_buf(0);
+		*buf = push_and_reset(tokens, *buf, TOKEN_STRING);
 		redir = get_redirect(curr);
 		add_token(tokens, redir, TOKEN_REDIRECT);
-		if (which_redir(redir) != REDIR_DELIMIT)
+		type = which_redir(redir);
+		free(redir);
+		if (type != REDIR_DELIMIT)
 			return (STATE_GENERAL);
 		while (ft_isspace(*(*curr + 1)))
-				(*curr)++;
+			(*curr)++;
 	}
 	else if (state != STATE_QHEREDOC && ft_isspace(**curr))
 	{
-		add_token(tokens, *buf, TOKEN_STRING);
-		*buf = reset_buf(0);
+		*buf = push_and_reset(tokens, *buf, TOKEN_STRING);
 		return (STATE_GENERAL);
 	}
 	else if (**curr == '"' || **curr == '\'')
