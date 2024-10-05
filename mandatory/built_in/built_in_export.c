@@ -6,36 +6,11 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 21:12:03 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/04 18:04:40 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 12:04:35 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
-
-t_env	*divide_env_key_value(char *str)
-{	// 미완
-	t_env	*env;
-	char	*equal;
-
-	env = (t_env *)ft_calloc(1, sizeof(t_env));
-	if (!env)
-		common_error("malloc", NULL, NULL, 1);
-	equal = ft_strchr(str, '=');
-	if (equal)
-	{
-		env->key = ft_substr(str, 0, equal - str);
-		if (!env->key)
-			common_error("malloc", NULL, NULL, 1);
-		env->value = ft_substr(equal, 1, ft_strlen(str) - ft_strlen(env->key) - 1);
-		if (!env->value)
-			common_error("malloc", NULL, NULL, 1);
-	}
-	else
-		env->key = ft_strdup(str);
-	if (!env->key)
-		common_error("malloc", NULL, NULL, 1);
-	return (env);
-}
 
 static void	sort_export_by_key(t_line *return_line)
 {
@@ -82,27 +57,50 @@ static int	print_env_with_quote(t_line *line)
 	t_env	*env;
 
 	head = sort_export(line);
-	env = head;
-	while (env)
+	while (head)
 	{
-		if (ft_strncmp(env->key, "?", 2) != 0 && ft_strncmp(env->key, "_", 2) != 0)
+		if (ft_strncmp(head->key, "?", 2) != 0 && ft_strncmp(head->key, "_", 2) != 0)
 		{
-			if (!env->value) // 파싱부에서 a="" 와 a의 차이를 env->value를 null이나 "" -> malloc(0)이냐로 구분해줘야 할듯?
-				ft_putendl_fd(env->key, STDOUT_FILENO);
+			ft_putstr_fd("declare -x ", STDOUT_FILENO);
+			if (!head->value) // 파싱부에서 a="" 와 a의 차이를 head->value를 null이나 "" -> malloc(0)이냐로 구분해줘야 할듯?
+				ft_putendl_fd(head->key, STDOUT_FILENO);
 			else
 			{
-				ft_putstr_fd(env->key, STDOUT_FILENO);
+				ft_putstr_fd(head->key, STDOUT_FILENO);
 				ft_putstr_fd("=\"", STDOUT_FILENO);
-				ft_putstr_fd(env->value, STDOUT_FILENO);
+				ft_putstr_fd(head->value, STDOUT_FILENO);
 				ft_putendl_fd("\"", STDOUT_FILENO);
 			}
 		}
+		env = head;
+		head = head->env_next;
 		free_env(env);
-		env = env->env_next;
 	}
-	// if (head) // 반복문에서 알아서 free될듯.
-	// 	free(head);
 	return (0);
+}
+
+int	check_insert_env(t_line *line, char *key, char *value)
+{
+	t_env	*env;
+	char	*replace_value;
+
+	replace_value = value;
+	env = find_env(line, key);
+	if (env)
+	{
+		if (value)
+		{
+			replace_value = ft_strdup(value);
+			if (!replace_value)
+				common_error("malloc", NULL, NULL, 1);
+		}
+		if (env->value)
+			free(env->value);
+		env->value = replace_value;
+		return (0);
+	}
+	else
+		return (!insert_env(line, key, value));
 }
 
 int	execute_export(t_line *line, t_process *process)
@@ -120,15 +118,13 @@ int	execute_export(t_line *line, t_process *process)
 		return (print_env_with_quote(line));
 	while (process->cmd[++i])
 	{
-		// 미완
-		// 입력을 먼저 key, value로 분할해야할수도 value는 identifier룰을 따르지 않아도 ㄱㅊ음...
 		env = divide_env_key_value(process->cmd[i]); // 파싱부에서 env나눠주는거 써야할듯?
 		if (!env)
 			common_error("export", "malloc", NULL, 1);
 		else if (!is_identifier(env->key))
 			val = error_occur("export", NULL, "not a valid identifier", 1);
 		else
-			val = insert_env(line, env->key, env->value); // return 여부 생각해보기
+			val = check_insert_env(line, env->key, env->value); // return 여부 생각해보기
 		free_env(env); // insert_env_by_str에서 strdup한다고 가정
 		if (return_val < val)
 			return_val = val;

@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 04:37:03 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 11:47:34 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int     execute_exit(t_process *process);
 
 //==================== built_in_export.c ====================
 int     execute_export(t_line *line, t_process *process);
-t_env	*divide_env_key_value(char *str); // 미완
+int		check_insert_env(t_line *line, char *key, char *value);
 
 //==================== built_in_pwd.c ====================
 int     execute_pwd(t_process *process);
@@ -98,6 +98,7 @@ int     execute_unset(t_line *line, t_process *process);
 //==================== built_in_utiles.c ====================
 int     env_len(t_line *line);
 int     is_identifier(char *str);
+t_env	*divide_env_key_value(char *str);
 
 //==================== built_in_env.c ====================
 int     execute_env(t_line *line, t_process *process);
