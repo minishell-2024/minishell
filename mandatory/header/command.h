@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 20:00:22 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 20:42:41 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int		error_occur(char *cmd, char *file_name, char *custom_msg, int error);
 //==================== heredoc_setting.c ====================
 int		heredoc_setting(t_line *line, t_process *process);
 int		here_doc_check(t_line *line, t_redirection *redirect);
+int		here_doc_g_signal(t_line *line, t_redirection *red, char **context);
+int		loop_readline(t_line *line, t_redirection *redirect);
 void	make_temp_file(t_redirection *redirect);
 
 //==================== pipex.c ====================
