@@ -6,39 +6,54 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:25:56 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 04:35:59 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 16:00:42 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int	check_built_in(t_line *line, t_process *process)
+int	do_built_in(t_line *line, t_process *process)
 {
 	int	return_val;
-	if (!ft_strncmp(process->cmd[0], "echo", 5))
-		return_val = execute_echo(process);
-	else if (!ft_strncmp(process->cmd[0], "cd", 3))
-		return_val = execute_cd(line, process);
-	else if (!ft_strncmp(process->cmd[0], "pwd", 4))
-		return_val = execute_pwd(process);
-	else if (!ft_strncmp(process->cmd[0], "export", 7))
-		return_val = execute_export(line, process);
-	else if (!ft_strncmp(process->cmd[0], "unset", 6))
-		return_val = execute_unset(line, process);
-	else if (!ft_strncmp(process->cmd[0], "env", 4))
-		return_val = execute_env(line, process);
-	else if (!ft_strncmp(process->cmd[0], "exit", 5))
-		return_val = execute_exit(process);
-	else
-		return (0);
-	process->built_in_check = 1;
-	// $? 처리
+
+	return_val = 0;
+	return_val = redirect_setting(process, 1);
+	if (!return_val)
+	{
+		if (!ft_strncmp(process->cmd[0], "echo", 5))
+			return_val = execute_echo(process);
+		else if (!ft_strncmp(process->cmd[0], "cd", 3))
+			return_val = execute_cd(line, process);
+		else if (!ft_strncmp(process->cmd[0], "pwd", 4))
+			return_val = execute_pwd();
+		else if (!ft_strncmp(process->cmd[0], "export", 7))
+			return_val = execute_export(line, process);
+		else if (!ft_strncmp(process->cmd[0], "unset", 6))
+			return_val = execute_unset(line, process);
+		else if (!ft_strncmp(process->cmd[0], "env", 4))
+			return_val = execute_env(line);
+		else if (!ft_strncmp(process->cmd[0], "exit", 5))
+			return_val = execute_exit(process);
+	}
 	change_exit_code(line, return_val);
-	return (1);
+	return (return_val);
+}
+
+int	check_built_in(t_process *process)
+{
+	if (!ft_strncmp(process->cmd[0], "echo", 5) || !ft_strncmp(process->cmd[0], "cd", 3)
+		|| !ft_strncmp(process->cmd[0], "pwd", 4) || !ft_strncmp(process->cmd[0], "export", 7)
+		||	!ft_strncmp(process->cmd[0], "unset", 6) || !ft_strncmp(process->cmd[0], "env", 4)
+		||	!ft_strncmp(process->cmd[0], "exit", 5))
+		return (1);
+	return (0);
 }
 
 static void	child_process(t_line *line, t_process *process, int fd[2], int check_last)
 {
+	int	exit_val;
+
+	exit_val = 0;
 	set_origin_signal();
 	close(fd[0]);
 	if (dup2(fd[1], STDOUT_FILENO) < 0)
@@ -50,8 +65,12 @@ static void	child_process(t_line *line, t_process *process, int fd[2], int check
 		if (dup2(line->std_fd[1], STDOUT_FILENO) < 0)
 			common_error(NULL, "dup2", NULL, 0);
 	}
+	if (!process->cmd)
+		exit(redirect_setting(process, 0));
+	if (check_built_in(process))
+		exit(do_built_in(line, process));
 	if (process->redirect_node) // redirection 있음
-		redirect_setting(process);
+		redirect_setting(process, 0);
 	check_command(line, process);
 	exit(errno);
 }
@@ -66,7 +85,7 @@ static void	parent_process(t_process *process, int fd[2])
 		close(STDIN_FILENO);
 }
 
-int	pipex(t_line *line, t_process *process)
+int	multi_pipex(t_line *line, t_process *process)
 {
 	int	fd[2];
 	int	check_last_process;
@@ -76,22 +95,34 @@ int	pipex(t_line *line, t_process *process)
 		return (0);
 	while (process)
 	{
-		// heredoc_setting(process);
-		if (check_built_in(line, process) == 0) // $? 처리때문에, 25줄 넘쳐서 쪼개야할듯. + ?값 저장할 공간 필요 t_line *line에 추가하면 될듯..!
-		{
-			if (!process->process_next)
-				check_last_process = 1;
-			if (pipe(fd) < 0)
-				common_error(NULL, "pipe", NULL, 0);
-			process->pid = fork();
-			if (process->pid < 0)
-				common_error(NULL, "fork", NULL, 0);
-			else if (process->pid == 0)
-				child_process(line, process, fd, check_last_process);
-			else
-				parent_process(process, fd);
-		}
+		if (!process->process_next)
+			check_last_process = 1;
+		if (pipe(fd) < 0)
+			common_error(NULL, "pipe", NULL, 0);
+		process->pid = fork();
+		if (process->pid < 0)
+			common_error(NULL, "fork", NULL, 0);
+		else if (process->pid == 0)
+			child_process(line, process, fd, check_last_process);
+		else
+			parent_process(process, fd);
 		process = process->process_next;
 	}
 	return (1);
+}
+
+void	pipex(t_line *line, t_process *process)
+{
+	if (!process->process_next && !process->cmd)
+	{
+		change_exit_code(line, redirect_setting(process, 1));
+		return ;
+	}
+	else if (!process->process_next && check_built_in(process))
+		do_built_in(line, process);
+	else
+	{
+		if (multi_pipex(line, process))
+			wait_process(line);
+	}
 }

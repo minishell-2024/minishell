@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 15:27:55 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/04 18:02:14 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 15:53:10 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	execute_exit(t_process *process)
 	int	exit_code;
 	int	check_num_error;
 
-	redirect_setting(process);
 	ft_putendl_fd("exit", STDOUT_FILENO);
 	if (!process->cmd[1])
 		exit(0);

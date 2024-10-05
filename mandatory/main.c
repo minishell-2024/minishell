@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:11:41 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 13:45:41 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 17:33:33 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,9 @@ void	main_loop(t_line *line, char *str)
 	}
 	if (process_line(str, line) == SUCCESS)
 	{
-		if (pipex(line, line->proc) && line->proc)
-			wait_process(line);
+		// pipex(line, line->proc) && line->proc)
+		// 	wait_process(line);
+		pipex(line, line->proc);
 	}
 	free(str);
 	free_process(&(line->proc));

@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:28:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 11:48:35 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 15:01:59 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,19 @@
 
 void	execute_command(char *path, char **cmd, t_env *env)
 {
+	struct	stat st;
 	char	**env_var;
 	int		index;
 
-	env_var = make_envp(env); // make_env 아직 미구현b
-	if (!env_var) // 이거 환경변수 없을 떄 실행될수 있어서 한번 더 생각해보기
+	env_var = make_envp(env);
+	if (!env_var)
 		common_error("malloc", NULL, NULL, 0);
-	// int index = -1;
-	// while (env_var[++index])
-	// 	ft_putendl_fd(env_var[index], 2);
+	else if (stat(path, &st) < 0)
+		common_error(path, NULL, NULL, 0);
+	else if (S_ISDIR(st.st_mode) == 1)
+		common_error(path, NULL, "is a directory", 126);
 	if (execve(path, cmd, env_var) < 0)
-	{	// if (env_var)가 위에 주석처리 헤제시라고 가정했으.
+	{
 		index = -1;
 		while(env_var[++index])
 			free(env_var);
@@ -35,14 +37,15 @@ void	execute_command(char *path, char **cmd, t_env *env)
 
 void	check_execute(t_line *line, t_process *process)
 {
-	if (!ft_strncmp(process->cmd[0], "./", 2))
+	if (!ft_strncmp(process->cmd[0], "./", 2) || !ft_strncmp(process->cmd[0], "../", 3)
+		|| !ft_strncmp(process->cmd[0], "/", 1))
 	{
-		if (access(ft_strchr(process->cmd[0], '/') + 1, X_OK) < 0)
+		if (access(process->cmd[0], F_OK) < 0)
+			common_error(process->cmd[0], NULL, NULL, 127);
+		if (access(process->cmd[0], X_OK) < 0)
 			common_error(process->cmd[0], NULL, NULL, 126);
 		return (execute_command(process->cmd[0], process->cmd, line->env));
 	}
-	if (ft_strchr(process->cmd[0], '/') && access(process->cmd[0], X_OK) == 0)
-		return (execute_command(process->cmd[0], process->cmd, line->env));
 	return ;
 }
 
