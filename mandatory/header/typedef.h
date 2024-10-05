@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 03:35:38 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 07:52:39 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 12:18:26 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ typedef struct s_token
 {
 	char			*word;
 	t_tokentype		type;
-	int				squote_flag;
 	struct s_token	*next;
 }	t_token;
 

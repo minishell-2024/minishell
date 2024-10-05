@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   process_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 10:24:42 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 17:24:08 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int	parse_main(char *line, t_line *input)
+int	process_line(char *line, t_line *input)
 {
 	t_token	*tokens;
 	t_token	*ptr;
@@ -22,14 +22,14 @@ int	parse_main(char *line, t_line *input)
 		return (FAIL);
 	if (check_quote(line) == FAIL)
 	{
-		syntax_error(0, QUOTE_INCOMPLETE);
+		syntax_error(input, 0, QUOTE_INCOMPLETE);
 		return (FAIL);
 	}
 	tokens = 0;
 	tokenize(line, &tokens, input);
 	flag = SUCCESS;
 	ptr = tokens;
-	input->proc = parse_pipe(&tokens, &flag);
+	input->proc = parse_pipe(&tokens, &flag, input);
 	free_tokens(&ptr);
 	if (!input->proc || flag == FAIL)
 		return (FAIL);
@@ -85,12 +85,12 @@ void	tokenize(char *line, t_token **tokens, t_line *input)
 	free(buf);
 }
 
-int	syntax_error(t_token *error_pos, int error_code)
+int	syntax_error(t_line *line, t_token *error_pos, int error_code)
 {
 	ft_putstr_fd(PROGRAM_NAME, 2);
 	ft_putstr_fd(": ", 2);
 	if (error_code == QUOTE_INCOMPLETE)
-		ft_putendl_fd("syntax error - quote incomplete", 2);
+		ft_putendl_fd("syntax error quote is incomplete", 2);
 	else
 	{
 		ft_putstr_fd("syntax error near unexpected token `", 2);
@@ -100,5 +100,6 @@ int	syntax_error(t_token *error_pos, int error_code)
 			ft_putstr_fd(error_pos->word, 2);
 		ft_putendl_fd("'", 2);
 	}
+	change_exit_code(line, SYNTAX_ERROR);
 	return (error_code);
 }

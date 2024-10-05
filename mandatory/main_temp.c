@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_temp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:11:41 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 17:33:33 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 13:44:43 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header/minishell.h"
+
 void	main_loop(t_line *line, char *str);
 
 int	main(int argc, char **argv, char **envp)
@@ -20,7 +21,6 @@ int	main(int argc, char **argv, char **envp)
 
 	line = create_line_node(argc, argv, envp);
 	init_setting(line);
-	str = 0;
 	while (1)
 	{
 		main_loop(line, str);
@@ -49,9 +49,8 @@ void	main_loop(t_line *line, char *str)
 	}
 	if (process_line(str, line) == SUCCESS)
 	{
-		// pipex(line, line->proc) && line->proc)
-		// 	wait_process(line);
-		pipex(line, line->proc);
+		if (pipex(line, line->proc) && line->proc)
+			wait_process(line);
 	}
 	free(str);
 	free_process(&(line->proc));
