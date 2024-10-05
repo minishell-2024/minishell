@@ -6,13 +6,13 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 03:10:34 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 05:40:12 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 06:02:41 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-t_token	*create_token_node(t_tokentype type, int sq_flag)
+t_token	*create_token_node(t_tokentype type)
 {
 	t_token	*new;
 
@@ -20,7 +20,6 @@ t_token	*create_token_node(t_tokentype type, int sq_flag)
 	if (!new)
 		common_error("malloc", 0, 0, 0);
 	new->type = type;
-	new->squote_flag = sq_flag;
 	return (new);
 }
 

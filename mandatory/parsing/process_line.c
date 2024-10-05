@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 02:17:16 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 06:04:05 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	parse_main(char *line, t_line *input)
 {
 	t_token	*tokens;
+	t_token	**ptr;
 	int		flag;
 
 	if (!line || !ft_strlen(line))
@@ -27,7 +28,8 @@ int	parse_main(char *line, t_line *input)
 	tokens = 0;
 	tokenize(line, &tokens, input);
 	flag = SUCCESS;
-	input->proc = lexer(tokens, input, &flag);
+	ptr = &tokens;
+	input->proc = parse_pipe(ptr, &flag);
 	free_tokens(&tokens);
 	if (!input->proc || flag == FAIL)
 		return (FAIL);
@@ -61,25 +63,25 @@ int	tokenize(char *line, t_token **tokens, t_line *input)
 	char	*curr;
 	char	*buf;
 	t_state	state;
-	int		sq_flag;
 
-	buf = reset_buf(&sq_flag);
+	buf = reset_buf();
 	state = STATE_GENERAL;
 	curr = line;
 	while (*curr)
 	{
 		if (state == STATE_GENERAL)
 		{
-			state = handle_general(tokens, &buf, &curr, &sq_flag);
-			if (state == STATE_SQUOTE || state == STATE_DQUOTE)
-				buf = key_to_value(buf, input);
+			if (*curr == '$')
+				handle_dollar(&buf, &curr, input);
+			else
+				state = handle_general(tokens, &buf, &curr);
 		}
 		else if (state == STATE_SQUOTE || state == STATE_DQUOTE)
-			state = handle_quote(state, *curr, &buf, input);
+			state = handle_quote(state, &curr, &buf, input);
 		curr++;
 	}
 	if (ft_strlen(buf) > 0)
-		add_token(tokens, buf, TOKEN_STRING, sq_flag);
+		add_token(tokens, buf, TOKEN_STRING);
 	else
 		free(buf);
 	return (SUCCESS);

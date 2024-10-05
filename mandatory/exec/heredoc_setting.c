@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:17:25 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 05:37:53 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 06:42:31 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	here_doc_check(t_line *line, t_redirection *redirect)
 	while (1)
 	{
 		context = readline("> ");
+		ft_putstr_fd("escape??", 1);
 		if (g_signal == 1)
 		{
 			if (context)  // 이미 할당된 메모리가 있으면 해제
