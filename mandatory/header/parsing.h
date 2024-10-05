@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 18:42:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 09:14:34 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 10:13:47 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void			handle_dollar(char **buf, char **curr, t_line *input);
 t_state			handle_redir(t_token **tokens, char **curr, char **buf, t_state state);
 char			*append_char(char *buf, char c);
 char			*get_redirect(char **ptr);
-char			*get_pipe(void);
 char			*reset_buf(t_state *state);
 void			consume_token(t_token **ptr);
 char			*push_and_reset(t_token **tokens, char *buf, t_tokentype type);

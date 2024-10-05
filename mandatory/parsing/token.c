@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:05:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 09:23:40 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 10:17:46 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	add_token(t_token **token, char *str, t_tokentype token_type)
 
 	if (ft_strlen(str) == 0)
 		return ;
-	printf("buf :%p\n",str);
 	new = create_token_node(token_type, str);
 	if (!*token)
 	{
@@ -73,7 +72,6 @@ t_state	handle_quote(t_state state, char **curr, char **buf_ptr, t_line *input)
 	return (state);
 }
 
-
 void	handle_dollar(char **buf, char **curr, t_line *input)
 {
 	char	*key;
@@ -83,6 +81,11 @@ void	handle_dollar(char **buf, char **curr, t_line *input)
 	key = read_word(*curr + 1);
 	key_size = ft_strlen(key);
 	value = find_env_value(input, key);
+	if (!value)
+	{
+		free(key);
+		return ;
+	}
 	while (*value)
 	{
 		*buf = append_char(*buf, *value);

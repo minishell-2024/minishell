@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 09:08:36 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 10:13:35 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	parse_main(char *line, t_line *input)
 {
 	t_token	*tokens;
-	t_token	**ptr;
+	t_token	*ptr;
 	int		flag;
 
 	if (!line || !ft_strlen(line))
@@ -28,9 +28,9 @@ int	parse_main(char *line, t_line *input)
 	tokens = 0;
 	tokenize(line, &tokens, input);
 	flag = SUCCESS;
-	ptr = &tokens;
-	input->proc = parse_pipe(ptr, &flag);
-	free_tokens(&tokens);
+	ptr = tokens;
+	input->proc = parse_pipe(&tokens, &flag);
+	free_tokens(&ptr);
 	if (!input->proc || flag == FAIL)
 		return (FAIL);
 	return (SUCCESS);
@@ -101,11 +101,4 @@ int	syntax_error(t_token *error_pos, int error_code)
 		ft_putendl_fd("'", 2);
 	}
 	return (error_code);
-}
-
-char	*push_and_reset(t_token **tokens, char *buf, t_tokentype type)
-{
-	add_token(tokens, buf, type);
-	free(buf);
-	return (reset_buf(0));
 }

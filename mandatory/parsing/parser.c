@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 04:47:01 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 09:28:03 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 10:10:19 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ char	**append_simple_cmd(char **cmd, t_token **ptr)
 	new[idx] = ft_strdup((*ptr)->word);
 	if (!new[idx])
 		common_error("malloc", 0, 0, 0);
-	printf("cmd? %p\n", new[idx]);
 	consume_token(ptr);
 	new[idx + 1] = 0;
 	free(cmd);
