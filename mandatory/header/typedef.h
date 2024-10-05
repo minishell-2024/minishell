@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 03:35:38 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/02 11:36:21 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 07:52:39 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 
 typedef enum e_state
 {
+	STATE_HEREDOC,
+	STATE_QHEREDOC,
 	STATE_GENERAL,
 	STATE_SQUOTE,
-	STATE_DQUOTE
+	STATE_DQUOTE,
 }	t_state;
 
 typedef enum e_tokentype

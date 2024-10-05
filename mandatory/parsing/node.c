@@ -6,18 +6,21 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 03:10:34 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 06:02:41 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 10:24:26 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-t_token	*create_token_node(t_tokentype type)
+t_token	*create_token_node(t_tokentype type, char *str)
 {
 	t_token	*new;
 
 	new = (t_token *)ft_calloc(sizeof(t_token), 1);
 	if (!new)
+		common_error("malloc", 0, 0, 0);
+	new->word = ft_strdup(str);
+	if (!new->word)
 		common_error("malloc", 0, 0, 0);
 	new->type = type;
 	return (new);

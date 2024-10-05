@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 14:23:08 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 06:44:36 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 10:33:07 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void    do_heredoc_sigint(int sign)
     g_signal = 1;
     rl_done = 1; // readline 강제 종료
     write(STDOUT_FILENO, "\n", 1);
+    close(0);
     // ft_putstr_fd("\n", 1);
     // rl_on_new_line();
     // rl_replace_line("", 0); // 현재 라인 지우기

@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 06:04:05 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 10:24:42 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	parse_main(char *line, t_line *input)
 {
 	t_token	*tokens;
-	t_token	**ptr;
+	t_token	*ptr;
 	int		flag;
 
 	if (!line || !ft_strlen(line))
@@ -28,9 +28,9 @@ int	parse_main(char *line, t_line *input)
 	tokens = 0;
 	tokenize(line, &tokens, input);
 	flag = SUCCESS;
-	ptr = &tokens;
-	input->proc = parse_pipe(ptr, &flag);
-	free_tokens(&tokens);
+	ptr = tokens;
+	input->proc = parse_pipe(&tokens, &flag);
+	free_tokens(&ptr);
 	if (!input->proc || flag == FAIL)
 		return (FAIL);
 	return (SUCCESS);
@@ -58,14 +58,13 @@ int	check_quote(char *line)
 	return (SUCCESS);
 }
 
-int	tokenize(char *line, t_token **tokens, t_line *input)
+void	tokenize(char *line, t_token **tokens, t_line *input)
 {
 	char	*curr;
 	char	*buf;
 	t_state	state;
 
-	buf = reset_buf();
-	state = STATE_GENERAL;
+	buf = reset_buf(&state);
 	curr = line;
 	while (*curr)
 	{
@@ -76,32 +75,14 @@ int	tokenize(char *line, t_token **tokens, t_line *input)
 			else
 				state = handle_general(tokens, &buf, &curr);
 		}
-		else if (state == STATE_SQUOTE || state == STATE_DQUOTE)
+		else if (state == STATE_HEREDOC)
+			state = handle_redir(tokens, &curr, &buf, state);
+		else
 			state = handle_quote(state, &curr, &buf, input);
 		curr++;
 	}
-	if (ft_strlen(buf) > 0)
-		add_token(tokens, buf, TOKEN_STRING);
-	else
-		free(buf);
-	return (SUCCESS);
-}
-
-t_process	*lexer(t_token *tokens, t_line *input, int *flag)
-{
-	t_process	*process;
-	t_token		*curr;
-
-	curr = tokens;
-	while (curr)
-	{
-		if (curr->type == TOKEN_STRING && curr->squote_flag == 0)
-			curr->word = key_to_value(curr->word, input);
-		curr = curr->next;
-	}
-	curr = tokens;
-	process = parse_pipe(&curr, flag);
-	return (process);
+	add_token(tokens, buf, TOKEN_STRING);
+	free(buf);
 }
 
 int	syntax_error(t_token *error_pos, int error_code)

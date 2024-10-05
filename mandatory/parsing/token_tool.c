@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 11:07:37 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 05:16:21 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 10:13:41 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,23 +54,15 @@ char	*get_redirect(char **ptr)
 	return (redirect);
 }
 
-char	*get_pipe(void)
-{
-	char	*pipe;
-
-	pipe = ft_strdup("|");
-	if (!pipe)
-		common_error("malloc", 0, 0, 0);
-	return (pipe);
-}
-
-char	*reset_buf(void)
+char	*reset_buf(t_state *state)
 {
 	char	*new_buf;
 
 	new_buf = ft_strdup("");
 	if (!new_buf)
 		common_error("malloc", 0, 0, 0);
+	if (state)
+		*state = STATE_GENERAL;
 	return (new_buf);
 }
 
@@ -81,3 +73,9 @@ void	consume_token(t_token **ptr)
 	*ptr = (*ptr)->next;
 }
 
+char	*push_and_reset(t_token **tokens, char *buf, t_tokentype type)
+{
+	add_token(tokens, buf, type);
+	free(buf);
+	return (reset_buf(0));
+}

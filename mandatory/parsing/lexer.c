@@ -6,13 +6,13 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:00:05 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 04:14:25 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 10:15:00 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int		available_char(char c)
+int	available_char(char c)
 {
 	if (ft_isalnum(c) || c == '_' || c == '?')
 		return (SUCCESS);

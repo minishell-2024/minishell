@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:28:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 05:41:23 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 10:42:21 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	execute_command(char *path, char **cmd, t_env *env)
 	int		index;
 
 	env_var = make_envp(env); // make_env 아직 미구현b
-	// if (env_var) // 이거 환경변수 없을 떄 실행될수 있어서 한번 더 생각해보기
-	// 	common_error("malloc", NULL, NULL, 0);
+	if (env_var) // 이거 환경변수 없을 떄 실행될수 있어서 한번 더 생각해보기
+		common_error("malloc", NULL, NULL, 0);
 	// int index = -1;
 	// while (env_var[++index])
 	// 	ft_putendl_fd(env_var[index], 2);
