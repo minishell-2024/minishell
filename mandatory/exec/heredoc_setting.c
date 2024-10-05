@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:17:25 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 10:35:37 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 18:37:26 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ int	here_doc_check(t_line *line, t_redirection *redirect)
 			if (context)  // 이미 할당된 메모리가 있으면 해제
                 free(context);
             g_signal = 0;
-            rl_done = 0;
 			close(redirect->fd);
 			change_exit_code(line, 1);
 			return (0);

@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:51:51 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 15:45:47 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 17:22:30 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	redirect_input(t_redirection *redirect, int is_built_in)
 	{
 		redirect->fd = open(redirect->file_name, O_RDONLY);
 		if (redirect->fd < 0)
-			return (error_occur(NULL, redirect->file_name, NULL, 0));
+			return (error_occur(NULL, redirect->file_name, NULL, 1));
 		if (dup2(redirect->fd, STDIN_FILENO) < 0)
 			return (error_occur(NULL, "dup2", NULL, 0));
 		close(redirect->fd);
@@ -26,7 +26,7 @@ int	redirect_input(t_redirection *redirect, int is_built_in)
 	}
 	redirect->fd = open(redirect->file_name, O_RDONLY);
 	if (redirect->fd < 0)
-		common_error(NULL, redirect->file_name, NULL, 0);
+		common_error(NULL, redirect->file_name, NULL, 1);
 	if (dup2(redirect->fd, STDIN_FILENO) < 0)
 		common_error(NULL, "dup2", NULL, 0);
 	close(redirect->fd);
@@ -39,7 +39,7 @@ int	redirect_heredoc(t_redirection *redirect, int is_built_in)
 	{
 		redirect->fd = open(redirect->file_name, O_RDONLY);
 		if (redirect->fd < 0)
-			return (error_occur(NULL, redirect->file_name, NULL, 0));
+			return (error_occur(NULL, redirect->file_name, NULL, 1));
 		if (dup2(redirect->fd, STDIN_FILENO) < 0)
 			return (error_occur(NULL, "dup2", NULL, 0));
 		close(redirect->fd);
@@ -49,7 +49,7 @@ int	redirect_heredoc(t_redirection *redirect, int is_built_in)
 	}
 	redirect->fd = open(redirect->file_name, O_RDONLY);
 	if (redirect->fd < 0)
-		common_error(NULL, redirect->file_name, NULL, 0);
+		common_error(NULL, redirect->file_name, NULL, 1);
 	if (dup2(redirect->fd, STDIN_FILENO) < 0)
 		common_error(NULL, "dup2", NULL, 0);
 	close(redirect->fd);

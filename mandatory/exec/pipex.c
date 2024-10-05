@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:25:56 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 16:00:42 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 18:38:55 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ int	multi_pipex(t_line *line, t_process *process)
 	int	check_last_process;
 
 	check_last_process = 0;
-	if (!heredoc_setting(line, process))
-		return (0);
 	while (process)
 	{
 		if (!process->process_next)
@@ -113,6 +111,8 @@ int	multi_pipex(t_line *line, t_process *process)
 
 void	pipex(t_line *line, t_process *process)
 {
+	if (!heredoc_setting(line, process))
+		return ;
 	if (!process->process_next && !process->cmd)
 	{
 		change_exit_code(line, redirect_setting(process, 1));
