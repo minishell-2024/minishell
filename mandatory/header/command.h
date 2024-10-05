@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 11:47:34 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 13:34:39 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,10 @@ int		here_doc_check(t_line *line, t_redirection *redirect);
 void	make_temp_file(t_redirection *redirect);
 
 //==================== pipex.c ====================
-int		pipex(t_line *line, t_process *process);
-int     check_built_in(t_line *line, t_process *process);
+void	pipex(t_line *line, t_process *process);
+int		multi_pipex(t_line *line, t_process *process);
+int		do_built_in(t_line *line, t_process *process);
+int     check_built_in(t_process *process);
 
 
 //==================== redirect.c ====================
