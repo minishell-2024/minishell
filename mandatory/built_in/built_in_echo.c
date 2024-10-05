@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:50:54 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/04 17:22:27 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 16:00:45 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	execute_echo(t_process *process)
 	int	i;
 
 	i = 0;
-	redirect_setting(process);
 	if (!process->cmd[1])
 	{
 		write(STDOUT_FILENO, "\n", 1);

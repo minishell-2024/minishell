@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 21:12:03 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 12:04:35 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 15:52:58 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,10 @@ int	check_insert_env(t_line *line, char *key, char *value)
 			replace_value = ft_strdup(value);
 			if (!replace_value)
 				common_error("malloc", NULL, NULL, 1);
+			if (env->value)
+				free(env->value);
+			env->value = replace_value;
 		}
-		if (env->value)
-			free(env->value);
-		env->value = replace_value;
 		return (0);
 	}
 	else
@@ -113,7 +113,6 @@ int	execute_export(t_line *line, t_process *process)
 	i = 0;
 	val = 0;
 	return_val = 0;
-	redirect_setting(process);
 	if (!process->cmd[1])
 		return (print_env_with_quote(line));
 	while (process->cmd[++i])

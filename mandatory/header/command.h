@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 13:34:39 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 15:59:58 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ int     check_built_in(t_process *process);
 
 
 //==================== redirect.c ====================
-void	redirect_setting(t_process *process);
-void	redirect_output(t_redirection *redirect);
-void	redirect_append(t_redirection *redirect);
-void	redirect_heredoc(t_redirection *redirect);
-void	redirect_input(t_redirection *redirect);
+int		redirect_setting(t_process *process, int is_built_in);
+int		redirect_output(t_redirection *redirect, int is_built_in);
+int		redirect_append(t_redirection *redirect, int is_built_in);
+int		redirect_heredoc(t_redirection *redirect, int is_built_in);
+int		redirect_input(t_redirection *redirect, int is_built_in);
 
 //==================== signal.c ====================
 void    print_empty_line_move_next(int sign);
@@ -92,7 +92,7 @@ int     execute_export(t_line *line, t_process *process);
 int		check_insert_env(t_line *line, char *key, char *value);
 
 //==================== built_in_pwd.c ====================
-int     execute_pwd(t_process *process);
+int     execute_pwd();
 
 //==================== built_in_unset.c ====================
 int     execute_unset(t_line *line, t_process *process);
@@ -103,6 +103,6 @@ int     is_identifier(char *str);
 t_env	*divide_env_key_value(char *str);
 
 //==================== built_in_env.c ====================
-int     execute_env(t_line *line, t_process *process);
+int     execute_env(t_line *line);
 
 #endif

@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bulit_in_env.c                                     :+:      :+:    :+:   */
+/*   built_in_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 18:38:24 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 19:18:24 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 15:59:43 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int	execute_env(t_line *line, t_process *process)
+int	execute_env(t_line *line)
 {
 	t_env	*env;
 
-	redirect_setting(process);
 	env = line->env;
 	while (env)
 	{

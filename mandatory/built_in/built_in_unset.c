@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 18:24:30 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/03 16:40:59 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 15:53:03 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	execute_unset(t_line *line, t_process *process)
 	int		i;
 
 	i = 0;
-	redirect_setting(process);
 	if (!process->cmd[1])
 		return (0);
 	while (process->cmd[++i])
