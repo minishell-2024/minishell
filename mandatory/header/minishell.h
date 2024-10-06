@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:12:52 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/02 19:45:55 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 19:57:28 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,13 @@
 # define FAIL 0
 # define SUCCESS 1
 # define QUOTE_INCOMPLETE 2
+# define SYNTAX_ERROR 258
 # define PROGRAM_NAME "minishell"
 
 // global variable
 int	g_signal;
+
+//==================== main.c ====================
+void	main_loop(t_line *line, char *str);
 
 #endif

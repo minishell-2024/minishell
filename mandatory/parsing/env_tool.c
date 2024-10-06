@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 16:54:17 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/03 17:06:24 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/04 22:29:36 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,23 @@ t_env	*get_key_value(char **envp)
 	free(key);
 	free(value);
 	return (new_node);
+}
+
+char	**new_envp(t_env *env)
+{
+	t_env	*ptr;
+	char	**envp;
+	int		size;
+
+	size = 0;
+	ptr = env;
+	while (ptr)
+	{
+		size++;
+		ptr = ptr->env_next;
+	}
+	envp = (char **)ft_calloc(sizeof(char *), size + 1);
+	if (!envp)
+		common_error("malloc", 0, 0, 0);
+	return (envp);
 }

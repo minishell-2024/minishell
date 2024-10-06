@@ -6,31 +6,33 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 17:26:58 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 18:45:46 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int	parse_main(char *line, t_line *input)
+int	process_line(char *line, t_line *input)
 {
 	t_token	*tokens;
+	t_token	*ptr;
 	int		flag;
 
 	if (!line || !ft_strlen(line))
 		return (FAIL);
 	if (check_quote(line) == FAIL)
 	{
-		error_occur(0, 0, "quote error", 258);
+		syntax_error(input, 0, QUOTE_INCOMPLETE);
 		return (FAIL);
 	}
 	tokens = 0;
 	tokenize(line, &tokens, input);
 	flag = SUCCESS;
-	input->proc = lexer(tokens, input, &flag);
-	if (!input->proc || flag == FAIL)
+	ptr = tokens;
+	input->proc = parse_pipe(&tokens, &flag, input);
+	free_tokens(&ptr);
+	if (!input->proc || flag == SYNTAX_ERROR)
 		return (FAIL);
-	free_tokens(&tokens);
 	return (SUCCESS);
 }
 
@@ -56,49 +58,48 @@ int	check_quote(char *line)
 	return (SUCCESS);
 }
 
-int	tokenize(char *line, t_token **tokens, t_line *input)
+void	tokenize(char *line, t_token **tokens, t_line *input)
 {
 	char	*curr;
 	char	*buf;
 	t_state	state;
-	int		sq_flag;
 
-	buf = reset_buf(&sq_flag);
-	state = STATE_GENERAL;
+	buf = reset_buf(&state);
 	curr = line;
 	while (*curr)
 	{
 		if (state == STATE_GENERAL)
 		{
-			state = handle_general(tokens, &buf, &curr, &sq_flag);
-			if (state == STATE_SQUOTE || state == STATE_DQUOTE)
-				buf = key_to_value(buf, input);
+			if (*curr == '$')
+				handle_dollar(&buf, &curr, input);
+			else
+				state = handle_general(tokens, &buf, &curr);
 		}
-		else if (state == STATE_SQUOTE || state == STATE_DQUOTE)
-			state = handle_quote(state, *curr, &buf, input);
+		else if (state == STATE_HEREDOC)
+			state = handle_redir(tokens, &curr, &buf, state);
+		else
+			state = handle_quote(state, &curr, &buf, input);
 		curr++;
 	}
-	if (ft_strlen(buf) > 0)
-		add_token(tokens, buf, TOKEN_STRING, sq_flag);
-	else
-		free(buf);
-	return (SUCCESS);
+	add_token(tokens, buf, TOKEN_STRING);
+	free(buf);
 }
 
-t_process	*lexer(t_token *tokens, t_line *input, int *flag)
+int	syntax_error(t_line *line, t_token *error_pos, int error_code)
 {
-	t_process	*process;
-	t_token		*curr;
-
-	curr = tokens;
-	while (curr)
+	ft_putstr_fd(PROGRAM_NAME, 2);
+	ft_putstr_fd(": ", 2);
+	if (error_code == QUOTE_INCOMPLETE)
+		ft_putendl_fd("syntax error quote is incomplete", 2);
+	else
 	{
-		if (curr->type == TOKEN_STRING && curr->squote_flag == 0)
-			curr->word = key_to_value(curr->word, input);
-		curr = curr->next;
+		ft_putstr_fd("syntax error near unexpected token `", 2);
+		if (!error_pos)
+			ft_putstr_fd("newline", 2);
+		else
+			ft_putstr_fd(error_pos->word, 2);
+		ft_putendl_fd("'", 2);
 	}
-	curr = tokens;
-	process = parse_pipe(&curr, flag);
-	return (process);
+	change_exit_code(line, SYNTAX_ERROR);
+	return (error_code);
 }
-

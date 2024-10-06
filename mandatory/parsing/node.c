@@ -3,24 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   node.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 03:10:34 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 18:29:48 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 11:56:39 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-t_token	*create_token_node(t_tokentype type, int sq_flag)
+t_token	*create_token_node(t_tokentype type, char *str)
 {
 	t_token	*new;
 
 	new = (t_token *)ft_calloc(sizeof(t_token), 1);
 	if (!new)
 		common_error("malloc", 0, 0, 0);
+	new->word = ft_strdup(str);
+	if (!new->word)
+		common_error("malloc", 0, 0, 0);
 	new->type = type;
-	new->squote_flag = sq_flag;
 	return (new);
 }
 
@@ -64,18 +66,15 @@ t_env	*create_env_node(char *key, char *value)
 	return (new_node);
 }
 
-int	which_redir(char *word)
+t_line	*create_line_node(int argc, char **argv, char **envp)
 {
-	int	size;
+	t_line	*line;
 
-	size = ft_strlen(word) + 1;
-	if (ft_strncmp(word, "<", size) == 0)
-		return (REDIR_INPUT);
-	if (ft_strncmp(word, "<<", size) == 0)
-		return (REDIR_DELIMIT);
-	if (ft_strncmp(word, ">", size) == 0)
-		return (REDIR_OUTPUT);
-	if (ft_strncmp(word, ">>", size) == 0)
-		return (REDIR_APPEND);
-	return (-1);
+	line = (t_line *)ft_calloc(sizeof(t_line), 1);
+	if (!line)
+		common_error("malloc", NULL, NULL, 1);
+	init_env(line, envp);
+	line->argc = argc;
+	line->argv = argv;
+	return (line);
 }

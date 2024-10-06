@@ -6,28 +6,24 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:05:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/04 18:13:11 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/05 10:17:46 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int	add_token(t_token **token, char *str, t_tokentype token_type, int sq_flag)
+void	add_token(t_token **token, char *str, t_tokentype token_type)
 {
 	t_token	*new;
 	t_token	*curr;
 
-	new = create_token_node(token_type, sq_flag);
-	if (!new)
-		common_error("malloc", 0, 0, 0);
-	new->word = ft_strdup(str);
-	if (!new->word)
-		common_error("malloc", 0, 0, 0);
-	free(str);
+	if (ft_strlen(str) == 0)
+		return ;
+	new = create_token_node(token_type, str);
 	if (!*token)
 	{
 		*token = new;
-		return (SUCCESS);
+		return ;
 	}
 	curr = *token;
 	while (curr)
@@ -38,89 +34,93 @@ int	add_token(t_token **token, char *str, t_tokentype token_type, int sq_flag)
 			break ;
 	}
 	curr->next = new;
-	return (SUCCESS);
+	return ;
 }
 
-t_state	handle_general(t_token **tokens, char **buf, char **ptr, int *sq_flag)
+t_state	handle_general(t_token **tokens, char **buf, char **ptr)
 {
 	char	c;
 
 	c = **ptr;
-	if (ft_isspace(c) || c == '|' || c == '<' || c == '>')
-	{
-		if (ft_strlen(*buf) > 0)
-		{
-			add_token(tokens, *buf, TOKEN_STRING, *sq_flag);
-			*buf = reset_buf(sq_flag);
-		}
-	}
+	if (ft_isspace(c) || c == '|')
+		*buf = push_and_reset(tokens, *buf, TOKEN_STRING);
 	else if (c == '\'')
-	{
-		*sq_flag = 1;
 		return (STATE_SQUOTE);
-	}
 	else if (c == '"')
 		return (STATE_DQUOTE);
+	else if (c == '<' || c == '>')
+		return (handle_redir(tokens, ptr, buf, STATE_GENERAL));
 	else
 		*buf = append_char(*buf, c);
 	if (c == '|')
-		add_token(tokens, get_pipe(), TOKEN_PIPE, *sq_flag);
-	if (c == '<' || c == '>')
-		add_token(tokens, get_redirect(ptr), TOKEN_REDIRECT, *sq_flag);
+		add_token(tokens, "|", TOKEN_PIPE);
 	return (STATE_GENERAL);
 }
 
-t_state	handle_quote(t_state state, char c, char **buf_ptr, t_line *input)
+t_state	handle_quote(t_state state, char **curr, char **buf_ptr, t_line *input)
 {
-	if (state == STATE_SQUOTE && c == '\'')
+	if (state == STATE_SQUOTE && **curr == '\'')
 		return (STATE_GENERAL);
-	if (state == STATE_DQUOTE && c == '"')
-	{
-		*buf_ptr = key_to_value(*buf_ptr, input);
+	if (state == STATE_DQUOTE && **curr == '"')
 		return (STATE_GENERAL);
-	}
-	*buf_ptr = append_char(*buf_ptr, c);
+	if (state == STATE_QHEREDOC && (**curr == '\'' || **curr == '"'))
+		return (STATE_HEREDOC);
+	if (state == STATE_DQUOTE && **curr == '$')
+		handle_dollar(buf_ptr, curr, input);
+	else
+		*buf_ptr = append_char(*buf_ptr, **curr);
 	return (state);
 }
 
-char	*append_char(char *buf, char c)
+void	handle_dollar(char **buf, char **curr, t_line *input)
 {
-	char	*new;
-	int		size;
+	char	*key;
+	char	*value;
+	int		key_size;
 
-	size = ft_strlen(buf);
-	new = (char *)ft_calloc(sizeof(char), size + 2);
-	if (!new)
-		common_error("malloc", 0, 0, 0);
-	ft_memcpy(new, buf, size);
-	new[size] = c;
-	new[size + 1] = 0;
-	free(buf);
-	return (new);
+	key = read_word(*curr + 1);
+	key_size = ft_strlen(key);
+	value = find_env_value(input, key);
+	if (!value)
+	{
+		free(key);
+		*curr += key_size;
+		return ;
+	}
+	while (*value)
+	{
+		*buf = append_char(*buf, *value);
+		value++;
+	}
+	*curr += key_size;
+	free(key);
 }
 
-char	*get_redirect(char **ptr)
+t_state	handle_redir(t_token **tokens, char **curr, char **buf, t_state state)
 {
-	char	*redirect;
+	char			*redir;
+	t_redir_type	type;
 
-	redirect = 0;
-	if (**ptr == '>')
+	if (**curr == '<' || **curr == '>')
 	{
-		if (*(*ptr + 1) == '>')
-			redirect = ft_strdup(">>");
-		else
-			redirect = ft_strdup(">");
+		*buf = push_and_reset(tokens, *buf, TOKEN_STRING);
+		redir = get_redirect(curr);
+		add_token(tokens, redir, TOKEN_REDIRECT);
+		type = which_redir(redir);
+		free(redir);
+		if (type != REDIR_DELIMIT)
+			return (STATE_GENERAL);
+		while (ft_isspace(*(*curr + 1)))
+			(*curr)++;
 	}
-	else if (**ptr == '<')
+	else if (state != STATE_QHEREDOC && ft_isspace(**curr))
 	{
-		if (*(*ptr + 1) == '<')
-			redirect = ft_strdup("<<");
-		else
-			redirect = ft_strdup("<");
+		*buf = push_and_reset(tokens, *buf, TOKEN_STRING);
+		return (STATE_GENERAL);
 	}
-	if (!redirect)
-		common_error("malloc", 0, 0, 0);
-	if (ft_strlen(redirect) > 1)
-		(*ptr)++;
-	return (redirect);
+	else if (**curr == '"' || **curr == '\'')
+		return (STATE_QHEREDOC);
+	else
+		*buf = append_char(*buf, **curr);
+	return (STATE_HEREDOC);
 }

@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 15:27:55 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/04 18:02:14 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 18:52:27 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	execute_exit(t_process *process)
 	int	exit_code;
 	int	check_num_error;
 
-	redirect_setting(process);
 	ft_putendl_fd("exit", STDOUT_FILENO);
 	if (!process->cmd[1])
 		exit(0);
@@ -73,5 +72,5 @@ int	execute_exit(t_process *process)
 		common_error("exit", process->cmd[1], "numeric argument required", 255);
 	if (process->cmd[2])
 		return (error_occur("exit", NULL, "too many arguments", 1));
-	exit((unsigned char)exit_code); // 캐스팅 잘되는지 나중에 확인해보기
+	exit((unsigned char)exit_code);
 }
