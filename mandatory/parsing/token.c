@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:05:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/06 14:36:02 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/06 15:57:29 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,19 @@ t_state	handle_general(t_token **tokens, char **buf, char **ptr)
 	c = **ptr;
 	if (ft_isspace(c) || c == '|')
 		*buf = push_and_reset(tokens, *buf, TOKEN_STRING);
-	else if (c == '\'')
-		return (STATE_SQUOTE);
-	else if (c == '"')
-		return (STATE_DQUOTE);
+	else if (c == '\'' || c == '"')
+	{
+		if (!ft_strncmp(*buf, "", ft_strlen(*buf) + 1) && empty_quote(*ptr))
+		{
+			(*ptr)++;
+			add_token(tokens, *buf, TOKEN_STRING);
+			return (STATE_GENERAL);
+		}
+		if (c == '\'')
+			return (STATE_SQUOTE);
+		if (c == '"')
+			return (STATE_DQUOTE);
+	}
 	else if (c == '<' || c == '>')
 		return (handle_redir(tokens, ptr, buf, STATE_GENERAL));
 	else
