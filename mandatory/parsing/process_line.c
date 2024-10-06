@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/06 16:24:25 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/06 16:31:50 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,8 @@ int	empty_quote(char *str)
 			return (SUCCESS);
 		if (*(str + 2) == '>' || *(str + 2) == '<')
 			return (SUCCESS);
-        if (*(str + 2) == 0)
-            return (SUCCESS);
+		if (*(str + 2) == 0)
+			return (SUCCESS);
 	}
 	return (FAIL);
 }
