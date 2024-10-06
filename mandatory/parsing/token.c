@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:05:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 10:17:46 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/06 14:36:02 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ void	add_token(t_token **token, char *str, t_tokentype token_type)
 	t_token	*new;
 	t_token	*curr;
 
-	if (ft_strlen(str) == 0)
-		return ;
 	new = create_token_node(token_type, str);
 	if (!*token)
 	{
