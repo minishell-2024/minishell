@@ -1,2 +1,0 @@
-#!/bin/bash
-while true; do leaks --list minishell; sleep 1; done;
