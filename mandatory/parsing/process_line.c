@@ -115,6 +115,8 @@ int	empty_quote(char *str)
 			return (SUCCESS);
 		if (*(str + 2) == '>' || *(str + 2) == '<')
 			return (SUCCESS);
+        if (*(str + 2) == 0)
+            return (SUCCESS);
 	}
 	return (FAIL);
 }
