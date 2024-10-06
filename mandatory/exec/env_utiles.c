@@ -6,11 +6,10 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 18:27:08 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 19:01:36 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/06 17:28:31 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// window에서 만든거라 위에 주석 다시 만들어야할듯.
 #include "../header/minishell.h"
 
 t_env	*find_env(t_line *line, char *key)
