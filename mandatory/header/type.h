@@ -6,56 +6,45 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 19:29:50 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 03:20:28 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/05 19:51:40 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPE_H
 # define TYPE_H
 
-// 환경변수
 typedef struct s_env
 {
 	char			*key;
 	char			*value;
-	int				assignment; // = 여부 해야하나...
+	int				assignment;
 	struct s_env	*env_next;
 }	t_env;
 
-// redirection
 typedef struct s_redirection
 {
 	int						fd;
-	int						type; // < << > >> ...
+	int						type;
 	char					*file_name;
-	char					*here_doc_eof; // 종료조건 << asdf 라면 "asdf"
+	char					*here_doc_eof;
 	struct s_redirection	*redirect_next;
 }	t_redirection;
 
-// typedef struct s_command
-// {
-// 	char		*cmd;
-// 	t_command	*cmd_next;
-// }	t_command;
-
-// process
 typedef struct s_process
 {
-	// t_command		*cmd_node;
 	char				**cmd;
-	int					built_in_check; // 1 : built_in // 2 : not built_in
+	int					built_in_check;
 	pid_t				pid;
 	t_redirection		*redirect_node;
-	struct s_process	*process_next; // process_next != 0  ==> '|' exist
+	struct s_process	*process_next;
 }	t_process;
-
 
 typedef struct s_line
 {
 	char		**argv;
 	int			argc;
 	int			std_fd[2];
-	int			unset_path; // 필요없을수도,... ㅋㅋ 처리를 못하겠다.unset PATH를 했으면, path 자동추가 취소 -> 1 // 만약 환경변수 추가할 때, PATH= 이 나오면 다시 0으로 초기화 필요..
+	int			unset_path;
 	t_env		*env;
 	t_process	*proc;
 }	t_line;

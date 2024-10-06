@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 21:12:03 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 15:52:58 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/06 14:09:45 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,11 @@ static int	print_env_with_quote(t_line *line)
 	head = sort_export(line);
 	while (head)
 	{
-		if (ft_strncmp(head->key, "?", 2) != 0 && ft_strncmp(head->key, "_", 2) != 0)
+		if (ft_strncmp(head->key, "?", 2) != 0
+			&& ft_strncmp(head->key, "_", 2) != 0)
 		{
 			ft_putstr_fd("declare -x ", STDOUT_FILENO);
-			if (!head->value) // 파싱부에서 a="" 와 a의 차이를 head->value를 null이나 "" -> malloc(0)이냐로 구분해줘야 할듯?
+			if (!head->value)
 				ft_putendl_fd(head->key, STDOUT_FILENO);
 			else
 			{
@@ -117,14 +118,14 @@ int	execute_export(t_line *line, t_process *process)
 		return (print_env_with_quote(line));
 	while (process->cmd[++i])
 	{
-		env = divide_env_key_value(process->cmd[i]); // 파싱부에서 env나눠주는거 써야할듯?
+		env = divide_env_key_value(process->cmd[i]);
 		if (!env)
 			common_error("export", "malloc", NULL, 1);
 		else if (!is_identifier(env->key))
 			val = error_occur("export", NULL, "not a valid identifier", 1);
 		else
-			val = check_insert_env(line, env->key, env->value); // return 여부 생각해보기
-		free_env(env); // insert_env_by_str에서 strdup한다고 가정
+			val = check_insert_env(line, env->key, env->value);
+		free_env(env);
 		if (return_val < val)
 			return_val = val;
 	}
