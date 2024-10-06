@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 19:27:29 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/06 14:43:11 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ int	process_line(char *line, t_line *input)
 	if (!line || !ft_strlen(line))
 		return (FAIL);
 	if (check_quote(line) == FAIL)
-	{
-		syntax_error(input, 0, QUOTE_INCOMPLETE);
-		return (FAIL);
-	}
+		return (syntax_error(input, 0, QUOTE_INCOMPLETE));
 	tokens = 0;
 	tokenize(line, &tokens, input);
 	flag = SUCCESS;
