@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:25:56 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/06 14:13:32 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/06 15:01:52 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static void	child_process(t_line *line, t_process *proc, int fd[2], int check)
 	}
 	if (!proc->cmd)
 		exit(redirect_setting(proc, 0));
+	if (proc->cmd[0] && ft_strlen(proc->cmd[0]) == 0 && !(*proc->cmd[0]))
+		command_error(proc->cmd[0]);
 	if (check_built_in(proc))
 		exit(do_built_in(line, proc));
 	if (proc->redirect_node)
