@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 18:42:21 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/06 15:58:39 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/06 16:08:55 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int				process_line(char *line, t_line *input);
 int				check_quote(char *line);
 void			tokenize(char *line, t_token **tokens, t_line *input);
 int				syntax_error(t_line *line, t_token *error_pos, int error_code);
+int				empty_quote(char *str);
 //tokenize
 void			add_token(t_token **token, char *str, t_tokentype token_type);
 t_state			handle_general(t_token **tokens, char **buf, char **ptr);
@@ -29,7 +30,6 @@ char			*get_redirect(char **ptr);
 char			*reset_buf(t_state *state);
 void			consume_token(t_token **ptr);
 char			*push_and_reset(t_token **tokens, char *buf, t_tokentype type);
-int				empty_quote(char *str);
 //lexer
 char			*read_word(char *line);
 char			*key_to_value(char *word, t_line *input);
