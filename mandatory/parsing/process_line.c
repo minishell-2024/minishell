@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:04:28 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/06 16:08:48 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/06 16:24:25 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	process_line(char *line, t_line *input)
 	ptr = tokens;
 	input->proc = parse_pipe(&tokens, &flag, input);
 	free_tokens(&ptr);
-	if (flag == SYNTAX_ERROR)
+	if (flag == SYNTAX_ERROR || !input->proc)
 		return (FAIL);
 	return (SUCCESS);
 }
@@ -78,7 +78,8 @@ void	tokenize(char *line, t_token **tokens, t_line *input)
 			state = handle_quote(state, &curr, &buf, input);
 		curr++;
 	}
-	add_token(tokens, buf, TOKEN_STRING);
+	if (ft_strlen(buf) > 0)
+		add_token(tokens, buf, TOKEN_STRING);
 	free(buf);
 }
 
