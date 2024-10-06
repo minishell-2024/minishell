@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 11:07:37 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/10/05 10:13:41 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2024/10/06 16:02:34 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,21 @@ char	*push_and_reset(t_token **tokens, char *buf, t_tokentype type)
 	add_token(tokens, buf, type);
 	free(buf);
 	return (reset_buf(0));
+}
+
+int	empty_quote(char *str)
+{
+	char	quote;
+
+	quote = *str;
+	if (*(str + 1) == quote)
+	{
+		if (ft_isspace(*(str + 2)))
+			return (SUCCESS);
+		if (*(str + 2) == '|')
+			return (SUCCESS);
+		if (*(str + 2) == '>' || *(str + 2) == '<')
+			return (SUCCESS);
+	}
+	return (FAIL);
 }
