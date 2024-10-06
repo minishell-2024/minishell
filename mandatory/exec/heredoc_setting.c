@@ -6,7 +6,7 @@
 /*   By: yuyu <yuyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:17:25 by yuyu              #+#    #+#             */
-/*   Updated: 2024/10/05 20:40:56 by yuyu             ###   ########.fr       */
+/*   Updated: 2024/10/06 13:02:51 by yuyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	make_temp_file(t_redirection *redirect)
 {
 	char	*dummy;
+	char	*num_str;
 	int		num;
 
 	dummy = (char *)ft_calloc(10, 1);
@@ -28,9 +29,13 @@ void	make_temp_file(t_redirection *redirect)
 	while (access(redirect->file_name, F_OK) == 0)
 	{
 		free(redirect->file_name);
-		redirect->file_name = ft_strjoin(dummy, ft_itoa(num++));
+		num_str = ft_itoa(num++);
+		if (!num_str)
+			common_error("malloc", NULL, NULL, 1);
+		redirect->file_name = ft_strjoin(dummy, num_str);
 		if (!redirect->file_name)
 			common_error("malloc", NULL, NULL, 1);
+		free(num_str);
 	}
 	free(dummy);
 }
