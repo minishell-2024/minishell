@@ -19,7 +19,7 @@ Minishell provides a practical way for 🎓 students to learn the mechanics of a
 To get started with Minishell, clone the 📂 repository and compile the code using the following commands:
 
 ```sh
-git clone <repository-url>
+git clone git@github.com:minishell-2024/minishell.git
 cd minishell
 make
 ./minishell
